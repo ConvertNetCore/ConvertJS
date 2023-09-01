@@ -13,6 +13,10 @@ namespace ConvertJS
             {
                 configuration.ReadFrom.Configuration(hostContext.Configuration);
             });
+            builder.Services.AddControllersWithViews();
+
+
+            builder.Services.AddRazorPages();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient();
             builder.Services.AddControllers();
@@ -38,9 +42,8 @@ namespace ConvertJS
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
+            app.UseStaticFiles(); // Đảm bảo đã đăng ký Middleware Static Files
             app.UseSerilogRequestLogging();
-            //if use DB
-            //InitializeDatabase(app);
 
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -57,6 +60,13 @@ namespace ConvertJS
                     await context.Response.WriteAsync("[API] Friend");
                 });
             });
+
+            app.MapControllers();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapRazorPages();
 
             return app;
         }

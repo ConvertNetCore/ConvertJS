@@ -13,9 +13,61 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Folder Include="Controllers\Display\Appeal\" />
+		<Folder Include="Controllers\Display\MailMaster\" />
+		<Folder Include="Controllers\Display\AdSpy\" />
+		<Folder Include="Controllers\Display\ChatPage\" />
+		<Folder Include="Controllers\Display\Campaign\" />
 		<Folder Include="Infras\Enums\" />
 		<Folder Include="Infras\Helps\" />
 		<Folder Include="Services\" />
+		<Folder Include="wwwroot\media\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\css\style.bundle.css" />
+	  <None Include="wwwroot\js\scripts.bundle.js" />
+	  <None Include="wwwroot\js\widgets.bundle.js" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-brands-400.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-brands-400.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-regular-400.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-regular-400.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-solid-900.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-solid-900.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-v4compatibility.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\%40fortawesome\fa-v4compatibility.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\bootstrap-icons\bootstrap-icons.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\bootstrap-icons\bootstrap-icons.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-duotone.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-duotone.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-duotone.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-duotone.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-outline.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-outline.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-outline.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-outline.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-solid.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-solid.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-solid.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\keenicons\keenicons-solid.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-brands-400.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-brands-400.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-brands-400.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-brands-400.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-brands-400.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-regular-400.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-regular-400.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-regular-400.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-regular-400.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-regular-400.woff2" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-solid-900.eot" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-solid-900.svg" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-solid-900.ttf" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-solid-900.woff" />
+	  <None Include="wwwroot\plugins\global\fonts\line-awesome\la-solid-900.woff2" />
+	  <None Include="wwwroot\plugins\global\plugins.bundle.css" />
+	  <None Include="wwwroot\plugins\global\plugins.bundle.js" />
+	  <None Include="wwwroot\plugins\global\sourcemaps\tiny-slider.css.map" />
 	</ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace ConvertJS
         private const string MyAllowSpecificOrigins = "AllowOrigin";
         public static void ConfigureServices(this WebApplicationBuilder builder)
         {
-            builder.Host.ConfigureAppConfiguration((hostingContext, config) => { AppSettings.Instance.SetConfiguration(hostingContext.Configuration); });
+            //builder.Host.ConfigureAppConfiguration((hostingContext, config) => { AppSettings.Instance.SetConfiguration(hostingContext.Configuration); });
             builder.Host.UseSerilog((hostContext, services, configuration) =>
             {
                 configuration.ReadFrom.Configuration(hostContext.Configuration);
@@ -16,7 +16,6 @@ namespace ConvertJS
             builder.Services.AddControllersWithViews();
 
 
-            builder.Services.AddRazorPages();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient();
             builder.Services.AddControllers();
@@ -57,7 +56,7 @@ namespace ConvertJS
                 endpoints.MapHealthChecks("/friend/healthy");
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync("[API] Friend");
+                    await context.Response.WriteAsync("[API] Convert");
                 });
             });
 
@@ -66,7 +65,6 @@ namespace ConvertJS
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapRazorPages();
 
             return app;
         }

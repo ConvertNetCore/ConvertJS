@@ -28,7 +28,7 @@
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
         <!--begin::Page-->
         <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-
+            @RenderSection("CustomHeader",true)
             <!--begin::Wrapper-->
             <div class="app-wrapper flex-column flex-row-fluid" id="kt_app_wrapper">
                 <!--begin::Sidebar-->
@@ -232,7 +232,7 @@
                                                     <span class="path1"></span>
                                                     <span class="path2"></span>
                                                     <span class="path3"></span>
-                                                    </i>
+                                                </i>
                                             </span>
                                             <!--end::Icon-->
                                             <!--begin::Label-->
@@ -252,7 +252,7 @@
                                                     <span class="path1"></span>
                                                     <span class="path2"></span>
                                                     <span class="path3"></span>
-                                                    </i>
+                                                </i>
                                             </span>
                                             <!--end::Icon-->
                                             <!--begin::Label-->
@@ -293,7 +293,7 @@
                                                     <span class="path1"></span>
                                                     <span class="path2"></span>
                                                     <span class="path3"></span>
-                                                    </i>
+                                                </i>
                                             </span>
                                             <!--end::Icon-->
                                             <!--begin::Label-->
@@ -604,59 +604,7 @@
                 <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
                     <!--begin::Content wrapper-->
                     <div class="d-flex flex-column flex-column-fluid">
-                        <!--begin::Toolbar-->
-                        <div id="kt_app_toolbar" class="app-toolbar">
-                            <!--begin::Toolbar container-->
-                            <div id="kt_app_toolbar_container" class="app-container container-xxl">
-                                <!--begin::Toolbar container-->
-                                <div class="d-flex flex-stack flex-row-fluid">
-                                    <!--begin::Toolbar container-->
-                                    <div class="d-flex flex-column flex-row-fluid">
-                                        <!--begin::Toolbar wrapper-->
-                                        <!--begin::Page title-->
-                                        <div class="page-title gap-4 me-3 mb-5 mb-lg-0">
-                                            <!--begin::Title-->
-                                            <h1 class="text-gray-900 fw-bolder mb-3 fs-2x">Account</h1>
-                                            <!--end::Title-->
-                                            <div class="d-flex align-items-center">
-                                                <!--begin::Breadcrumb-->
-                                                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-base">
-                                                    <!--begin::Item-->
-                                                    <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
-                                                        <a href="../dist/index.html" class="text-hover-primary">
-                                                            <i class="ki-duotone ki-home text-gray-700 fs-6"></i>
-                                                        </a>
-                                                    </li>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <li class="breadcrumb-item">
-                                                        <i class="ki-duotone ki-right fs-7 text-gray-700 mx-n1"></i>
-                                                    </li>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <li class="breadcrumb-item text-gray-700 fw-bold lh-1">Account</li>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <li class="breadcrumb-item">
-                                                        <i class="ki-duotone ki-right fs-7 text-gray-700 mx-n1"></i>
-                                                    </li>
-                                                    <!--end::Item-->
-                                                    <!--begin::Item-->
-                                                    <li class="breadcrumb-item text-gray-500">Overwiev</li>
-                                                    <!--end::Item-->
-                                                </ul>
-                                                <!--end::Breadcrumb-->
-                                            </div>
-                                        </div>
-                                        <!--end::Page title-->
-                                    </div>
-                                    <!--end::Toolbar container-->
-                                </div>
-                                <!--end::Toolbar container-->
-                            </div>
-                            <!--end::Toolbar container-->
-                        </div>
-                        <!--end::Toolbar-->
+                        @RenderSection("CustomPageTitle",true)
                         <!--begin::Content-->
                         <div id="kt_app_content" class="app-content flex-column-fluid">
                             @RenderBody()

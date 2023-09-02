@@ -4,16 +4,16 @@
     ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
     ViewData["CurrentSection"] = "Account Manager";
 }
-@section CustomCss{
+    @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
-}
+    }
     @section CustomScripts{
     <script src="~/js/widgets.bundle.js"></script>
     <script src="~/js/custom/widgets.js"></script>
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="~/plugins/custom/datatables/datatables.bundle.js"></script>
     <!--end::Vendors Javascript-->
-    <script src="~/js/custom/AccountsManagerCustom.js"></script>
+    <script src="~/js/custom/BMManagerCustom.js"></script>
 
 }
     @section CustomHeader{
@@ -40,7 +40,7 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link active" href="/AccountManager">
+                                    <a class="menu-link" href="/AccountManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -52,7 +52,7 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="/BMManager">
+                                    <a class="menu-link active" href="/BMManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -72,7 +72,6 @@
                                 <span class="menu-arrow d-lg-none"></span>
                             </span>
                             <!--end:Menu link-->
-                            
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
                                 <!--begin:Menu item-->
@@ -188,7 +187,7 @@
                     <div class="page-title gap-4 me-3 mb-5 mb-lg-0">
                         <!--begin::Title-->
                         <h1 class="text-gray-900 fw-bolder mb-3 fs-2x">
-                            Account Manager
+                            BM Manager
                             <i class="ki-duotone ki-pin fs-2" style="color: #ff0000ad;">
                                 <i class="path1"></i>
                                 <i class="path2"></i>
@@ -219,7 +218,7 @@
                                 </li>
                                 <!--end::Item-->
                                 <!--begin::Item-->
-                                <li class="breadcrumb-item text-gray-500">Accounts</li>
+                                <li class="breadcrumb-item text-gray-500">BM</li>
                                 <!--end::Item-->
                             </ul>
                             <!--end::Breadcrumb-->
@@ -254,8 +253,8 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i> 
-                        <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Account">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
+                        <input type="text" data-kt-BM-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Id">
                     </div>
                     <!--end::Search-->
                 </div>
@@ -265,12 +264,11 @@
                     <!--begin::Toolbar-->
                     <div class="w-100 mw-150px">
                         <!--begin::Select2-->
-                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Status" data-kt-user-table-filter="status">
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Status" data-kt-BM-table-filter="status">
                             <option></option>
                             <option value="all">All</option>
-                            <option value="active">Active</option>
-                            <option value="disable">Disable</option>
-                            <option value="needPay">Need pay</option>
+                            <option value="live">Live</option>
+                            <option value="die">Die</option>
                         </select>
                         <!--end::Select2-->
                     </div>
@@ -278,11 +276,22 @@
                     <!--begin::Toolbar-->
                     <div class="w-100 mw-150px">
                         <!--begin::Select2-->
-                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Type Account" data-kt-user-table-filter="type">
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Limit" data-kt-BM-table-filter="limit">
                             <option></option>
                             <option value="all">All</option>
-                            <option value="business">Business</option>
-                            <option value="normal">Normal</option>
+                            <option value="bm350">BM350</option>
+                            <option value="bm50">BM50</option>
+                        </select>
+                        <!--end::Select2-->
+                    </div>
+                    <!--end::Toolbar-->
+                    <!--begin::Toolbar-->
+                    <div class="w-100 mw-150px">
+                        <!--begin::Select2-->
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Type" data-kt-BM-table-filter="type">
+                            <option></option>
+                            <option value="all">All</option>
+                            <option value="bm1">BM1</option>
                         </select>
                         <!--end::Select2-->
                     </div>
@@ -296,52 +305,54 @@
                 <!--begin::Table-->
                 <div id="kt_table_users_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-8 gy-5 dataTable no-footer" id="table_account">
+                        <table class="table align-middle table-row-dashed fs-8 gy-5 dataTable no-footer" id="table_BM">
                             <thead>
                                 <tr class="text-start text-muted fw-bold fs-8 text-uppercase gs-0">
-                                    <th>No</th>
+                                    <th>BM</th>
                                     <th>Status</th>
-                                    <th>Account name</th>
-                                    <th>ID</th>
-                                    <th>Balance</th>
-                                    <th>Type Account</th>
-                                    <th>Threshold</th>
+                                    <th>Type</th>
+                                    <th>Role</th>
                                     <th>Limit</th>
-                                    <th>Amount Spent</th>
+                                    <th>Verified</th>
+                                    <th>Created</th>
                                     <th>ID BM</th>
-                                    <th>Users</th>
-                                    <th>Currency</th>
+                                    <th>Admins</th>
+                                    <th>Hidden Admin</th>
+                                    <th>Pixel</th>
+                                    <th>Accounts</th>
+                                    <th>Quality</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
                                 <tr class="odd">
-                                    <td>1</td>
-                                    <td>
-                                        <span class="badge badge-light-success" data-order="active"> Active </span>
-                                    </td>
                                     <td>
                                         <span class="fw-bold"> James Johnson </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> 1234212112212 </span>
-                                    </td>
-                                    <td class="text-warning">$20.234</td>
-                                    <td>
-                                        <span class="text-primary fw-bold" data-order="normal">Normal Personal</span>
-                                    </td>
-                                    <td>-</td>
-                                    <td>
-                                        <span class="badge badge-light-danger"> VND 595.834 </span>
+                                        <span class="badge badge-light-success" data-order="live"> Live </span>
                                     </td>
                                     <td>
-                                        <span class="text-warning"> $595.834 </span>
+                                        <span class="fw-bold" data-order="bm1"> BM1 </span>
                                     </td>
-                                    <td>-</td>
+                                    <td class="text-info">ADMIN</td>
+                                    <td>
+                                        <span class="text-primary fw-bold" data-order="bm350">BM350</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> VERIFIED </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-info"> 13/08/2023 </span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold text-gray"> 310624247638194 </span>
+                                    </td>
                                     <td>1</td>
-                                    <td>
-                                        <span class="badge badge-light-success"> USD </span>
-                                    </td>
+                                    <td>1/1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td><span class="fw-bold text-success"> Good </span></td>
                                     <td class="text-start">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"> Actions <i class="ki-duotone ki-down fs-5 ms-1"></i> </a>
                                         <!--begin::Menu-->

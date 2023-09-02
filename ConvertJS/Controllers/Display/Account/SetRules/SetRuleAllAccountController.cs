@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace ConvertJS.Controllers.Display.Account
+namespace ConvertJS.Controllers.Display.Account.SetRules
 {
-    [Route("account-manager")]
-    public class AccountManagerController : Controller
+    public class SetRuleAllAccountController : Controller
     {
         public IActionResult Index()
         {

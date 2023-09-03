@@ -6,6 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Infras\Helps\**" />
+	  <Content Remove="Infras\Helps\**" />
+	  <EmbeddedResource Remove="Infras\Helps\**" />
+	  <None Remove="Infras\Helps\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Serilog" Version="3.0.1" />
 		<PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
@@ -19,7 +26,8 @@
 		<Folder Include="Controllers\Display\ChatPage\" />
 		<Folder Include="Controllers\Display\Campaign\" />
 		<Folder Include="Infras\Enums\" />
-		<Folder Include="Infras\Helps\" />
+		<Folder Include="Infras\Helper\" />
+		<Folder Include="Infras\Models\" />
 		<Folder Include="Services\" />
 		<Folder Include="wwwroot\media\" />
 	</ItemGroup>

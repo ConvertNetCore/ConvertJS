@@ -1,5 +1,418 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Account Manager";
+    Layout = "_Layout";
+    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
+    ViewData["CurrentSection"] = "Account Manager";
 }
+@section CustomCss{
+    <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
+    }
+    @section CustomScripts{
+    <script src="~/js/widgets.bundle.js"></script>
+    <script src="~/js/custom/widgets.js"></script>
+    <!--end::Vendors Javascript-->
+    <script src="~/js/custom/SetRuleCustom.js"></script>
+
+}
+    @section CustomHeader{
+    <!--begin::Header-->
+    <div id="kt_app_header" class="app-header" data-kt-sticky="true" data-kt-sticky-activate="{default: true, lg: true}" data-kt-sticky-name="app-header-minimize" data-kt-sticky-offset="{default: '200px', lg: '300px'}" data-kt-sticky-animation="false">
+        <!--begin::Header container-->
+        <div class="app-container container-xxl d-flex align-items-center justify-content-between" id="kt_app_header_container">
+            <!--begin::Header wrapper-->
+            <div class="app-header-wrapper d-flex flex-grow-1 align-items-stretch justify-content-between" id="kt_app_header_wrapper">
+                <!--begin::Menu wrapper-->
+                <div class="app-header-menu app-header-mobile-drawer align-items-stretch" data-kt-drawer="true" data-kt-drawer-name="app-header-menu" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true" data-kt-swapper-mode="{default: 'append', lg: 'prepend'}" data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
+                    <!--begin::Menu-->
+                    <div class="menu menu-rounded menu-active-bg menu-state-primary menu-column menu-lg-row menu-title-gray-700 menu-icon-gray-500 menu-arrow-gray-500 menu-bullet-gray-500 my-5 my-lg-0 align-items-stretch fw-semibold px-2 px-lg-0" id="kt_app_header_menu" data-kt-menu="true">
+                        <!--Begin Menu Item-->
+                        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-title">Account Manager</span>
+                                <span class="menu-arrow d-lg-none"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="/AccountManager">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Accounts</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="/BMManager">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">BM</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                            </div>
+                            <!--end:Menu sub-->
+                        </div>
+                        <!--Begin Menu Item-->
+                        <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="bottom-start" class="menu-item menu-lg-down-accordion me-lg-1 here">
+                            <!--begin:Menu link-->
+                            <span class="menu-link">
+                                <span class="menu-title">Set Rules</span>
+                                <span class="menu-arrow d-lg-none"></span>
+                            </span>
+                            <!--end:Menu link-->
+                            <!--begin:Menu sub-->
+                            <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="/setRuleAllAccount">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">All accounts</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--begin:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Campaigns</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Ad sets</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--end:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Ads</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--end:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link active" href="/SetRule">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Set Rule</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <!--end:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">AI Technology</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+                                <div class="menu-item">
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link" href="/RuleManager">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Rule Manager</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                                </div>
+                                <!--end:Menu item-->
+
+                            </div>
+                            <!--end:Menu sub-->
+                        </div>
+                        <!--end Menu Item-->
+                        <!--end Menu Item-->
+                    </div>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Menu wrapper-->
+            </div>
+            <!--end::Header wrapper-->
+        </div>
+        <!--end::Header container-->
+    </div>
+    <!--end::Header-->
+    }
+    @section CustomPageTitle{
+    <!--begin::Toolbar-->
+    <div id="kt_app_toolbar" class="app-toolbar">
+        <!--begin::Toolbar container-->
+        <div id="kt_app_toolbar_container" class="app-container container-xxl">
+            <!--begin::Toolbar container-->
+            <div class="d-flex flex-stack flex-row-fluid">
+                <!--begin::Toolbar container-->
+                <div class="d-flex flex-column flex-row-fluid">
+                    <!--begin::Toolbar wrapper-->
+                    <!--begin::Page title-->
+                    <div class="page-title gap-4 me-3 mb-5 mb-lg-0">
+                        <!--begin::Title-->
+                        <h1 class="text-gray-900 fw-bolder mb-3 fs-2x">
+                            Set Rule
+                            <i class="ki-duotone ki-pin fs-2" style="color: #ff0000ad;">
+                                <i class="path1"></i>
+                                <i class="path2"></i>
+                            </i>
+                        </h1>
+                        <!--end::Title-->
+                        <div class="d-flex align-items-center">
+                            <!--begin::Breadcrumb-->
+                            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-base">
+                                <!--begin::Item-->
+                                <li class="breadcrumb-item text-gray-700 fw-bold lh-1">
+                                    <a href="" class="text-hover-primary">
+                                        <i class="ki-duotone ki-home text-gray-700 fs-6"></i>
+                                    </a>
+                                </li>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <li class="breadcrumb-item">
+                                    <i class="ki-duotone ki-right fs-7 text-gray-700 mx-n1"></i>
+                                </li>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <li class="breadcrumb-item text-gray-700 fw-bold lh-1">Set Rules</li>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <li class="breadcrumb-item">
+                                    <i class="ki-duotone ki-right fs-7 text-gray-700 mx-n1"></i>
+                                </li>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <li class="breadcrumb-item text-gray-500">Set Rule</li>
+                                <!--end::Item-->
+                            </ul>
+                            <!--end::Breadcrumb-->
+                        </div>
+                    </div>
+                    <!--end::Page title-->
+                </div>
+                <!--end::Toolbar container-->
+            </div>
+            <!--end::Toolbar container-->
+        </div>
+        <!--end::Toolbar container-->
+    </div>
+    <!--end::Toolbar-->
+    }
+    <div id="kt_app_content_container" class="app-container">
+        <!--begin::Card-->
+        <div class="card">
+            <!--begin::Card header-->
+            <div class="card-header border-0 pt-6">
+                <!--begin::Card title-->
+                <div class="card-title">
+                    <span class="fw-bold fs-2 "> <i class="fa-solid fa-viruses"></i> Create New Rule</span>
+                </div>
+                <!--end::Card title-->
+            </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body py-4">
+                <form id="set-rule-form" class="form form-control" action="/Home/StartTest" method="post">
+                    <!--begin::Input group-->
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Rule Name</label>
+                            <input type="text" class="form-control form-control-solid" name="ruleName" placeholder="Enter the Rule Name">
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Aply Rule to</label>
+                            <select class="form-select form-select-solid" name="aplyRule" data-control="select2" data-hide-search="true" data-placeholder="Select aply rule">
+                                <option value="all-active-campaigns">All active campaigns</option>
+                                <option value="all-active-ad-sets">All active ad sets</option>
+                                <option value="all-active-ads">All active ads</option>
+                            </select>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <label class="required fs-6 fw-semibold mb-2">Action</label>
+                        <select id="select_action" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select aply rule" name="actionSetRule">
+                            <option value="turn-on" selected="">Turn on</option>
+                            <option value="turn-off">Turn off</option>
+                            <option value="send-notification-only">Send notification only</option>
+                            <option value="increase-daily-budget">Increase daily budget by</option>
+                            <option value="decrease-daily-budget">Decrease daily budget by</option>
+                            <option value="increase-lifetime-budget">Increase lifetime budget by</option>
+                            <option value="decrease-ifetime-budget">Decrease lifetime budget by</option>
+                            <option value="scale-budget-by-target-field">Scale daily budget by target field</option>
+                            <option value="scale-lifetime-budget">Scale lifetime budget by target field</option>
+                            <option value="increase-bid">Increase bid by</option>
+                            <option value="decrease-bid">Decrease bid by</option>
+                            <option value="scale-bid">Scale bid by target field</option>
+                        </select>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div id="render-action-condition">
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Condition 1</label>
+                            <select name="firstCondition" id="select_first_condition" class="form-select form-select-solid" data-control="select2" data-hide-search="true">
+                                <option value="most-common" selected="">Most common</option>
+                                <option value="settings">Settings</option>
+                                <option value="time">Time</option>
+                                <option value="website-conversions">Website conversions (Meta pixel)</option>
+                                <option value="cost-per-website-conversion">Cost per website conversion (Meta pixel)</option>
+                                <option value="mobile-app-events">Mobile app events</option>
+                                <option value="cost-per-mobile-app-event">Cost per mobile app event</option>
+                                <option value="offline-conversions">Offline conversions</option>
+                                <option value="cost-per-offline-conversion">Cost per offline conversion</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Condition 2</label>
+                            <select name="secondCondition" id="select_second_condition" class="form-select form-select-solid" data-control="select2" data-hide-search="true">
+                                <option value="spent">Spent</option>
+                                <option value="lifetime-spent">Lifetime Spent</option>
+                                <option value="frequency">Frequency</option>
+                                <option value="result">Results</option>
+                                <option value="cost-per-result">Cost per result</option>
+                                <option value="mobile-app-install">Mobile app install</option>
+                                <option value="cost-per-mobile-app-install">Cost per Mobile App install</option>
+                                <option value="mobile-app-purchase-roas">Mobile app purchase ROAS</option>
+                                <option value="website-purchase-roas">Website purchase ROAS</option>
+                            </select>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Range Atribute</label>
+                            <select name="rangeAtribute" id="select-range-atribute" class="form-select form-select-solid" data-control="select2" data-hide-search="true">
+                                <option value="greater-than">is greater than</option>
+                                <option value="less-than">is smaller than</option>
+                                <option value="in-range">is between</option>
+                                <option value="not-in-range">is not between</option>
+                            </select>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row" id="render-range-value">
+                            <label class="required fs-6 fw-semibold mb-2">Value</label>
+                            <input type="number" class="form-control form-control-solid" name="rangeValue" placeholder="Enter the Range Value">
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row g-9 mb-8">
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Time Range</label>
+                            <select name="timeRange" class="form-select form-select-solid" data-control="select2" data-hide-search="true">
+                                <option value="maximum">Maximum</option>
+                                <option value="today">Today</option>
+                                <option value="yesterday">Yesterday</option>
+                                <option value="last-2-days">Last 2 days</option>
+                                <option value="last-3-days">Last 3 days</option>
+                                <option value="last-7-days">Last 7 days</option>
+                                <option value="last-14-days">Last 14 days</option>
+                                <option value="last-28-days">Last 28 days</option>
+                                <option value="last-30-days">Last 30 days</option>
+                                <option value="last-2-days-include-today">Last 2 days, including today</option>
+                                <option value="last-3-days-include-today">Last 3 days, including today</option>
+                                <option value="last-7-days-include-today">Last 7 days, including today</option>
+                                <option value="last-14-days-include-today">Last 14 days, including today</option>
+                                <option value="last-28-days-include-today">Last 28 days, including today</option>
+                                <option value="last-30-days-include-today">Last 30 days, including today</option>
+                                <option value="last-14-days-to-last-7-days">Last 14 days to last 7 days</option>
+                                <option value="last-30-days-to-last-7-days">Last 30 days to last 7 days</option>
+                                <option value="last-60-days-to-last-7-days">Last 60 days to last 7 days</option>
+                                <option value="last-120-days-to-last-7-days">Last 120 days to last 7 days</option>
+                                <option value="last-180-days-to-last-7-days">Last 180 days to last 7 days</option>
+                                <option value="maximum-to-last-7-days">Maximum to last 7 days</option>
+                                <option value="last-60-days-to-last-28-days">Last 60 days to last 28 days</option>
+                                <option value="last-120-days-to-last-28-days">Last 120 days to last 28 days</option>
+                                <option value="last-180-days-to-last-28-days">Last 180 days to last 28 days</option>
+                                <option value="maximum-to-last-28-days">Maximum to last 28 days</option>
+                            </select>
+                        </div>
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-md-6 fv-row">
+                            <label class="required fs-6 fw-semibold mb-2">Notification</label>
+                            <br/>
+                            <input name="notification" class="form-check-input" type="checkbox" value="facebook" id="facebookNotification" />
+                            <label class="form-check-label" for="facebookNotification">
+                                <i class="fa-brands fa-facebook fs-2"></i> facebook
+                            </label>
+                            <input name="notification" class="form-check-input" type="checkbox" value="gmail" id="gmailNotification" />
+                            <label class="form-check-label" for="gmailNotification">
+                                <i class="fa-solid fa-envelope fs-2"></i> gmail
+                            </label>
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Actions-->
+                    <div class="text-center">
+                        <button type="submit" id="set-rule-form-submit" class="btn btn-primary">
+                            <span class="indicator-label">Set Rule</span>
+                            <span class="indicator-progress">
+                                Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card-->
+    </div>

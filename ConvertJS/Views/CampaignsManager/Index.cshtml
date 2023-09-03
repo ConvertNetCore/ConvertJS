@@ -1,8 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
-    ViewData["CurrentSection"] = "Account Manager";
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -13,7 +11,7 @@
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="~/plugins/custom/datatables/datatables.bundle.js"></script>
     <!--end::Vendors Javascript-->
-    <script src="~/js/custom/RuleManagerCustom.js"></script>
+    <script src="~/js/custom/CampaignsManagerCustom.js"></script>
 
 }
     @section CustomHeader{
@@ -72,7 +70,6 @@
                                 <span class="menu-arrow d-lg-none"></span>
                             </span>
                             <!--end:Menu link-->
-                            
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
                                 <!--begin:Menu item-->
@@ -90,7 +87,7 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="">
+                                    <a class="menu-link active" href="/CampaignsManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -148,7 +145,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link active" href="/RuleManager">
+                                    <a class="menu-link" href="/RuleManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -188,7 +185,7 @@
                     <div class="page-title gap-4 me-3 mb-5 mb-lg-0">
                         <!--begin::Title-->
                         <h1 class="text-gray-900 fw-bolder mb-3 fs-2x">
-                            Rule Manager
+                            Campaigns Manager
                             <i class="ki-duotone ki-pin fs-2" style="color: #ff0000ad;">
                                 <i class="path1"></i>
                                 <i class="path2"></i>
@@ -219,7 +216,7 @@
                                 </li>
                                 <!--end::Item-->
                                 <!--begin::Item-->
-                                <li class="breadcrumb-item text-gray-500">Rule Manager</li>
+                                <li class="breadcrumb-item text-gray-500">Campaigns</li>
                                 <!--end::Item-->
                             </ul>
                             <!--end::Breadcrumb-->
@@ -252,8 +249,8 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i> 
-                        <input type="text" data-kt-rule-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Rule">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
+                        <input type="text" data-kt-campaign-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Campaigns">
                     </div>
                     <!--end::Search-->
                 </div>
@@ -263,7 +260,7 @@
                     <!--begin::Toolbar-->
                     <div class="w-100 mw-150px">
                         <!--begin::Select2-->
-                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Status" data-kt-rule-table-filter="status">
+                        <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Status" data-kt-campaign-table-filter="status">
                             <option></option>
                             <option value="all">All</option>
                             <option value="active">Active</option>
@@ -281,38 +278,70 @@
                 <!--begin::Table-->
                 <div id="kt_table_users_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="table-responsive">
-                        <table class="table align-middle table-row-dashed fs-8 gy-5 dataTable no-footer" id="table_rule">
+                        <table class="table align-middle table-row-dashed fs-9 gy-5 dataTable no-footer" id="table_campaigns">
                             <thead>
-                                <tr class="text-start text-muted fw-bold fs-8 text-uppercase gs-0">
-                                    <th>Rule Name</th>
-                                    <th>Status</th>
-                                    <th>ID</th>
-                                    <th>Action & Condition</th>
-                                    <th>Rule result</th>
-                                    <th>When rule run</th>
-                                    <th>Create By</th>
+                                <tr class="text-start text-muted fw-bold fs-9 text-uppercase gs-0">
+                                    <th>Select</th>
+                                    <th>On/Off</th>
+                                    <th>Campaign Name</th>
+                                    <th>Delivery</th>
+                                    <th>Bid Strategy</th>
+                                    <th>Budget</th>
+                                    <th>Last significant edit</th>
+                                    <th>Results</th>
+                                    <th>Reach</th>
+                                    <th>Frequency</th>
+                                    <th>Impressions</th>
+                                    <th>Amount spent</th>
+                                    <th>Clicks</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
                                 <tr class="odd">
                                     <td>
-                                    <span class="fw-bold"> Hung Test Rule</span>
+                                        <div class="form-check form-check-custom form-check-solid form-check-sm">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexRadioLg" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-check form-switch form-check-custom form-check-success form-check-solid fs-5">
+                                            <input class="form-check-input " type="checkbox" value="" checked id="kt_flexSwitchCustomDefault_1_1" />
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold"> Du lieu 1</span>
                                     </td>
                                     <td>
                                         <span class="badge badge-light-success" data-order="active"> Active </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> 1234212112212 </span>
+                                        <span class="fw-bold"> Using campaign bid strategy </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> All Active Campagne </span>
-                                    </td>
-                                    <td class="text-warning">$20.234</td>
-                                    <td>
-                                        <span class="text-primary fw-bold" data-order="normal">Increase Budget By</span>
+                                        <span class="fw-bold"> Using campaign bid strategy </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> Lam Manh Hung </span>
+                                        <span class="fw-bold"> - </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-danger"> Outcome Sales </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> 1755</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> 1.1065527</span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-bold"> 1870</span>
+                                    </td>
+                                    <td class="text-warning">USD 115.93</td>
+                                    <td>
+                                        <span class="text-primary fw-bold" data-order="normal">74</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> 1.56666</span>
                                     </td>
                                 </tr>
                             </tbody>

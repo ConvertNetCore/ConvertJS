@@ -289,7 +289,6 @@ var KTAppSetRule = function () {
                     break;
             }
         });
-        console.log(1);
         const rangeType = document.querySelector('#select-range-atribute');
         var renderRangeValue = document.querySelector('#render-range-value');
         $(rangeType).on('change', e => {

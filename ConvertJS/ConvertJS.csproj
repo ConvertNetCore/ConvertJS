@@ -20,9 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\Display\Appeal\" />
 		<Folder Include="Controllers\Display\MailMaster\" />
-		<Folder Include="Controllers\Display\AdSpy\" />
 		<Folder Include="Controllers\Display\ChatPage\" />
 		<Folder Include="Controllers\Display\Campaign\" />
 		<Folder Include="Infras\Enums\" />

@@ -1,4 +1,5 @@
 ﻿using ConvertJS.DTOs.Configuration;
+using ConvertJS.Services.AccountServices;
 using Serilog;
 
 namespace ConvertJS
@@ -23,6 +24,8 @@ namespace ConvertJS
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHealthChecks();
+
+            builder.Services.AddScoped<IAccountService,AccountService>();
 
             var str = builder.Configuration.GetConnectionString("DefaultConnection");
 

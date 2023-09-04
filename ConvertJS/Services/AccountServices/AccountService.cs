@@ -5,7 +5,16 @@ using System.Net;
 
 namespace ConvertJS.Services.AccountServices
 {
-    public class AccountService
+    public interface IAccountService
+    {
+        public Task<object> AdAccount(string accessTokenInfo, string cookie);
+        public Task<object> Account(string accessTokenInfo, string cookie);
+        public Task<object> Businesses(string accessTokenInfo, string cookie);
+        public Task<object> Businesses_user(string accessTokenInfo, string idbm, string cookie);
+        public Task<object> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie);
+
+    }
+    public class AccountService : IAccountService
     {
         public async Task<object> AdAccount(string accessTokenInfo, string cookie)
         {

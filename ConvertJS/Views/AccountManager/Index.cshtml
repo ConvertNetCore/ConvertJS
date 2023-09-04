@@ -1,8 +1,11 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using Newtonsoft.Json
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
-    ViewData["CurrentSection"] = "Account Manager";
+    string AdAccountsResponse = ViewData[KeyTranfer.AD_ACCOUNT_KEY] as string;
+    var AdAccounts = JsonConvert.DeserializeObject<AdAccountResponseDTO>(AdAccountsResponse);
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">

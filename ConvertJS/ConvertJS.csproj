@@ -6,6 +6,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Infras\Helps\**" />
+	  <Content Remove="Infras\Helps\**" />
+	  <EmbeddedResource Remove="Infras\Helps\**" />
+	  <None Remove="Infras\Helps\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="RestSharp" Version="110.2.0" />
 		<PackageReference Include="Serilog" Version="3.0.1" />
@@ -15,12 +22,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\Display\Appeal\" />
 		<Folder Include="Controllers\Display\MailMaster\" />
-		<Folder Include="Controllers\Display\AdSpy\" />
 		<Folder Include="Controllers\Display\ChatPage\" />
 		<Folder Include="Controllers\Display\Campaign\" />
-		<Folder Include="Infras\Enums\" />
 		<Folder Include="Infras\Helps\" />
 		<Folder Include="wwwroot\media\" />
 	</ItemGroup>

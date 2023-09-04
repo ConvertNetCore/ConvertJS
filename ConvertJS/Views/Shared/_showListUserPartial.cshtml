@@ -1,0 +1,47 @@
+﻿
+<div class="modal fade" tabindex="-1" id="kt_list_user_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">List Account</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="table_account_modal">
+                    <thead>
+                        <tr class="text-start text-muted fw-bold fs-6 text-uppercase gs-0">
+                            <th class="text-center">ROLE</th>
+                            <th>Account Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-600 fw-semibold">
+                        <tr class="odd">
+                             <td class="text-center">
+                                <span class="badge badge-light-success" data-order="active"> Admin </span>
+                            </td>
+                            <td>
+                                <span class="fw-bold"> Lam manh Hung </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger fs-7">DELETE</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,40 @@
+﻿<div class="modal fade" tabindex="-1" id="kt_invite_user_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Invite Account</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <form class="form form-control">
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <label class="required fs-6 fw-semibold mb-2">Role</label>
+                        <select id="role_invite" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Role" name="roleInvite">
+                            <option value="admin">ADMin</option>
+                            <option value="employee">EMPLOYEE</option>
+                        </select>
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="d-flex flex-column mb-8 fv-row">
+                        <label class="required fs-6 fw-semibold mb-2">UID</label>
+                        <input type="text" class="form-control form-control-solid" name="uid" placeholder="Enter UID">
+                    </div>
+                    <!--end::Input group-->
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Invite</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,8 +1,14 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
+@using Newtonsoft.Json
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
     ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
     ViewData["CurrentSection"] = "Account Manager";
+    var BMAccounts = (BusinessResponseDTO)ViewData[KeyTranfer.BM_ACCOUNT_KEY];
+    var x = BMAccounts;
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -325,28 +331,57 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                            @foreach (var BMAccount in BMAccounts.data)
+                            {
                                 <tr class="odd">
                                     <td>
-                                        <span class="fw-bold"> James Johnson </span>
+                                        <span class="fw-bold"> @BMAccount.name </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success" data-order="live"> Live </span>
+                                        @if (BMAccount.allow_page_management_in_www == false)
+                                        {
+                                            <span class="badge badge-light-success" data-order="live">  DIE </span>
+                                        }else{
+                                            <span class="badge badge-light-success" data-order="live">  LIVE </span>
+                                        }
                                     </td>
                                     <td>
                                         <span class="fw-bold" data-order="bm1"> BM1 </span>
                                     </td>
-                                    <td class="text-info">ADMIN</td>
-                                    <td>
-                                        <span class="text-primary fw-bold" data-order="bm350">BM350</span>
+                                    <td class="text-info">
+                                        @for(int i = 0; i < BMAccount.permitted_roles.Length; i++)
+                                        {
+                                            if(i == (BMAccount.permitted_roles.Length - 1))
+                                            {
+                                                <span class="fw-bold text-gray"> @BMAccount.permitted_roles[i] </span>
+                                            }
+                                        }
+                                        
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> VERIFIED </span>
+                                        @if(BMAccount.sharing_eligibility_status == "enabled") {
+                                    <span class="text-primary fw-bold" data-order="bm350"> BM350</span>
+                                        }else{
+                                        <span class="text-primary fw-bold" data-order="bm350"> BM50</span>
+                                        }
                                     </td>
                                     <td>
-                                        <span class="text-info"> 13/08/2023 </span>
+                                        <span class="badge badge-light-success">
+                                            @if (BMAccount.verification_status == "not_verified")
+                                            {
+                                                <span class="fw-bold text-gray">  NOT VERIFIED </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="fw-bold text-gray">  VERIFIED </span>
+                                            }
+                                        </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold text-gray"> 310624247638194 </span>
+                                        <span class="text-info"> @BMAccount.created_time </span>
+                                    </td>
+                                    <td>
+                                            <span class="fw-bold text-gray">  @BMAccount.id </span>
                                     </td>
                                     <td>
                                         <button class="btn btn-success fs-8" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal">2</button>
@@ -375,6 +410,9 @@
                                         <!--end::Menu-->
                                     </td>
                                 </tr>
+
+                               }
+
                             </tbody>
                         </table>
                     </div>

@@ -1,11 +1,12 @@
 ﻿@using ConvertJS.DTOs.ResponseDTO
 @using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
 @using Newtonsoft.Json
 @{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    string AdAccountsResponse = ViewData[KeyTranfer.AD_ACCOUNT_KEY] as string;
-    var AdAccounts = JsonConvert.DeserializeObject<AdAccountResponseDTO>(AdAccountsResponse);
+    var AdAccounts = (AdAccountResponseDTO)ViewData[KeyTranfer.AD_ACCOUNT_KEY];
+    var x = AdAccounts;
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -75,7 +76,6 @@
                                 <span class="menu-arrow d-lg-none"></span>
                             </span>
                             <!--end:Menu link-->
-                            
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
                                 <!--begin:Menu item-->
@@ -257,7 +257,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i> 
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
                         <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Account">
                     </div>
                     <!--end::Search-->
@@ -318,32 +318,52 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                            @foreach (var AdAccount in AdAccounts.data)
+                            {
                                 <tr class="odd">
-                                    <td>1</td>
+                                    <td>-</td>
                                     <td>
-                                        <span class="badge badge-light-success" data-order="active"> Active </span>
+                                        @if (AdAccount.account_status == (int)AccountStatus.Active)
+                                        {
+                                            <span class="badge badge-light-success" data-order="active"> Active </span>
+                                        }
+                                        @if (AdAccount.account_status == (int)AccountStatus.Disable)
+                                        {
+                                            <span class="badge badge-light-danger" data-order="disable"> Diable </span>
+                                        }
+                                        @if (AdAccount.account_status == (int)AccountStatus.NeedPay)
+                                        {
+                                            <span class="badge badge-light-warning" data-order="needPay"> Need Pay </span>
+                                        }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> James Johnson </span>
+                                        <span class="fw-bold"> @AdAccount.name </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> 1234212112212 </span>
+                                        <span class="fw-bold"> @AdAccount.account_id </span>
                                     </td>
-                                    <td class="text-warning">$20.234</td>
+                                    <td class="text-warning"> @AdAccount.balance</td>
+                                    @*ToDo Phải xử lý cái này*@
                                     <td>
                                         <span class="text-primary fw-bold" data-order="normal">Normal Personal</span>
                                     </td>
-                                    <td>-</td>
                                     <td>
-                                        <span class="badge badge-light-danger"> VND 595.834 </span>
+                                        <span class="badge badge-light-danger">
+                                            @(AdAccount.adspaymentcycle == null ? "-" : AdAccount.adspaymentcycle.data.Sum(e => e.threshold_amount))
+                                        </span>
                                     </td>
                                     <td>
-                                        <span class="text-warning"> $595.834 </span>
+                                        <span class="text-warning">@AdAccount.currency @AdAccount.adtrust_dsl </span>
                                     </td>
-                                    <td>-</td>
-                                    <td><button class="btn btn-primary fs-9" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal">2</button></td>
+                                    <td> @AdAccount.currency @AdAccount.insights.data.Sum(e => e.spend)</td>
+                                    <td> @AdAccount.id</td>
                                     <td>
-                                        <span class="badge badge-light-success"> USD </span>
+                                        <button class="btn btn-primary fs-9" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal">
+                                            @AdAccount.users.data.Count();
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> @AdAccount.currency </span>
                                     </td>
                                     <td class="text-start">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"> Actions <i class="ki-duotone ki-down fs-5 ms-1"></i> </a>
@@ -363,15 +383,16 @@
                                         <!--end::Menu-->
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
-    @Html.Partial("../Shared/_inviteUserModalPartial")
-    @Html.Partial("../Shared/_showListUserPartial")
+    <!--end::Card-->
+</div>
+@Html.Partial("../Shared/_inviteUserModalPartial")
+@Html.Partial("../Shared/_showListUserPartial")

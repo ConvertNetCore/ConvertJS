@@ -111,7 +111,7 @@
 
     public class Datum3
     {
-        public string spend { get; set; }
+        public double spend { get; set; }
         public string date_start { get; set; }
         public string date_stop { get; set; }
     }

@@ -3,6 +3,7 @@ using ConvertJS.DTOs;
 using RestSharp;
 using ConvertJS.Services;
 using ConvertJS.Services.AccountServices;
+using ConvertJS.Services.AdSpyServices;
 
 namespace ConvertJS.Controllers.API
 {
@@ -10,6 +11,12 @@ namespace ConvertJS.Controllers.API
     [ApiController]
     public class AccountController : ControllerBase
     {
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService)
+        {
+            _accountService = accountService;
+        }
+
         [HttpGet("AdAccount")]
         public async Task<object> AdAccount(string accessTokenInfo, string cookie)
         {
@@ -17,8 +24,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                AccountService accountService = new AccountService();
-                return await accountService.AdAccount(accessTokenInfo, cookie);
+                return await _accountService.AdAccount(accessTokenInfo, cookie);
             }
             else
             {
@@ -31,8 +37,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                AccountService accountService = new AccountService();
-                return await accountService.Account(accessTokenInfo, cookie);
+                return await _accountService.Account(accessTokenInfo, cookie);
             }
             else
             {
@@ -45,8 +50,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                AccountService accountService = new AccountService();
-                return await accountService.Businesses(accessTokenInfo, cookie);
+                return await _accountService.Businesses(accessTokenInfo, cookie);
             }
             else
             {
@@ -60,8 +64,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                AccountService accountService = new AccountService();
-                return await accountService.Businesses_user(accessTokenInfo, idbm, cookie);
+                return await _accountService.Businesses_user(accessTokenInfo, idbm, cookie);
             }
             else
             {
@@ -76,8 +79,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                AccountService accountService = new AccountService();
-                return await accountService.Delete_user_ad(accessTokenInfo,id_tkqc,id_user, cookie);
+                return await _accountService.Delete_user_ad(accessTokenInfo,id_tkqc,id_user, cookie);
             }
             else
             {

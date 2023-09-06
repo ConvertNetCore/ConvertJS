@@ -1,4 +1,5 @@
 ﻿using ConvertJS.DTOs;
+using ConvertJS.Services.AccountServices;
 using ConvertJS.Services.RulesServices;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -9,6 +10,11 @@ namespace ConvertJS.Controllers.API
     [ApiController]
     public class RulesController : ControllerBase
     {
+        private readonly IRulesService _rulesService;
+        public RulesController(IRulesService rulesService)
+        {
+            _rulesService = rulesService;
+        }
         [HttpGet("check_live_token")]
         public async Task<object> checkLiveToken(string accessTokenInfo,string cookie)
         {
@@ -16,8 +22,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-               RulesService rulesService = new RulesService();
-                return await rulesService.check_live_token(accessTokenInfo, cookie);
+                return await _rulesService.check_live_token(accessTokenInfo, cookie);
             }
             else
             {
@@ -27,8 +32,7 @@ namespace ConvertJS.Controllers.API
         [HttpGet("information")]
         public async Task<object> Information(string cookie)
         {
-            RulesService rulesService = new RulesService();
-            return await rulesService.Information(cookie);
+            return await _rulesService.Information(cookie);
         }
         [HttpGet("get_all_camp_from_id_tkqc")]
         public async Task<object> getAllCampFromIdTkqc(string accessTokenInfo,string idqc, string cookie)
@@ -38,8 +42,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                RulesService rulesService = new RulesService();
-                return await rulesService.get_all_camp_from_id_tkqc(accessTokenInfo,idqc, cookie);
+                return await _rulesService.get_all_camp_from_id_tkqc(accessTokenInfo,idqc, cookie);
             }
             else
             {
@@ -53,8 +56,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                RulesService rulesService = new RulesService();
-                return await rulesService.get_all_adset_from_camp(accessTokenInfo,id_camp, cookie);
+                return await _rulesService.get_all_adset_from_camp(accessTokenInfo,id_camp, cookie);
             }
             else
             {
@@ -68,8 +70,7 @@ namespace ConvertJS.Controllers.API
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
             if (accessTokenInfo != null)
             {
-                RulesService rulesService = new RulesService();
-                return await rulesService.get_all_ads_from_adset(accessTokenInfo,id_adset, cookie);
+                return await _rulesService.get_all_ads_from_adset(accessTokenInfo,id_adset, cookie);
             }
             else
             {

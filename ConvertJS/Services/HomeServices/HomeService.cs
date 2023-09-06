@@ -2,7 +2,11 @@
 
 namespace ConvertJS.Services.HomeServices
 {
-    public class HomeService
+    public interface IHomeService
+    {
+        Task<object> Get_rule(string id_tkqc, string accessTokenInfo, string cookie);
+    }
+    public class HomeService : IHomeService
     {
         public async Task<object> Get_rule(string id_tkqc, string accessTokenInfo, string cookie)
         {

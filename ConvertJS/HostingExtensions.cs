@@ -1,5 +1,10 @@
 ﻿using ConvertJS.DTOs.Configuration;
 using ConvertJS.Services.AccountServices;
+using ConvertJS.Services.AdSpyServices;
+using ConvertJS.Services.AppealCheckServices;
+using ConvertJS.Services.HomeServices;
+using ConvertJS.Services.RulesServices;
+
 using Serilog;
 
 namespace ConvertJS
@@ -24,9 +29,12 @@ namespace ConvertJS
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHealthChecks();
-
+            //builder.Services.AddScoped<IRulesService, RulesService>();
             builder.Services.AddScoped<IAccountService,AccountService>();
-
+            builder.Services.AddScoped<IAdSpyService,AdSpyService>();
+            builder.Services.AddScoped<IAppealCheckService , AppealCheckService>();
+            builder.Services.AddScoped<IHomeService, HomeService>();
+            
             var str = builder.Configuration.GetConnectionString("DefaultConnection");
 
             builder.Services.AddMemoryCache();

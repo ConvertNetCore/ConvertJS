@@ -3,6 +3,15 @@ using RestSharp;
 
 namespace ConvertJS.Services.RulesServices
 {
+    public interface IRulesService
+    {
+        public Task<object> check_live_token(string accessTokenInfo, string cookie);
+        public Task<object> Information(string cookie);
+        public Task<object> get_all_camp_from_id_tkqc(string accessTokenInfo, string idqc, string cookie);
+        public Task<object> get_all_adset_from_camp(string accessTokenInfo, string id_camp, string cookie);
+        public Task<object> get_all_ads_from_adset(string accessTokenInfo, string id_adset, string cookie);
+        
+    }
     public class RulesService
     {
         public async Task<object> check_live_token(string accessTokenInfo, string cookie)

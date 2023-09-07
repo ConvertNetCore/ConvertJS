@@ -172,7 +172,7 @@ namespace ConvertJS.Services.RulesServices
 
         }
 
-        public async Task<object> get_all_ads_from_adset(string accessTokenInfo, string id_adset, string cookie)
+        public async Task<List<AdsDTO>> get_all_ads_from_adset(string accessTokenInfo, string id_adset, string cookie)
         {
 
             try

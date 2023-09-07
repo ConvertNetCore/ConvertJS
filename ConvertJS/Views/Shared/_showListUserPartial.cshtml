@@ -1,6 +1,6 @@
 ﻿@using ConvertJS.DTOs.ResponseDTO
-@model Datum
-<div class="modal fade" tabindex="-1" id="kt_list_user_modal_@(Model.id)">
+@model AdsAccountDTO
+<div class="modal fade" tabindex="-1" id="kt_list_user_modal_@(Model.Id)">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -14,7 +14,7 @@
             </div>
 
             <div class="modal-body">
-                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="table_account_modal_@(Model.id)">
+                <table class="table align-middle table-row-dashed fs-6 gy-5 dataTable no-footer" id="table_account_modal_@(Model.Id)">
                     <thead>
                         <tr class="text-start text-muted fw-bold fs-6 text-uppercase gs-0">
                             <th class="text-center">ROLE</th>
@@ -23,14 +23,14 @@
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 fw-semibold">
-                        @foreach (var user in Model.users.data)
+                        @foreach (var user in Model.Users)
                         {
                             <tr class="odd">
                                 <td class="text-center">
-                                    <span class="badge badge-light-success" data-order="active"> Admin </span>
+                                    <span class="badge badge-light-success fs-4" data-order="active"> Admin </span>
                                 </td>
                                 <td>
-                                    <span class="fw-bold"> @user.name </span>
+                                    <span class="fw-bold"> @user.Name </span>
                                 </td>
                                 <td>
                                     <button class="btn btn-danger fs-7">DELETE</button>
@@ -48,4 +48,3 @@
         </div>
     </div>
 </div>
-

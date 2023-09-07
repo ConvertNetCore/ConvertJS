@@ -1,8 +1,8 @@
 ﻿namespace ConvertJS.Infras.Enums
 {
-    public enum VerificationStatus
+    public enum BMLimit
     {
-
-       
+        BM350,
+        BM50
     }
 }

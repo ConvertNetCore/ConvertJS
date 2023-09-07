@@ -1,15 +1,17 @@
-﻿using RestSharp;
+﻿using ConvertJS.DTOs.ResponseDTO;
+using RestSharp;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace ConvertJS.Services.AdSpyServices
 {
     public interface IAdSpyService
     {
-         Task<object> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie);
+         Task<List<AdSpyPostDTO>> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie);
     }
     public class AdSpyService : IAdSpyService
     {
-        public async Task<object> Search(string keyword,string forward_cursor,string user_id, string fb_dtsg,  string cookie)
+        public async Task<List<AdSpyPostDTO>> Search(string keyword,string forward_cursor,string user_id, string fb_dtsg,  string cookie)
         {
 
             try
@@ -105,11 +107,13 @@ namespace ConvertJS.Services.AdSpyServices
 
                 RestResponse response = client.Execute(request);
 
-                return response.Content;
+                //Convert Model View
+                var result = new List<AdSpyPostDTO>();
+                return result;
             }
             catch (Exception ex)
             {
-                return new { Error = ex };
+                return new List<AdSpyPostDTO>();
             }
 
         }

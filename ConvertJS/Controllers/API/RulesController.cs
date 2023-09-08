@@ -81,9 +81,9 @@ namespace ConvertJS.Controllers.API
 
         //Todo
         [HttpGet("get-all-account")]
-        public async Task<List<AdsAccountDTO>> GetAllAccount()
+        public async Task<List<AdsAccountDTO>> GetAllAccount(string accessTokenInfo, string cookie)
         {
-            return await _rulesService.GetAllAccount();
+            return await _rulesService.GetAllAccount( accessTokenInfo,  cookie);
         }
 
         //Todo

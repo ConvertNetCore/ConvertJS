@@ -40,23 +40,23 @@ namespace ConvertJS.Controllers.API
 
         //Todo
         [HttpGet("get-account-die")]
-        public async Task<List<AppealCheckAccountDTO>> GetAccountDie()
+        public async Task<List<AppealCheckAccountDTO>> GetAccountDie(string accessTokenInfo, string cookie)
         {
-            var result = await _appealCheckService.GetAccountDie();
+            var result = await _appealCheckService.GetAccountDie( accessTokenInfo,  cookie);
             return result;
         }
         //Todo
         [HttpGet("get-bm-die")]
-        public async Task<List<AppealCheckBMDTO>> GetBMDie()
+        public async Task<List<AppealCheckBMDTO>> GetBMDie(string accessTokenInfo, string cookie)
         {
-            var result = await _appealCheckService.GetBMDie();
+            var result = await _appealCheckService.GetBMDie( accessTokenInfo,  cookie);
             return result;
         }
         //Todo
         [HttpGet("get-page")]
-        public async Task<List<AppealCheckPageDTO>> GetPage()
+        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie)
         {
-            var result = await _appealCheckService.GetPage();
+            var result = await _appealCheckService.GetPage( accessTokenInfo,  cookie);
             return result;
         }
     }

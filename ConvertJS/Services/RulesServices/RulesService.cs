@@ -13,6 +13,10 @@ namespace ConvertJS.Services.RulesServices
         public Task<List<AdSetDTO>> get_all_adset_from_camp(string accessTokenInfo, string id_camp, string cookie);
         public Task<List<AdsDTO>> get_all_ads_from_adset(string accessTokenInfo, string id_adset, string cookie);
 
+        //Todo
+        public Task<List<AdsAccountDTO>> GetAllAccount();
+        public Task<List<GetRuleDTO>> GetRule();
+
     }
     public class RulesService : IRulesService
     {
@@ -213,6 +217,16 @@ namespace ConvertJS.Services.RulesServices
                 return new List<AdsDTO>();
             }
 
+        }
+
+        public Task<List<AdsAccountDTO>> GetAllAccount()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<GetRuleDTO>> GetRule()
+        {
+            throw new NotImplementedException();
         }
     }
 }

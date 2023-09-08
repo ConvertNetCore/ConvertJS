@@ -4,7 +4,7 @@ namespace ConvertJS.DTOs.ResponseDTO
 {
     public class UserDTO
     {
-        public string Role { get; set; }
+        public Role Role { get; set; }
         
         public string Name { get; set; }
 

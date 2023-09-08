@@ -4,7 +4,7 @@ namespace ConvertJS.DTOs.ResponseDTO
 {
     public class AdsAccountDTO
     {
-        public string Status { get; set; }
+        public AccountStatus Status { get; set; }
 
         public string AccountName { get; set; }
 

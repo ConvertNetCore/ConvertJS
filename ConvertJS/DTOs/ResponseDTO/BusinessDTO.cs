@@ -5,7 +5,7 @@ namespace ConvertJS.DTOs.ResponseDTO
 {
     public class BusinessDTO
     {
-        public string Status { get; set; }
+        public BMStatus Status { get; set; }
 
         public string Name { get; set; }
 

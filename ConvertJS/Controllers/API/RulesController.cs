@@ -1,4 +1,5 @@
 ﻿using ConvertJS.DTOs;
+using ConvertJS.DTOs.ResponseDTO;
 using ConvertJS.Services.AccountServices;
 using ConvertJS.Services.RulesServices;
 using Microsoft.AspNetCore.Mvc;
@@ -76,6 +77,20 @@ namespace ConvertJS.Controllers.API
             {
                 return new { Error = "Token is not null" };
             }
+        }
+
+        //Todo
+        [HttpGet("get-all-account")]
+        public async Task<List<AdsAccountDTO>> GetAllAccount()
+        {
+            return await _rulesService.GetAllAccount();
+        }
+
+        //Todo
+        [HttpGet("get-all-rule")]
+        public async Task<List<GetRuleDTO>> GetAllRule()
+        {
+            return await _rulesService.GetRule();
         }
 
     }

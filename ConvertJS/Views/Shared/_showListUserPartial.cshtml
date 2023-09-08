@@ -1,4 +1,5 @@
 ﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Enums
 @model AdsAccountDTO
 <div class="modal fade" tabindex="-1" id="kt_list_user_modal_@(Model.Id)">
     <div class="modal-dialog">
@@ -27,6 +28,20 @@
                         {
                             <tr class="odd">
                                 <td class="text-center">
+                                    @switch(user.Role){
+                                        case Role.Admin:
+                                            <span class="badge badge-light-success fs-4" data-order="active"> Admin </span>
+                                            break;
+                                        case Role.Employee:
+                                            <span class="badge badge-light-primary fs-4" data-order="active"> Employee </span>
+                                            break;
+                                        case Role.Client:
+                                            <span class="badge badge-light-info fs-4" data-order="active"> Client </span>
+                                            break;
+                                        case Role.Owned:
+                                            <span class="badge badge-light-info fs-4" data-order="active"> Owned </span>
+                                            break;
+                                    }
                                     <span class="badge badge-light-success fs-4" data-order="active"> Admin </span>
                                 </td>
                                 <td>

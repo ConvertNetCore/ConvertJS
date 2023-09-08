@@ -338,13 +338,14 @@
                                         <span class="fw-bold"> @BMAccount.Name </span>
                                     </td>
                                     <td>
-                                        @if (BMAccount.Status =="Die")
+                                        @switch (BMAccount.Status)
                                         {
-                                            <span class="badge badge-light-success" data-order="live">  DIE </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge badge-light-success" data-order="live">  LIVE </span>
+                                            case BMStatus.Die:
+                                                <span class="badge badge-light-danger" data-order="die">  DIE </span>
+                                                break;
+                                            case BMStatus.Live:
+                                                <span class="badge badge-light-primary" data-order="live">  DIE </span>
+                                                break;
                                         }
                                     </td>
                                     <td>
@@ -354,7 +355,7 @@
                                         <span class="fw-bold text-gray"> @string.Join('|',BMAccount.Role) </span>
                                     </td>
                                     <td>
-                                        @if (BMAccount.Limit =="BM350")
+                                        @if (BMAccount.Limit == "BM350")
                                         {
                                             <span class="text-primary fw-bold" data-order="bm350"> BM350</span>
                                         }
@@ -418,7 +419,7 @@
 </div>
 @foreach (var BMAccount in BMAccounts)
 {
-    @Html.Partial("../Shared/_showListUserPartial",BMAccount)
+    @Html.Partial("../Shared/_showListBMAdminPartial",BMAccount)
     @Html.Partial("../Shared/_showListBMAccountPartial",BMAccount)
 }
 @Html.Partial("../Shared/_inviteUserModalPartial")

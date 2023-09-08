@@ -24,6 +24,12 @@ namespace ConvertJS.Services.AccountServices
     }
     public class AccountService : IAccountService
     {
+        private readonly ILogger<AccountService> _logger;
+        public AccountService(ILogger<AccountService> logger)
+        {
+            _logger = logger;
+        }
+
         public async Task<List<AdsAccountDTO>> AdAccount(string accessTokenInfo, string cookie)
         {
             try
@@ -62,7 +68,7 @@ namespace ConvertJS.Services.AccountServices
                 {
                     var adsUser = new AdsAccountDTO
                     {
-                        Status = "Active",//chưa đúng
+                        Status = AccountStatus.Active,//chưa đúng
                         AccountName = userDTO.name,
                         Id = userDTO.account_id,
                         Balance = Convert.ToDouble(userDTO.balance), // chưa đúng
@@ -88,7 +94,7 @@ namespace ConvertJS.Services.AccountServices
                         {
                             Name = e.name,
                             UserId = e.id,
-                            Role = "Admin" // chưa đúng
+                            Role = Role.Admin // chưa đúng
                         }).ToList();
                     AllUserDTOs.Add(adsUser);
                 }
@@ -96,6 +102,7 @@ namespace ConvertJS.Services.AccountServices
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 return new List<AdsAccountDTO>();
             }
         }

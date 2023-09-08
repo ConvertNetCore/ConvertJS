@@ -1,6 +1,10 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
+    var BMAccounts = (List<AppealCheckBMDTO>)ViewData[KeyTranfer.APPEAL_CHECK_BM];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -170,7 +174,7 @@
                         <select class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Status" data-kt-bm-die-table-filter="status">
                             <option></option>
                             <option value="all">All</option>
-                            <option value="accepted">Accepted</option>
+                            <option value="live">Live</option>
                             <option value="reject">Reject</option>
                         </select>
                         <!--end::Select2-->
@@ -191,31 +195,43 @@
                                     <th class="text-center">No</th>
                                     <th>Status</th>
                                     <th>Account Name</th>
-                                    <th >Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                                @{var no = 0;}
+                            @foreach (var BMAccount in BMAccounts)
+                            {
+                                no++;
                                 <tr class="odd">
                                     <td class="text-center">
-                                        <span class="fw-bold text-danger"> 1</span>
+                                        <span class="fw-bold text-danger"> @(no)</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger" data-order="reject"> Reject </span>
+                                        @switch(BMAccount.Status){
+                                            case BMStatus.Live:
+                                                <span class="badge badge-light-success" data-order="live"> Live </span>
+                                                break;
+                                            case BMStatus.Die:
+                                                <span class="badge badge-light-danger" data-order="reject"> Reject </span>
+                                                break;
+                                        }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> Lam manh Hung </span>
+                                        <span class="fw-bold"> @BMAccount.BMName </span>
                                     </td>
                                     <td>
                                         <button class="btn btn-success fs-6">Report</button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

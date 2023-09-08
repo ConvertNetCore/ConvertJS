@@ -1,6 +1,10 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
+    var Pages = (List<AppealCheckPageDTO>)ViewData[KeyTranfer.APPEAL_CHECK_PAGE];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -195,27 +199,42 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                                @{
+                                var no = 0;
+                            }
+                            @foreach (var pageDTO in Pages)
+                            {
+                                no++;
                                 <tr class="odd">
-                                    <td class="text-center"> 
-                                        <span class="fw-bold text-danger"> 1</span>
+                                    <td class="text-center">
+                                        <span class="fw-bold text-danger"> @(no)</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success" data-order="live"> Live </span>
+                                        @switch (pageDTO.Status)
+                                        {
+                                            case PageStatus.Live:
+                                                <span class="badge badge-light-success" data-order="live"> Live </span>
+                                                break;
+                                            case PageStatus.Reject:
+                                                <span class="badge badge-light-danger" data-order="reject"> Reject </span>
+                                                break;
+                                        }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> Anie Page Shop </span>
+                                        <span class="fw-bold"> @pageDTO.PageName </span>
                                     </td>
                                     <td class="text-center">
                                         <button class="btn btn-success fs-6">Report</button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

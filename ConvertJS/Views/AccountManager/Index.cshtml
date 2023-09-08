@@ -327,17 +327,17 @@
                                 <tr class="odd">
                                     <td>@no</td>
                                     <td>
-                                        @if (AdAccount.Status == "Active")
+                                        @switch (AdAccount.Status)
                                         {
-                                            <span class="badge badge-light-success" data-order="active"> Active </span>
-                                        }
-                                        @if (AdAccount.Status == "Disable")
-                                        {
-                                            <span class="badge badge-light-danger" data-order="disable"> Disable </span>
-                                        }
-                                        @if (AdAccount.Status == "Need Pay")
-                                        {
-                                            <span class="badge badge-light-warning" data-order="needpay"> Need Pay </span>
+                                            case AccountStatus.Active:
+                                                <span class="badge badge-light-success fs-4" data-order="active"> Active </span>
+                                                break;
+                                            case AccountStatus.Disable:
+                                                <span class="badge badge-light-primary fs-4" data-order="disable"> Disable </span>
+                                                break;
+                                            case AccountStatus.NeedPay:
+                                                <span class="badge badge-light-info fs-4" data-order="needpay"> Need Pay </span>
+                                                break;
                                         }
                                     </td>
                                     <td>

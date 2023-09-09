@@ -1,6 +1,11 @@
-﻿using ConvertJS.DTOs.ResponseDTO;
+﻿using ConvertJS.DTOs;
+using ConvertJS.DTOs.ResponseDTO;
+using ConvertJS.Infras.Enums;
+using ConvertJS.Services.AppealCheckServices;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RestSharp;
+using System.Net;
 using System.Net.WebSockets;
 
 namespace ConvertJS.Services.RulesServices
@@ -14,12 +19,17 @@ namespace ConvertJS.Services.RulesServices
         public Task<List<AdsDTO>> get_all_ads_from_adset(string accessTokenInfo, string id_adset, string cookie);
 
         //Todo
-        public Task<List<AdsAccountDTO>> GetAllAccount();
+        public Task<List<AdsAccountDTO>> GetAllAccount(string accessTokenInfo, string cookie);
         public Task<List<GetRuleDTO>> GetRule();
 
     }
     public class RulesService : IRulesService
     {
+        private readonly ILogger<RulesService> _logger;
+        public RulesService(ILogger<RulesService> logger)
+        {
+            _logger = logger;
+        }
         public async Task<object> check_live_token(string accessTokenInfo, string cookie)
         {
 
@@ -219,12 +229,84 @@ namespace ConvertJS.Services.RulesServices
 
         }
 
-        public Task<List<AdsAccountDTO>> GetAllAccount()
+        public async Task<List<AdsAccountDTO>> GetAllAccount(string accessTokenInfo, string cookie)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/me/adaccounts?limit=50&fields=users,name,account_status,account_id,owner_business,created_time,next_bill_date,currency,adtrust_dsl,timezone_name,timezone_offset_hours_utc,business_country_code,disable_reason,adspaymentcycle{threshold_amount},balance,is_prepay_account,owner,all_payment_methods{pm_credit_card{display_string,exp_month,exp_year,is_verified},payment_method_direct_debits{address,can_verify,display_string,is_awaiting,is_pending,status},payment_method_paypal{email_address},payment_method_tokens{current_balance,original_balance,time_expire,type}},total_prepay_balance,insights.date_preset(maximum){spend}&access_token=" +
+                  accessTokenInfo +//.Access_token +
+                  "&summary=1&locale=en_US", Method.Get);
+                request.AddHeader("authority", "graph.facebook.com");
+                request.AddHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", "en-US,en;q=0.9");
+                request.AddHeader("cache-control", "max-age=0");
+                request.AddHeader("cookie", cookie);
+                request.AddHeader("sec-ch-ua", "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", "?0");
+                request.AddHeader("sec-ch-ua-platform", "\"Windows\"");
+                request.AddHeader("sec-fetch-dest", "document");
+                request.AddHeader("sec-fetch-mode", "navigate");
+                request.AddHeader("sec-fetch-site", "none");
+                request.AddHeader("sec-fetch-user", "?1");
+                request.AddHeader("upgrade-insecure-requests", "1");
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //Convert to Model View
+                var adAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());
+                List<AdsAccountDTO> AllUserDTOs = new List<AdsAccountDTO>();
+                foreach (var userDTO in adAccountResponse.data)
+                {
+                    var adsUser = new AdsAccountDTO
+                    {
+                        Status = AccountStatus.Active,//chưa đúng
+                        AccountName = userDTO.name,
+                        Id = userDTO.account_id,
+                        Balance = Convert.ToDouble(userDTO.balance), // chưa đúng
+                        Type = "Normal Personnal", // chưa đúng
+                        ThreashHold = 0,
+                        NumberUser = 0,
+                        AmountSpent = 0,
+                        Currency = userDTO.currency,
+                        Limit = userDTO.adtrust_dsl,
+                        IDBM = userDTO.id,
+                        Users = new List<UserDTO>()
+                    };
+                    if (userDTO.adspaymentcycle != null)
+                        adsUser.ThreashHold = userDTO.adspaymentcycle.data.Sum(e => e.threshold_amount);
+
+                    if (userDTO.users != null)
+                        adsUser.NumberUser = userDTO.users.data.Count();
+
+                    if (userDTO.insights != null)
+                        adsUser.AmountSpent = userDTO.insights.data.Sum(e => e.spend);
+                    if (userDTO.users != null)
+                        adsUser.Users = userDTO.users.data.Select(e => new UserDTO
+                        {
+                            Name = e.name,
+                            UserId = e.id,
+                            Role = Role.Admin // chưa đúng
+                        }).ToList();
+                    AllUserDTOs.Add(adsUser);
+                }
+                return AllUserDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new List<AdsAccountDTO>();
+            }
         }
 
-        public Task<List<GetRuleDTO>> GetRule()
+        public async Task<List<GetRuleDTO>> GetRule()
         {
             throw new NotImplementedException();
         }

@@ -1,6 +1,11 @@
-﻿using ConvertJS.DTOs.ResponseDTO;
+﻿using ConvertJS.DTOs;
+using ConvertJS.DTOs.ResponseDTO;
+using ConvertJS.Infras.Enums;
+using ConvertJS.Services.AccountServices;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RestSharp;
+using System.Net;
 
 namespace ConvertJS.Services.AppealCheckServices
 {
@@ -12,28 +17,172 @@ namespace ConvertJS.Services.AppealCheckServices
         Task<object> Khang_buoc_2bm(string id, string fb_dtsg, string jazoest, string uid, string cookie);
 
         //Todo
-        Task<List<AppealCheckAccountDTO>> GetAccountDie();
+        Task<List<AppealCheckAccountDTO>> GetAccountDie(string accessTokenInfo, string cookie);
         //Todo
-        Task<List<AppealCheckBMDTO>> GetBMDie();
+        Task<List<AppealCheckBMDTO>> GetBMDie(string accessTokenInfo, string cookie);
         //Todo
-        Task<List<AppealCheckPageDTO>> GetPage();
+        Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie);
 
     }
     public class AppealCheckService : IAppealCheckService
     {
-        public Task<List<AppealCheckAccountDTO>> GetAccountDie()
+        private readonly ILogger<AppealCheckService> _logger;
+        public AppealCheckService(ILogger<AppealCheckService> logger)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+        }
+        public async Task<List<AppealCheckAccountDTO>> GetAccountDie(string accessTokenInfo, string cookie)
+        {
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/me/adaccounts?limit=50&fields=users,name,account_status,account_id,owner_business,created_time,next_bill_date,currency,adtrust_dsl,timezone_name,timezone_offset_hours_utc,business_country_code,disable_reason,adspaymentcycle{threshold_amount},balance,is_prepay_account,owner,all_payment_methods{pm_credit_card{display_string,exp_month,exp_year,is_verified},payment_method_direct_debits{address,can_verify,display_string,is_awaiting,is_pending,status},payment_method_paypal{email_address},payment_method_tokens{current_balance,original_balance,time_expire,type}},total_prepay_balance,insights.date_preset(maximum){spend}&access_token=" +
+                  accessTokenInfo +//.Access_token +
+                  "&summary=1&locale=en_US", Method.Get);
+                request.AddHeader("authority", "graph.facebook.com");
+                request.AddHeader("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", "en-US,en;q=0.9");
+                request.AddHeader("cache-control", "max-age=0");
+                request.AddHeader("cookie", cookie);
+                request.AddHeader("sec-ch-ua", "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", "?0");
+                request.AddHeader("sec-ch-ua-platform", "\"Windows\"");
+                request.AddHeader("sec-fetch-dest", "document");
+                request.AddHeader("sec-fetch-mode", "navigate");
+                request.AddHeader("sec-fetch-site", "none");
+                request.AddHeader("sec-fetch-user", "?1");
+                request.AddHeader("upgrade-insecure-requests", "1");
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //Convert to Model View
+                var adAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());
+                List<AppealCheckAccountDTO> AllUserDTOs = new List<AppealCheckAccountDTO>();
+                foreach (var userDTO in adAccountResponse.data)
+                {
+                    if (userDTO.account_status == 2)
+                    {
+                        var adsUser = new AppealCheckAccountDTO
+                        {
+                            Status = AccountStatus.Disable,
+                            AccountName = userDTO.name,
+                            ID = userDTO.account_id
+                        };
+
+                        AllUserDTOs.Add(adsUser);
+                    }
+                }
+                return AllUserDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new List<AppealCheckAccountDTO>();
+            }
         }
 
-        public Task<List<AppealCheckBMDTO>> GetBMDie()
+        public async Task<List<AppealCheckBMDTO>> GetBMDie(string accessTokenInfo, string cookie)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/me/businesses?fields=owned_pixels,name,id,verification_status,business_users,allow_page_management_in_www,sharing_eligibility_status,created_time,permitted_roles,client_ad_accounts.summary(1).limit(5000),owned_ad_accounts.summary(1).limit(5000)&limit=50&access_token=" +
+                  accessTokenInfo +
+                  "&locale=en_US", Method.Get);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("cache-control", " max-age=0");
+                request.AddHeader("sec-ch-ua", " \"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"");
+                request.AddHeader("sec-ch-ua-mobile", " ?0");
+                request.AddHeader("sec-ch-ua-platform", " \"Windows\"");
+                request.AddHeader("sec-fetch-dest", " document");
+                request.AddHeader("sec-fetch-mode", " navigate");
+                request.AddHeader("sec-fetch-site", " none");
+                request.AddHeader("sec-fetch-user", " ?1");
+                request.AddHeader("upgrade-insecure-requests", " 1");
+                request.AddHeader("Cookie", cookie);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //Convert to Model View
+                var bmAccountResponse = JsonConvert.DeserializeObject<BusinessResponseDTO>(response.Content.ToString());
+                List<AppealCheckBMDTO> AllUserDTOs = new List<AppealCheckBMDTO>();
+                foreach (var userDTO in bmAccountResponse.data)
+                {
+                    if (userDTO.allow_page_management_in_www == false)
+                    {
+                        var bmUser = new AppealCheckBMDTO
+                        {
+                            Status = BMStatus.Die,
+                            BMName = userDTO.name,
+                            Id = userDTO.id
+                        };
+
+                        AllUserDTOs.Add(bmUser);
+                    }
+                }
+                return AllUserDTOs;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return new List<AppealCheckBMDTO>();
+            }
+
         }
 
-        public Task<List<AppealCheckPageDTO>> GetPage()
+        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/me/accounts?limit=5000&access_token=" +
+                                              accessTokenInfo +
+                                              "&summary=1&locale=en_US", Method.Get);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("cache-control", " max-age=0");
+                request.AddHeader("cookie", cookie);
+                request.AddHeader("sec-ch-ua", " \"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", " ?0");
+                request.AddHeader("sec-ch-ua-platform", " \"Windows\"");
+                request.AddHeader("sec-fetch-dest", " document");
+                request.AddHeader("sec-fetch-mode", " navigate");
+                request.AddHeader("sec-fetch-site", " none");
+                request.AddHeader("sec-fetch-user", " ?1");
+                request.AddHeader("upgrade-insecure-requests", " 1");
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //Convert here
+                var result = new List<AppealCheckPageDTO>();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new List<AppealCheckPageDTO>();
+            }
         }
 
         public async Task<object> Khang_buoc_1(string id, string ids_issue_ent_id, string fb_dtsg, string jazoest, string uid, string cookie)

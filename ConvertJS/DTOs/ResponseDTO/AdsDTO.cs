@@ -1,9 +1,12 @@
-﻿namespace ConvertJS.DTOs.ResponseDTO
+﻿using ConvertJS.Infras.Enums;
+
+namespace ConvertJS.DTOs.ResponseDTO
 {
     public class AdsDTO
     {
         public string Id { get; set; }
-        public bool Status { get; set; }
+        public AdsStatus Status { get; set; }
+        public string Name { get; set; }
         public string Delivery { get; set; }
         public string BidStrategy { get; set; }
         public string Budget { get; set; }

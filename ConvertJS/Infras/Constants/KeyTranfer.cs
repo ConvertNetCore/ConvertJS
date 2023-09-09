@@ -10,5 +10,9 @@ namespace ConvertJS.Infras.Constants
         public const string APPEAL_CHECK_BM = "APPEAL_CHECK_BM";
         public const string APPEAL_CHECK_PAGE = "APPEAL_CHECK_PAGE";
         public const string ADS_SPY = "ADS_SPY";
+        public const string GET_ALL_CAMPAIGN = "GET_ALL_CAMPAIGN";
+        public const string GET_AD_SET = "GET_AD_SET";
+        public const string GET_ADS = "GET_ADS";
+
     }
 }

@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    var Campaigns = (List<CampaignsDTO>)ViewData[KeyTranfer.GET_ALL_CAMPAIGN];
+    var AdSets = (List<AdSetDTO>)ViewData[KeyTranfer.GET_AD_SET];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -91,7 +91,7 @@
                                 <!--begin:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link active" href="/CampaignsManager">
+                                    <a class="menu-link" href="/CampaignsManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -102,7 +102,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="/AdSetManager">
+                                    <a class="menu-link active" href="/AdSetManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -189,7 +189,7 @@
                     <div class="page-title gap-4 me-3 mb-5 mb-lg-0">
                         <!--begin::Title-->
                         <h1 class="text-gray-900 fw-bolder mb-3 fs-2x">
-                            Campaigns Manager
+                            AdSet Manager
                             <i class="ki-duotone ki-pin fs-2" style="color: #ff0000ad;">
                                 <i class="path1"></i>
                                 <i class="path2"></i>
@@ -220,7 +220,7 @@
                                 </li>
                                 <!--end::Item-->
                                 <!--begin::Item-->
-                                <li class="breadcrumb-item text-gray-500">Campaigns</li>
+                                <li class="breadcrumb-item text-gray-500">AdSet</li>
                                 <!--end::Item-->
                             </ul>
                             <!--end::Breadcrumb-->
@@ -303,7 +303,7 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
-                            @foreach (var campaign in Campaigns)
+                            @foreach (var adSet in AdSets)
                             {
                                 <tr class="odd">
                                     <td>
@@ -317,49 +317,49 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.Name</span>
+                                        <span class="fw-bold"> @adSet.Name</span>
                                     </td>
                                     <td>
-                                        @switch (campaign.Status)
+                                        @switch (adSet.Status)
                                         {
-                                            case CampaignType.Active:
+                                            case AdSetStatus.Active:
                                                 <span class="badge badge-light-success" data-order="active"> Active </span>
                                                 break;
-                                            case CampaignType.Disable:
+                                            case AdSetStatus.Disable:
                                                 <span class="badge badge-light-danger" data-order="disable"> Disable </span>
                                                 break;
                                         }
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger"> @campaign.Currency </span>
+                                        <span class="badge badge-light-danger"> @adSet.Currency </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.BidStrategy </span>
+                                        <span class="fw-bold"> @adSet.BidStrategy </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.Budget </span>
+                                        <span class="fw-bold"> @adSet.Budget </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.LastSignificantEdut </span>
+                                        <span class="fw-bold"> @adSet.LastSignificantEdut </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger"> @campaign.Result </span>
+                                        <span class="badge badge-light-danger"> @adSet.Result </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> @campaign.Reach</span>
+                                        <span class="badge badge-light-success"> @adSet.Reach</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> @Math.Round(campaign.Frequency,2)</span>
+                                        <span class="badge badge-light-success"> @Math.Round(adSet.Frequency,2)</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.Impressions</span>
+                                        <span class="fw-bold"> @adSet.Impressions</span>
                                     </td>
-                                    <td class="text-warning">@campaign.AmountSpent</td>
+                                    <td class="text-warning">@adSet.AmountSpent</td>
                                     <td>
-                                        <span class="text-primary fw-bold">@campaign.Clicks</span>
+                                        <span class="text-primary fw-bold">@adSet.Clicks</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> @campaign.Value</span>
+                                        <span class="badge badge-light-success"> @adSet.Value</span>
                                     </td>
                                 </tr>
                             }

@@ -16,7 +16,7 @@ namespace ConvertJS.Controllers.Display.Appeal
 
         public async Task<IActionResult> Index()
         {
-            var accounts = await _appealCheckService.GetAccountDie();
+            var accounts = await _appealCheckService.GetAccountDie("", "");
             ViewData[KeyTranfer.APPEAL_CHECK_ACCOUNT] = accounts;
             return View();
         }

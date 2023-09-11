@@ -15,7 +15,7 @@ namespace ConvertJS.Controllers.Display.Appeal
         }
         public async Task<IActionResult> Index()
         {
-            var Pages = await _appealCheckService.GetPage();
+            var Pages = await _appealCheckService.GetPage("","");
             ViewData[KeyTranfer.APPEAL_CHECK_PAGE] = Pages;
             return View();
         }

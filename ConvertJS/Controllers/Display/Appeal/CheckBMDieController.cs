@@ -15,7 +15,7 @@ namespace ConvertJS.Controllers.Display.Appeal
         }
         public async Task<IActionResult> Index()
         {
-            var BMAccounts = await _appealCheckService.GetBMDie();
+            var BMAccounts = await _appealCheckService.GetBMDie("","");
             ViewData[KeyTranfer.APPEAL_CHECK_BM] = BMAccounts;
             return View();
         }

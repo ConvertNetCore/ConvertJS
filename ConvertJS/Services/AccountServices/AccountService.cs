@@ -59,7 +59,7 @@ namespace ConvertJS.Services.AccountServices
                 request.AddHeader("upgrade-insecure-requests", "1");
                 var body = @"";
                 request.AddParameter("text/plain", body, ParameterType.RequestBody);
-                RestResponse response = await client.ExecuteAsync(request);
+                RestResponse response = await client.ExecuteAsync(request); 
 
                 //Convert to Model View
                 var adAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());

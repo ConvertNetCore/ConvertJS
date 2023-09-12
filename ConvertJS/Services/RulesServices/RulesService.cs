@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using RestSharp;
 using System.Net;
 using System.Net.WebSockets;
+using System.Xml.Linq;
 
 namespace ConvertJS.Services.RulesServices
 {
@@ -131,6 +132,8 @@ namespace ConvertJS.Services.RulesServices
                 request.AddHeader("sec-fetch-user", " ?1");
                 request.AddHeader("upgrade-insecure-requests", " 1");
                 request.AddHeader("Cookie", cookie);
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
                 RestResponse response = await client.ExecuteAsync(request);
                 //Convert here
                 var bmAccountResponse = JsonConvert.DeserializeObject<CampaignsResponseDTO>(response.Content.ToString());
@@ -142,7 +145,7 @@ namespace ConvertJS.Services.RulesServices
                     {
                         Id = userDTO.id,
                         Name = userDTO.name,
-                        Status = userDTO.effective_status,
+                        Status = userDTO.effective_status == "ACTIVE" ? CampaignType.Active : CampaignType.Disable,
                         Delivery = userDTO.effective_status,
                         BidStrategy = userDTO.bid_strategy,
                         Budget = userDTO.daily_budget,
@@ -212,7 +215,7 @@ namespace ConvertJS.Services.RulesServices
                     {
                         Id = userDTO.id,
                         Name = userDTO.name,
-                        Status = userDTO.effective_status,
+                        Status = userDTO.effective_status == "ACTIVE" ? AdSetStatus.Active : AdSetStatus.Disable,
                         Delivery = userDTO.effective_status,
                         BidStrategy = "Using campaign bid strategy",
                         Budget = "Using campaign bid strategy",
@@ -269,6 +272,8 @@ namespace ConvertJS.Services.RulesServices
                 request.AddHeader("sec-fetch-user", " ?1");
                 request.AddHeader("upgrade-insecure-requests", " 1");
                 request.AddHeader("Cookie", cookie);
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert here
@@ -281,7 +286,7 @@ namespace ConvertJS.Services.RulesServices
                     {
                         Id = userDTO.id,
                         Name = userDTO.name,
-                        Status = userDTO.effective_status,
+                        Status = userDTO.effective_status == "ACTIVE" ? AdsStatus.Active : AdsStatus.Disable,
                         Delivery = userDTO.effective_status,
                         BidStrategy = "Using campaign bid strategy",
                         Budget = "Using campaign bid strategy",
@@ -416,14 +421,20 @@ namespace ConvertJS.Services.RulesServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert to Model View
-                var adAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());
+                var adAccountResponse = JsonConvert.DeserializeObject<GetRuleResponseDTO>(response.Content.ToString());
                 List<GetRuleDTO> AllUserDTOs = new List<GetRuleDTO>();
                 foreach (var userDTO in adAccountResponse.data)
                 {
                     var adsUser = new GetRuleDTO
                     {
-                        
-                    };
+                        ID = userDTO.id,
+                        RuleName = userDTO.name,
+                        Status = userDTO.status,
+                        AcctionCondition = "",
+                         RuleResults = "",
+                         WhenRuleRun = "",
+                        CreatedBy = ""
+                     };
                     
                     AllUserDTOs.Add(adsUser);
                 }

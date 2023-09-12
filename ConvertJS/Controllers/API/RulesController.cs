@@ -73,9 +73,9 @@ namespace ConvertJS.Controllers.API
 
         //Todo
         [HttpGet("get-all-rule")]
-        public async Task<List<GetRuleDTO>> GetAllRule(string accessTokenInfo, string cookie)
+        public async Task<List<GetRuleDTO>> GetAllRule(string accessTokenInfo, string cookie, string id_tkqc)
         {
-            return await _rulesService.GetRule( accessTokenInfo, cookie);
+            return await _rulesService.GetRule( accessTokenInfo, cookie, id_tkqc);
         }
 
     }

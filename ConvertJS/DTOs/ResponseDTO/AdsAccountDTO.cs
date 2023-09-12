@@ -2,7 +2,7 @@
 
 namespace ConvertJS.DTOs.ResponseDTO
 {
-    public class GetAllUserDTO
+    public class AdsAccountDTO
     {
         public AccountStatus Status { get; set; }
 
@@ -10,15 +10,15 @@ namespace ConvertJS.DTOs.ResponseDTO
 
         public string Id { get; set; }
 
-        public decimal Balance { get; set; }
+        public double Balance { get; set; }
 
-        public TypeAccount Type { get; set; }
+        public string Type { get; set; }
 
         public int ThreashHold { get; set; }
 
-        public decimal limit { get; set; }
+        public double Limit { get; set; }
 
-        public decimal AmountSpent { get; set; }
+        public double AmountSpent { get; set; }
 
         public string IDBM { get; set; }
 
@@ -26,6 +26,6 @@ namespace ConvertJS.DTOs.ResponseDTO
 
         public string Currency { get; set; }
         
-        public List<UserDTO> UserDTOs { get; set; }
+        public List<UserDTO> Users { get; set; }
     }
 }

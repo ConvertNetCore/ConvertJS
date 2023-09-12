@@ -1,4 +1,5 @@
-﻿using ConvertJS.Services.AccountServices;
+﻿using ConvertJS.DTOs.ResponseDTO;
+using ConvertJS.Services.AccountServices;
 using ConvertJS.Services.AdSpyServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,8 +14,9 @@ namespace ConvertJS.Controllers.API1
         {
             _adSpyService = adSpyService;
         }
+        //Todo
         [HttpPost("search")]
-        public async Task<object> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie)
+        public async Task<List<AdSpyPostDTO>> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie)
         {
 ;
             return await _adSpyService.Search( keyword,  forward_cursor,  user_id,  fb_dtsg,  cookie);

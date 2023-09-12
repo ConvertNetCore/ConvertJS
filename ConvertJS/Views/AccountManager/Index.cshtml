@@ -5,7 +5,7 @@
 @{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    var AdAccounts = (AdAccountResponseDTO)ViewData[KeyTranfer.AD_ACCOUNT_KEY];
+    var AdAccounts = (List<AdsAccountDTO>)ViewData[KeyTranfer.AD_ACCOUNT_KEY];
     var x = AdAccounts;
 }
 @section CustomCss{
@@ -104,7 +104,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="">
+                                    <a class="menu-link" href="/AdSetManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -116,7 +116,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="">
+                                    <a class="menu-link" href="/AdsManger">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -273,7 +273,7 @@
                             <option value="all">All</option>
                             <option value="active">Active</option>
                             <option value="disable">Disable</option>
-                            <option value="needPay">Need pay</option>
+                            <option value="needpay">Need pay</option>
                         </select>
                         <!--end::Select2-->
                     </div>
@@ -321,85 +321,55 @@
                                 @{
                                 int no = 0;
                             }
-                            @foreach (var AdAccount in AdAccounts.data)
+                            @foreach (var AdAccount in AdAccounts)
                             {
                                 no++;
                                 <tr class="odd">
                                     <td>@no</td>
                                     <td>
-                                        @if (AdAccount.account_status == (int)AccountStatus.Active)
+                                        @switch (AdAccount.Status)
                                         {
-                                            <span class="badge badge-light-success" data-order="active"> Active </span>
-                                        }
-                                        @if (AdAccount.account_status == (int)AccountStatus.Disable)
-                                        {
-                                            <span class="badge badge-light-danger" data-order="disable"> Diable </span>
-                                        }
-                                        @if (AdAccount.account_status == (int)AccountStatus.NeedPay)
-                                        {
-                                            <span class="badge badge-light-warning" data-order="needPay"> Need Pay </span>
+                                            case AccountStatus.Active: 
+                                                <span class="badge badge-light-success fs-4" data-order="active"> Active </span>
+                                                break;
+                                            case AccountStatus.Disable:
+                                                <span class="badge badge-light-primary fs-4" data-order="disable"> Disable </span>
+                                                break;
+                                            case AccountStatus.NeedPay:
+                                                <span class="badge badge-light-info fs-4" data-order="needpay"> Need Pay </span>
+                                                break;
                                         }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @AdAccount.name </span>
+                                        <span class="fw-bold"> @AdAccount.AccountName </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @AdAccount.account_id </span>
+                                        <span class="fw-bold"> @AdAccount.Id </span>
                                     </td>
-                                    <td class="text-warning">@AdAccount.currency @AdAccount.balance</td>
+                                    <td class="text-warning">@AdAccount.Balance</td>
                                     @*ToDo Phải xử lý cái này*@
                                     <td>
                                         <span class="text-primary fw-bold" data-order="normal">Normal Personal</span>
                                     </td>
                                     <td>
-                                        @{
-                                            int threhhold = 0;
-                                            try
-                                            {
-                                                threhhold = AdAccount.adspaymentcycle.data.Sum(e => e.threshold_amount);
-                                            }
-                                            catch (Exception)
-                                            {
-                                            }
-                                        }
                                         <span class="badge badge-light-danger">
-                                            @threhhold
+                                            @AdAccount.ThreashHold
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="text-warning">@AdAccount.currency @AdAccount.adtrust_dsl </span>
+                                        <span class="text-warning">@Math.Round(AdAccount.Limit) </span>
                                     </td>
                                     <td>
-                                        @{
-                                            double amountSpent = 0;
-                                            try
-                                            {
-                                                amountSpent = AdAccount.insights.data.Sum(e => e.spend);
-                                            }
-                                            catch (Exception)
-                                            {
-                                            }
-                                        }
-                                        @AdAccount.currency @amountSpent
+                                        <span class="text-warning">@AdAccount.AmountSpent</span>
                                     </td>
-                                    <td> @AdAccount.id</td>
+                                    <td> @AdAccount.IDBM</td>
                                     <td>
-                                        @{
-                                            int numberUser = 0;
-                                            try
-                                            {
-                                                numberUser = AdAccount.users.data.Count();
-                                            }
-                                            catch (Exception)
-                                            {
-                                            }
-                                        }
-                                        <button class="btn btn-primary fs-9" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal_@AdAccount.id" >
-                                            @numberUser
+                                        <button class="btn btn-primary fs-9" style="height:25px;padding: 0 10px" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal_@AdAccount.Id">
+                                            @AdAccount.NumberUser
                                         </button>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> @AdAccount.currency </span>
+                                        <span class="badge badge-light-success"> @AdAccount.Currency </span>
                                     </td>
                                     <td class="text-start">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"> Actions <i class="ki-duotone ki-down fs-5 ms-1"></i> </a>
@@ -418,7 +388,7 @@
                                         </div>
                                         <!--end::Menu-->
                                     </td>
-                                </tr>64
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -430,7 +400,7 @@
     </div>
     <!--end::Card-->
 </div>
-@foreach (var AdAccount in AdAccounts.data)
+@foreach (var AdAccount in AdAccounts)
  {
     @Html.Partial("../Shared/_showListUserPartial",AdAccount);
  }

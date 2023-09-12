@@ -1,6 +1,10 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
+    var Accounts = (List<AppealCheckAccountDTO>)ViewData[KeyTranfer.APPEAL_CHECK_ACCOUNT];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -195,27 +199,41 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                            @foreach (var account in Accounts)
+                            {
                                 <tr class="odd">
                                     <td class="text-center">
-                                        <span class="fw-bold text-danger"> 123532443632</span>
+                                        <span class="fw-bold text-danger"> @account.ID</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger" data-order="active"> Disable </span>
+                                        @switch (account.Status)
+                                        {
+                                            case AccountStatus.Active:
+                                                <span class="badge badge-light-success fs-4" data-order="active"> Active </span>
+                                                break;
+                                            case AccountStatus.Disable:
+                                                <span class="badge badge-light-primary fs-4" data-order="disable"> Disable </span>
+                                                break;
+                                            case AccountStatus.NeedPay:
+                                                <span class="badge badge-light-info fs-4" data-order="needpay"> Need Pay </span>
+                                                break;
+                                        }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> Lam manh Hung </span>
+                                        <span class="fw-bold"> @account.AccountName </span>
                                     </td>
                                     <td>
                                         <button class="btn btn-success fs-7">Report</button>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

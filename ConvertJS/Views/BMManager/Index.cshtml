@@ -7,7 +7,7 @@
     Layout = "_Layout";
     ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
     ViewData["CurrentSection"] = "Account Manager";
-    var BMAccounts = (BusinessResponseDTO)ViewData[KeyTranfer.BM_ACCOUNT_KEY];
+    var BMAccounts = (List<BusinessDTO>)ViewData[KeyTranfer.BM_ACCOUNT_KEY];
     var x = BMAccounts;
 }
 @section CustomCss{
@@ -106,7 +106,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="">
+                                    <a class="menu-link" href="/AdSetManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -118,7 +118,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="">
+                                    <a class="menu-link" href="/AdsManger">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -331,67 +331,61 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
-                            @foreach (var BMAccount in BMAccounts.data)
+                            @foreach (var BMAccount in BMAccounts)
                             {
                                 <tr class="odd">
                                     <td>
-                                        <span class="fw-bold"> @BMAccount.name </span>
+                                        <span class="fw-bold"> @BMAccount.Name </span>
                                     </td>
                                     <td>
-                                        @if (BMAccount.allow_page_management_in_www == false)
+                                        @switch (BMAccount.Status)
                                         {
-                                            <span class="badge badge-light-success" data-order="live">  DIE </span>
-                                        }else{
-                                            <span class="badge badge-light-success" data-order="live">  LIVE </span>
+                                            case BMStatus.Die:
+                                                <span class="badge badge-light-danger" data-order="die">  DIE </span>
+                                                break;
+                                            case BMStatus.Live:
+                                                <span class="badge badge-light-primary" data-order="live">  DIE </span>
+                                                break;
                                         }
                                     </td>
                                     <td>
-                                        <span class="fw-bold" data-order="bm1"> BM1 </span>
+                                        <span class="fw-bold" data-order="bm1"> @BMAccount.Type  </span>
                                     </td>
                                     <td class="text-info">
-                                        @for(int i = 0; i < BMAccount.permitted_roles.Length; i++)
-                                        {
-                                            if(i == (BMAccount.permitted_roles.Length - 1))
-                                            {
-                                                <span class="fw-bold text-gray"> @BMAccount.permitted_roles[i] </span>
-                                            }
-                                        }
-                                        
+                                        <span class="fw-bold text-gray"> @string.Join('|',BMAccount.Role) </span>
                                     </td>
                                     <td>
-                                        @if(BMAccount.sharing_eligibility_status == "enabled") {
-                                    <span class="text-primary fw-bold" data-order="bm350"> BM350</span>
-                                        }else{
-                                        <span class="text-primary fw-bold" data-order="bm350"> BM50</span>
+                                        @if (BMAccount.Limit == "BM350")
+                                        {
+                                            <span class="text-primary fw-bold" data-order="bm350"> BM350</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-primary fw-bold" data-order="bm350"> BM50</span>
                                         }
                                     </td>
                                     <td>
                                         <span class="badge badge-light-success">
-                                            @if (BMAccount.verification_status == "not_verified")
-                                            {
-                                                <span class="fw-bold text-gray">  NOT VERIFIED </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="fw-bold text-gray">  VERIFIED </span>
-                                            }
+                                            @BMAccount.Verified
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="text-info"> @BMAccount.created_time </span>
+                                        <span class="text-info"> @BMAccount.Created </span>
                                     </td>
                                     <td>
-                                            <span class="fw-bold text-gray">  @BMAccount.id </span>
+                                        <span class="fw-bold text-gray">  @BMAccount.IDBM </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-primary fs-9" data-bs-toggle="modal" data-bs-target="#kt_list_user_modal">2</button>
+                                        <button class="btn btn-primary fs-8" style="height:25px;padding: 0 10px" data-bs-toggle="modal" data-bs-target="#kt_list_bm_admin_modal_@BMAccount.IDBM">@BMAccount.NumberAdmin</button>
                                     </td>
-                                    <td>1/1</td>
+                                    <td>@BMAccount.HiddenAdmin/@BMAccount.NumberAdmin</td>
                                     <td>
-                                        <button class="btn btn-primary fs-9" data-bs-toggle="modal" data-bs-target="#kt_list_bm_account_modal">2</button>
+                                        <button class="btn btn-primary fs-8" style="height:25px;padding: 0 10px" data-bs-toggle="modal" data-bs-target="">@BMAccount.NumberPixel</button>
                                     </td>
-                                    <td>0</td>
-                                    <td><span class="fw-bold text-success"> Good </span></td>
+                                    <td>
+                                        <button class="btn btn-primary fs-8" style="height:25px;padding: 0 10px" data-bs-toggle="modal" data-bs-target="#kt_list_bm_account_modal_@BMAccount.IDBM">@BMAccount.NumberAccount</button>
+                                    </td>
+                                    <td><span class="fw-bold text-success"> @BMAccount.Quantity </span></td>
                                     <td class="text-start">
                                         <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end"> Actions <i class="ki-duotone ki-down fs-5 ms-1"></i> </a>
                                         <!--begin::Menu-->
@@ -411,19 +405,21 @@
                                     </td>
                                 </tr>
 
-                               }
+                            }
 
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
-
-    @Html.Partial("../Shared/_inviteUserModalPartial")
-    @Html.Partial("../Shared/_showListUserPartial")
-    @Html.Partial("../Shared/_showListBMAccountPartial")
+    <!--end::Card-->
+</div>
+@foreach (var BMAccount in BMAccounts)
+{
+    @Html.Partial("../Shared/_showListBMAdminPartial",BMAccount)
+    @Html.Partial("../Shared/_showListBMAccountPartial",BMAccount)
+}
+@Html.Partial("../Shared/_inviteUserModalPartial")

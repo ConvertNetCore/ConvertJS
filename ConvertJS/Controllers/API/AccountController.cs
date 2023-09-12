@@ -4,6 +4,7 @@ using RestSharp;
 using ConvertJS.Services;
 using ConvertJS.Services.AccountServices;
 using ConvertJS.Services.AdSpyServices;
+using ConvertJS.DTOs.ResponseDTO;
 
 namespace ConvertJS.Controllers.API
 {
@@ -18,7 +19,7 @@ namespace ConvertJS.Controllers.API
         }
 
         [HttpGet("AdAccount")]
-        public async Task<object> AdAccount(string accessTokenInfo, string cookie)
+        public async Task<List<AdsAccountDTO>> AdAccount(string accessTokenInfo, string cookie)
         {
             //var accessTokenInfo = await requestHelper.GetToken();
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
@@ -28,7 +29,7 @@ namespace ConvertJS.Controllers.API
             }
             else
             {
-                return new { Error = "Token is not null" };
+                return null;
             }
         }
         [HttpGet("Account")]

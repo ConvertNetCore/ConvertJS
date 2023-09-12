@@ -1,8 +1,10 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
-    ViewData["CurrentSection"] = "Account Manager";
+    var AdsList = (List<AdSpyPostDTO>)ViewData[KeyTranfer.ADS_SPY];
+    var numberPostOnRow = 3;
 }
 @section CustomCss{
     <link href="~/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -164,66 +166,43 @@
             <!--begin::Card body-->
             <div class="card-body">
                 <div class="container container-fluid row no-gutters">
-                    <div class="card card-flush col mx-4">
-                        <img src="https://scontent.fhan3-4.fna.fbcdn.net/v/t39.30808-6/374576210_268073595996602_1512479100140601288_n.jpg?stp=dst-jpg_s960x960&_nc_cat=104&ccb=1-7&_nc_sid=4c1e7d&_nc_ohc=AbQRFBkdH8YAX-WJDeu&_nc_ht=scontent.fhan3-4.fna&oh=00_AfBbiO9oQTdGhY3BDAKkjl0nqpm36xcNWWK3oO2NoEQYLA&oe=64F99D49" class="card-img-top" alt="User Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Hội Wibu</h5>
-                            <p class="card-text fs-8">01-12-2024</p>
-                            SALE OFF DUY NHẤT HÔM NAY CHỈ CÒN 2 KÍNH 199K
-                            Đặt Hàng Để Lại Số Điện Thoại + Địa Chỉ Chốt Đơn
-                            <span class="text-center fw-bold">
-                            </span>
-                            <p class="card-text">
-                                <i class="fas fa-thumbs-up emoji"></i> 15
-                                <i class="fas fa-share emoji"></i> 16
-                                <i class="fas fa-comment emoji"></i> 17
-                            </p>
-                            <br />
-                            <a href="#" class="btn btn-primary">See Post</a>
-                            <a href="#" class="btn btn-success">Save List</a>
-                        </div>
-                    </div>
-                    <div class="card card-flush col mx-4">
-                        <img src="https://scontent.fhan3-4.fna.fbcdn.net/v/t39.30808-6/374576210_268073595996602_1512479100140601288_n.jpg?stp=dst-jpg_s960x960&_nc_cat=104&ccb=1-7&_nc_sid=4c1e7d&_nc_ohc=AbQRFBkdH8YAX-WJDeu&_nc_ht=scontent.fhan3-4.fna&oh=00_AfBbiO9oQTdGhY3BDAKkjl0nqpm36xcNWWK3oO2NoEQYLA&oe=64F99D49" class="card-img-top" alt="User Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Hội Wibu</h5>
-                            <p class="card-text fs-8">01-12-2024</p>
-                            SALE OFF DUY NHẤT HÔM NAY CHỈ CÒN 2 KÍNH 199K
-                            Đặt Hàng Để Lại Số Điện Thoại + Địa Chỉ Chốt Đơn
-                            <span class="text-center fw-bold">
-                            </span>
-                            <p class="card-text">
-                                <i class="fas fa-thumbs-up emoji"></i> 15
-                                <i class="fas fa-share emoji"></i> 16
-                                <i class="fas fa-comment emoji"></i> 17
-                            </p>
-                            <br />
-                            <a href="#" class="btn btn-primary">See Post</a>
-                            <a href="#" class="btn btn-success">Save List</a>
-                        </div>
-                    </div>
-                    <div class="card card-flush col mx-4">
-                        <img src="https://scontent.fhan3-4.fna.fbcdn.net/v/t39.30808-6/374576210_268073595996602_1512479100140601288_n.jpg?stp=dst-jpg_s960x960&_nc_cat=104&ccb=1-7&_nc_sid=4c1e7d&_nc_ohc=AbQRFBkdH8YAX-WJDeu&_nc_ht=scontent.fhan3-4.fna&oh=00_AfBbiO9oQTdGhY3BDAKkjl0nqpm36xcNWWK3oO2NoEQYLA&oe=64F99D49" class="card-img-top" alt="User Image">
-                        <div class="card-body">
-                            <h5 class="card-title">Hội Wibu</h5>
-                            <p class="card-text fs-8">01-12-2024</p>
-                            SALE OFF DUY NHẤT HÔM NAY CHỈ CÒN 2 KÍNH 199K
-                            Đặt Hàng Để Lại Số Điện Thoại + Địa Chỉ Chốt Đơn
-                            <span class="text-center fw-bold">
-                            </span>
-                            <p class="card-text">
-                                <i class="fas fa-thumbs-up emoji"></i> 15
-                                <i class="fas fa-share emoji"></i> 16
-                                <i class="fas fa-comment emoji"></i> 17
-                            </p>
-                            <br />
-                            <a href="#" class="btn btn-primary">See Post</a>
-                            <a href="#" class="btn btn-success">Save List</a>
-                        </div>
-                    </div>
-                </div>
+                    <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="table_post">
+                        @{
+                        var numberRow = Math.Ceiling(((double)AdsList.Count) / numberPostOnRow);
+                    }
+                    @for (int i = 0; i < numberRow; i++)
+                    {
+                        <tr class="odd">
+                            @for (int j = 0; j < @Math.Min(3, AdsList.Count - i * numberPostOnRow - j); j++)
+                            {
+                                var post = AdsList[i * numberPostOnRow + j];
+                                <td>
+                                    <div class="card card-flush col mx-4">
+                                        <img src="@post.ImageURL" class="card-img-top" alt="User Image">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@post.Name</h5>
+                                            <p class="card-text fs-8">@post.CreateAt</p>
+                                            @post.Content
+                                            <span class="text-center fw-bold">
+                                            </span>
+                                            <p class="card-text">
+                                                <i class="fas fa-thumbs-up emoji"></i> @post.NumberLike
+                                                <i class="fas fa-share emoji"></i>  @post.NumberShare
+                                                <i class="fas fa-comment emoji"></i> @post.NumberComment
+                                            </p>
+                                            <br />
+                                            <a href="@post.Url" class="btn btn-primary">See Post</a>
+                                            <a href="#" class="btn btn-success">Save List</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
             </div>
-            <!--end::Card body-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

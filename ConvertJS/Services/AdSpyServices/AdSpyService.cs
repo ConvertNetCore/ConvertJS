@@ -1,15 +1,18 @@
-﻿using RestSharp;
+﻿using ConvertJS.DTOs.ResponseDTO;
+using Newtonsoft.Json;
+using RestSharp;
+using System.Collections.Generic;
 using System.Numerics;
 
 namespace ConvertJS.Services.AdSpyServices
 {
     public interface IAdSpyService
     {
-         Task<object> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie);
+         Task<List<AdSpyPostDTO>> Search(string keyword, string forward_cursor, string user_id, string fb_dtsg, string cookie);
     }
     public class AdSpyService : IAdSpyService
     {
-        public async Task<object> Search(string keyword,string forward_cursor,string user_id, string fb_dtsg,  string cookie)
+        public async Task<List<AdSpyPostDTO>> Search(string keyword,string forward_cursor,string user_id, string fb_dtsg,  string cookie)
         {
 
             try
@@ -105,11 +108,32 @@ namespace ConvertJS.Services.AdSpyServices
 
                 RestResponse response = client.Execute(request);
 
-                return response.Content;
+                var bmAccountResponse = JsonConvert.DeserializeObject<AdSpyResponseDTO>(response.Content.ToString());
+                List<AdSpyPostDTO> AllUserDTOs = new List<AdSpyPostDTO>();
+                foreach (var userDTO in bmAccountResponse.allResources)
+                {
+
+                    var bmUser = new AdSpyPostDTO
+                    {
+                        Id = "",
+                        ImageURL = "",
+                        Name = "",
+                         CreateAt = DateTime.Now,
+                         Content = "",
+                         Url = "",
+                        NumberLike = 0,
+                        NumberComment = 0,
+                       NumberShare = 0
+    };
+
+                    AllUserDTOs.Add(bmUser);
+
+                }
+                return AllUserDTOs;
             }
             catch (Exception ex)
             {
-                return new { Error = ex };
+                return new List<AdSpyPostDTO>();
             }
 
         }

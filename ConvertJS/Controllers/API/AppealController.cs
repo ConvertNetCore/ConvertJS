@@ -1,4 +1,5 @@
-﻿using ConvertJS.Services.AccountServices;
+﻿using ConvertJS.DTOs.ResponseDTO;
+using ConvertJS.Services.AccountServices;
 using ConvertJS.Services.AppealCheckServices;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
@@ -35,6 +36,28 @@ namespace ConvertJS.Controllers.API
         public async Task<object> Khang_buoc_2bm(string id, string fb_dtsg, string jazoest, string uid, string cookie)
         {
             return await _appealCheckService.Khang_buoc_2bm(id,fb_dtsg, jazoest, uid, cookie);  
+        }
+
+        //Todo
+        [HttpGet("get-account-die")]
+        public async Task<List<AppealCheckAccountDTO>> GetAccountDie(string accessTokenInfo, string cookie)
+        {
+            var result = await _appealCheckService.GetAccountDie( accessTokenInfo,  cookie);
+            return result;
+        }
+        //Todo
+        [HttpGet("get-bm-die")]
+        public async Task<List<AppealCheckBMDTO>> GetBMDie(string accessTokenInfo, string cookie)
+        {
+            var result = await _appealCheckService.GetBMDie( accessTokenInfo,  cookie);
+            return result;
+        }
+        //Todo
+        [HttpGet("get-page")]
+        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie)
+        {
+            var result = await _appealCheckService.GetPage( accessTokenInfo,  cookie);
+            return result;
         }
     }
 }

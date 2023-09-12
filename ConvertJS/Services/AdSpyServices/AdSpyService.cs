@@ -1,4 +1,5 @@
 ﻿using ConvertJS.DTOs.ResponseDTO;
+using Newtonsoft.Json;
 using RestSharp;
 using System.Collections.Generic;
 using System.Numerics;
@@ -107,9 +108,28 @@ namespace ConvertJS.Services.AdSpyServices
 
                 RestResponse response = client.Execute(request);
 
-                //Convert Model View
-                var result = new List<AdSpyPostDTO>();
-                return result;
+                var bmAccountResponse = JsonConvert.DeserializeObject<AdSpyResponseDTO>(response.Content.ToString());
+                List<AdSpyPostDTO> AllUserDTOs = new List<AdSpyPostDTO>();
+                foreach (var userDTO in bmAccountResponse.allResources)
+                {
+
+                    var bmUser = new AdSpyPostDTO
+                    {
+                        Id = "",
+                        ImageURL = "",
+                        Name = "",
+                         CreateAt = DateTime.Now,
+                         Content = "",
+                         Url = "",
+                        NumberLike = 0,
+                        NumberComment = 0,
+                       NumberShare = 0
+    };
+
+                    AllUserDTOs.Add(bmUser);
+
+                }
+                return AllUserDTOs;
             }
             catch (Exception ex)
             {

@@ -122,7 +122,7 @@ namespace ConvertJS.Services.AppealCheckServices
                 List<AppealCheckBMDTO> AllUserDTOs = new List<AppealCheckBMDTO>();
                 foreach (var userDTO in bmAccountResponse.data)
                 {
-                    if (userDTO.allow_page_management_in_www == false)
+                    if (userDTO.allow_page_management_in_www == true)
                     {
                         var bmUser = new AppealCheckBMDTO
                         {
@@ -176,11 +176,27 @@ namespace ConvertJS.Services.AppealCheckServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert here
-                var result = new List<AppealCheckPageDTO>();
-                return result;
+                var bmAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());
+                List<AppealCheckPageDTO> AllUserDTOs = new List<AppealCheckPageDTO>();
+                foreach (var userDTO in bmAccountResponse.data)
+                {
+                    
+                        var bmUser = new AppealCheckPageDTO
+                        {
+                           // Status = 1,
+                            PageName = userDTO.name,
+                            Id = userDTO.id
+                        };
+
+                        AllUserDTOs.Add(bmUser);
+                    
+                }
+                return AllUserDTOs;
+               
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, ex.Message);
                 return new List<AppealCheckPageDTO>();
             }
         }

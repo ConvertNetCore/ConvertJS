@@ -29,7 +29,7 @@ namespace ConvertJS
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHealthChecks();
-            //builder.Services.AddScoped<IRulesService, RulesService>();
+            builder.Services.AddScoped<IRulesService, RulesService>();
             builder.Services.AddScoped<IAccountService,AccountService>();
             builder.Services.AddScoped<IAdSpyService,AdSpyService>();
             builder.Services.AddScoped<IAppealCheckService , AppealCheckService>();

@@ -13,9 +13,9 @@ namespace ConvertJS.Controllers.Display.Appeal
             _logger = logger;
             _appealCheckService = appealCheckService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string cookie, string token)
         {
-            var Pages = await _appealCheckService.GetPage();
+            var Pages = await _appealCheckService.GetPage(cookie, token);
             ViewData[KeyTranfer.APPEAL_CHECK_PAGE] = Pages;
             return View();
         }

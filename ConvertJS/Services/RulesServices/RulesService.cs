@@ -435,5 +435,10 @@ namespace ConvertJS.Services.RulesServices
                 return new List<GetRuleDTO>();
             }
         }
+
+        public Task<List<AdsAccountDTO>> GetAllAccount(string accessTokenInfo, string cookie)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

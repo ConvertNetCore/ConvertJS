@@ -5,7 +5,7 @@ namespace ConvertJS.DTOs.ResponseDTO
     public class AdSetDTO
     {
         public string Id { get; set; }
-        public string Status { get; set; }
+        public AdSetStatus Status { get; set; }
         public string Name { get; set; }
         public string Delivery { get; set; }
         public string BidStrategy { get; set; }

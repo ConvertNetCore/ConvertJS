@@ -6,7 +6,7 @@ namespace ConvertJS.DTOs.ResponseDTO
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
+        public CampaignType Status { get; set; }
         public string Delivery { get; set; }
         public string BidStrategy { get; set; }
         public string Budget { get; set; }

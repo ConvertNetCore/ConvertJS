@@ -191,7 +191,7 @@ namespace ConvertJS.Services.AccountServices
                         Status = data.sharing_eligibility_status == "enabled" ? BMStatus.Live : BMStatus.Die,
                         Name = data.name,
                         Type = "BM1",
-                        Role = data.permitted_roles[0],
+                        Role = data.permitted_roles[(data.permitted_roles).Length - 1],
                         Limit = data.sharing_eligibility_status == "enabled" ? "BM350" : "BM50",
                         Verified = data.verification_status == "not_verified" ? "VERIFIED" : "NOT VERIFIED",
                         Created = Convert.ToDateTime(data.created_time),

@@ -46,17 +46,12 @@ namespace ConvertJS.Controllers.API
             }
         }
         [HttpGet("businesses")]
-        public async Task<object> Businesses(string accessTokenInfo, string cookie)
+        public async Task<List<BusinessDTO>> Businesses(string accessTokenInfo, string cookie)
         {
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
-            if (accessTokenInfo != null)
-            {
+            
                 return await _accountService.Businesses(accessTokenInfo, cookie);
-            }
-            else
-            {
-                return new { Error = "Token is not null" };
-            }
+            
         }
         [HttpGet("business_users")]
         public async Task<object> Businesses_user(string accessTokenInfo,string idbm, string cookie)

@@ -105,7 +105,8 @@ namespace ConvertJS.Services.AdSpyServices
                 request.AddParameter("countries[0]", "VN");
                 request.AddParameter("media_type", "all");
                 request.AddParameter("search_type", "keyword_exact_phrase");
-
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
                 RestResponse response = client.Execute(request);
 
                 var bmAccountResponse = JsonConvert.DeserializeObject<AdSpyResponseDTO>(response.Content.ToString());

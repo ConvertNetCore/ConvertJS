@@ -1,8 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Account Manager";
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@{
+    ViewData["Title"] = "Campaigns Manager";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
-    ViewData["CurrentSection"] = "Account Manager";
+    var rules = (List<GetRuleDTO>)ViewData[KeyTranfer.GET_ALL_RULE];
+
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -72,7 +74,6 @@
                                 <span class="menu-arrow d-lg-none"></span>
                             </span>
                             <!--end:Menu link-->
-                            
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
                                 <!--begin:Menu item-->
@@ -252,7 +253,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i> 
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
                         <input type="text" data-kt-rule-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Rule">
                     </div>
                     <!--end::Search-->
@@ -294,34 +295,40 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                            @foreach (var rule in rules)
+                            {
+
                                 <tr class="odd">
                                     <td>
-                                    <span class="fw-bold"> Hung Test Rule</span>
+                                        <span class="fw-bold"> @rule.RuleName</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success" data-order="active"> Active </span>
+                                        <span class="badge badge-light-success" data-order="active"> @rule.Status </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> 1234212112212 </span>
+                                        <span class="fw-bold text-danger"> @rule.ID </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> All Active Campagne </span>
-                                    </td>
-                                    <td class="text-warning">$20.234</td>
-                                    <td>
-                                        <span class="text-primary fw-bold" data-order="normal">Increase Budget By</span>
+                                        <span class="fw-bold"> @rule.AcctionCondition </span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> Lam Manh Hung </span>
+                                        <span class="text-warning fw-bold" data-order="normal">@rule.RuleResults</span>
+                                    </td>
+                                    <td class="fw-bold">
+                                        <span class="fw-bold"> @rule.WhenRuleRun </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-primary fw-bold" data-order="normal">@rule.CreatedBy</span>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

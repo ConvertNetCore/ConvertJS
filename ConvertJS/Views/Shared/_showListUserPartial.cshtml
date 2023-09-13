@@ -28,27 +28,27 @@
                         {
                             <tr class="odd">
                                 <td class="text-center">
-                                    @switch(user.Role){
+                                    @switch (user.Role)
+                                    {
                                         case Role.Admin:
-                                            <span class="badge badge-light-success fs-4" data-order="active"> Admin </span>
+                                            <span class="badge badge-light-success fs-6" data-order="active"> Admin </span>
                                             break;
                                         case Role.Employee:
-                                            <span class="badge badge-light-primary fs-4" data-order="active"> Employee </span>
+                                            <span class="badge badge-light-primary fs-6" data-order="active"> Employee </span>
                                             break;
                                         case Role.Client:
-                                            <span class="badge badge-light-info fs-4" data-order="active"> Client </span>
+                                            <span class="badge badge-light-info fs-6" data-order="active"> Client </span>
                                             break;
                                         case Role.Owned:
-                                            <span class="badge badge-light-info fs-4" data-order="active"> Owned </span>
+                                            <span class="badge badge-light-info fs-6" data-order="active"> Owned </span>
                                             break;
                                     }
-                                    <span class="badge badge-light-success fs-4" data-order="active"> Admin </span>
                                 </td>
                                 <td>
                                     <span class="fw-bold"> @user.Name </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger fs-7">DELETE</button>
+                                    <a href="/AccountManager/DeleteUser?userId=@(user.UserId)&idTKQC=@(Model.Id)" class="btn btn-danger fs-7" style="padding:1vh">DELETE</a>
                                 </td>
                             </tr>
                         }
@@ -58,7 +58,6 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

@@ -13,6 +13,8 @@ namespace ConvertJS.Infras.Constants
         public const string GET_ALL_CAMPAIGN = "GET_ALL_CAMPAIGN";
         public const string GET_AD_SET = "GET_AD_SET";
         public const string GET_ADS = "GET_ADS";
-
+        public const string DELETE_USER_ADACCOUNT = "DELETE_USER_MESSAGE";
+        public const string RULE_GET_ALL_ACCOUNT = "RULE_GET_ALL_ACCOUNT";
+        public const string GET_ALL_RULE = "GET_ALL_RULE";
     }
 }

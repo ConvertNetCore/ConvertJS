@@ -1,8 +1,10 @@
-﻿@{
+﻿@using ConvertJS.DTOs.ResponseDTO
+@using ConvertJS.Infras.Constants
+@using ConvertJS.Infras.Enums
+@{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Account Manager", "Set Rules" };
-    ViewData["CurrentSection"] = "Account Manager";
+    var accounts = (List<AdsAccountDTO>)ViewData[KeyTranfer.RULE_GET_ALL_ACCOUNT];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -72,7 +74,6 @@
                                 <span class="menu-arrow d-lg-none"></span>
                             </span>
                             <!--end:Menu link-->
-                            
                             <!--begin:Menu sub-->
                             <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px">
                                 <!--begin:Menu item-->
@@ -252,7 +253,7 @@
                 <div class="card-title">
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i> 
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
                         <input type="text" data-kt-user-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Account">
                     </div>
                     <!--end::Search-->
@@ -311,40 +312,62 @@
                                 </tr>
                             </thead>
                             <tbody class="text-gray-600 fw-semibold">
+                                @{
+                                int no = 0;
+                            }
+                            @foreach (var account in accounts)
+                            {
+                                no++;
                                 <tr class="odd">
-                                    <td>1</td>
+                                    <td>@no</td>
                                     <td>
-                                        <span class="badge badge-light-success" data-order="active"> Active </span>
+                                        @switch (account.Status)
+                                        {
+                                            case AccountStatus.Active:
+                                                <span class="badge badge-light-success fs-6" data-order="active"> Active </span>
+                                                break;
+                                            case AccountStatus.Disable:
+                                                <span class="badge badge-light-primary fs-6" data-order="disable"> Disable </span>
+                                                break;
+                                            case AccountStatus.NeedPay:
+                                                <span class="badge badge-light-info fs-6" data-order="needpay"> Need Pay </span>
+                                                break;
+                                        }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> James Johnson </span>
+                                        <a href="/CampaignsManager?idTkqc=@(account.IDBM)" class="fw-bold text-info"> @account.AccountName </a>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> 1234212112212 </span>
+                                        <a href="/CampaignsManager?idTkqc=@(account.IDBM)" class="fw-bold text-danger"> @account.Id </a>
                                     </td>
-                                    <td class="text-warning">$20.234</td>
+                                    <td class="text-warning">@account.Balance</td>
                                     <td>
-                                        <span class="text-primary fw-bold" data-order="normal">Normal Personal</span>
-                                    </td>
-                                    <td>-</td>
-                                    <td>
-                                        <span class="badge badge-light-danger"> VND 595.834 </span>
+                                        <span class="text-primary fw-bold" data-order="normal">@account.Type</span>
                                     </td>
                                     <td>
-                                        <span class="text-warning"> $595.834 </span>
+                                        <span class="text-danger fw-bold" data-order="normal">@account.ThreashHold</span>
                                     </td>
-                                    <td>-</td>
                                     <td>
-                                        <span class="badge badge-light-success"> USD </span>
+                                        <span class="badge badge-light-danger"> @account.Limit </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-warning"> @account.AmountSpent </span>
+                                    </td>
+                                    <td>
+                                        <span class="text-danger"> @account.IDBM </span>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-light-success"> @account.Currency </span>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--end::Table-->
             </div>
-            <!--end::Card body-->
+            <!--end::Table-->
         </div>
-        <!--end::Card-->
+        <!--end::Card body-->
     </div>
+    <!--end::Card-->
+</div>

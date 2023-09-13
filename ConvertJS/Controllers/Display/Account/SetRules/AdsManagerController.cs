@@ -4,22 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ConvertJS.Controllers.Display.Account.SetRules
 {
-    public class RuleManagerController : Controller
+    public class AdsManagerController : Controller
     {
-        private readonly ILogger<RuleManagerController> _logger;
+        private readonly ILogger<AdsManagerController> _logger;
         private readonly IRulesService _rulesService;
-        public RuleManagerController(ILogger<RuleManagerController> logger, IRulesService rulesService)
+        public AdsManagerController(ILogger<AdsManagerController> logger, IRulesService rulesService)
         {
             _logger = logger;
             _rulesService = rulesService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] string idAdset)
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
-            string idTkqc = Request.Cookies["idTkqc"];
-            var rules = await _rulesService.GetRule(accessToken, cookie, idTkqc);
-            ViewData[KeyTranfer.GET_ALL_RULE] = rules;
+            var Ads = await _rulesService.get_all_ads_from_adset(accessToken, idAdset, cookie);
+            ViewData[KeyTranfer.GET_ADS] = Ads;
             return View();
         }
     }

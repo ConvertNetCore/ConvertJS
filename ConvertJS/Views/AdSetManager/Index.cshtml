@@ -317,7 +317,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @adSet.Name</span>
+                                        <a href="/AdsManager?idAdset=@(adSet.Id)" class="fw-bold text-primary fs-6"> @adSet.Name</a>
                                     </td>
                                     <td>
                                         @switch (adSet.Status)
@@ -331,7 +331,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger"> @adSet.Currency </span>
+                                        <span class="badge badge-light-warning"> @adSet.Currency </span>
                                     </td>
                                     <td>
                                         <span class="fw-bold"> @adSet.BidStrategy </span>
@@ -340,7 +340,7 @@
                                         <span class="fw-bold"> @adSet.Budget </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @adSet.LastSignificantEdut </span>
+                                        <span class="fw-bold text-info"> @adSet.LastSignificantEdut </span>
                                     </td>
                                     <td>
                                         <span class="badge badge-light-danger"> @adSet.Result </span>
@@ -349,12 +349,14 @@
                                         <span class="badge badge-light-success"> @adSet.Reach</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> adSet.Frequency</span>
+                                        <span class="badge badge-light-success"> @adSet.Frequency</span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @adSet.Impressions</span>
+                                        <span class="fw-bold badge badge-light-success"> @adSet.Impressions</span>
                                     </td>
-                                    <td class="text-warning">@adSet.AmountSpent</td>
+                                    <td>
+                                        <span class="fw-bold badge badge-light-success"> @adSet.AmountSpent</span>
+                                    </td>
                                     <td>
                                         <span class="text-primary fw-bold">@adSet.Clicks</span>
                                     </td>

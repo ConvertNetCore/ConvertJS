@@ -15,7 +15,7 @@ namespace ConvertJS.Services.AccountServices
 
         //Thằng này chính là thằng Appeal page
         public Task<List<AppealCheckPageDTO>> Account(string accessTokenInfo, string cookie);
-        public Task<List<AdsAccountDTO>> Businesses(string accessTokenInfo, string cookie);
+        public Task<List<BusinessDTO>> Businesses(string accessTokenInfo, string cookie);
 
         //Thằng này k cần thiết vì nó đã nằm trong api Businesses
         public Task<object> Businesses_user(string accessTokenInfo, string idbm, string cookie);
@@ -149,7 +149,7 @@ namespace ConvertJS.Services.AccountServices
             }
 
         }
-        public async Task<List<AdsAccountDTO>> Businesses(string accessTokenInfo, string cookie)
+        public async Task<List<BusinessDTO>> Businesses(string accessTokenInfo, string cookie)
         {
 
             try
@@ -240,12 +240,12 @@ namespace ConvertJS.Services.AccountServices
                 //    }
                 //    GetAllBusiness.Add(account);
                 //}
-                var result = new List<AdsAccountDTO>();
+                var result = new List<BusinessDTO>();
                 return result;
             }
             catch (Exception ex)
             {
-                return new List<AdsAccountDTO>();
+                return new List<BusinessDTO>();
             }
 
         }

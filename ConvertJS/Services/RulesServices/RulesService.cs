@@ -440,24 +440,25 @@ namespace ConvertJS.Services.RulesServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert to Model View
-                var adAccountResponse = JsonConvert.DeserializeObject<GetRuleResponseDTO>(response.Content.ToString());
-                List<GetRuleDTO> AllUserDTOs = new List<GetRuleDTO>();
-                foreach (var userDTO in adAccountResponse.data)
+                var ruleResponse = JsonConvert.DeserializeObject<GetRuleResponseDTO>(response.Content.ToString());
+                List<GetRuleDTO> AllRuleDTOs = new List<GetRuleDTO>();
+                foreach (var ruleDTO in ruleResponse.data)
                 {
-                    var adsUser = new GetRuleDTO
+                    var Getrule = new GetRuleDTO
                     {
-                        ID = userDTO.id,
-                        RuleName = userDTO.name,
-                        Status = userDTO.status,
+                        ID = ruleDTO.id,
+                        RuleName = ruleDTO.name,
+                        Status = ruleDTO.status,
                         AcctionCondition = "",
                          RuleResults = "",
                          WhenRuleRun = "",
                         CreatedBy = ""
                      };
-                    
-                    AllUserDTOs.Add(adsUser);
+
+                    AllRuleDTOs.Add(Getrule);
+
                 }
-                return AllUserDTOs;
+                return AllRuleDTOs;
             }
             catch (Exception ex)
             {

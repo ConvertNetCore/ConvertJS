@@ -15,7 +15,7 @@ namespace ConvertJS.Services.AccountServices
 
         //Thằng này chính là thằng Appeal page
         public Task<List<AppealCheckPageDTO>> Account(string accessTokenInfo, string cookie);
-        public Task<List<AdsAccountDTO>> Businesses(string accessTokenInfo, string cookie);
+        public Task<List<BusinessDTO>> Businesses(string accessTokenInfo, string cookie);
 
         //Thằng này k cần thiết vì nó đã nằm trong api Businesses
         public Task<object> Businesses_user(string accessTokenInfo, string idbm, string cookie);
@@ -149,7 +149,7 @@ namespace ConvertJS.Services.AccountServices
             }
 
         }
-        public async Task<List<AdsAccountDTO>> Businesses(string accessTokenInfo, string cookie)
+        public async Task<List<BusinessDTO>> Businesses(string accessTokenInfo, string cookie)
         {
 
             try
@@ -180,72 +180,70 @@ namespace ConvertJS.Services.AccountServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert to View Model 
-                //Tham Khảo chưa đúng!
-                //var BMResponse = JsonConvert.DeserializeObject<BusinessResponseDTO>(response.ToString());
+                var BMResponse = JsonConvert.DeserializeObject<BusinessResponseDTO>(response.Content.ToString());
 
-                //var GetAllBusiness = new List<BusinessDTO>();
+                List<BusinessDTO> GetAllBusiness = new List<BusinessDTO>();
 
-                //foreach (var data in BMResponse.data)
-                //{
-                //    var account = new BusinessDTO
-                //    {
-                //        Status = data.sharing_eligibility_status == "enabled" ? BMStatus.Live : BMStatus.Die,
-                //        Name = data.name,
-                //        Type = BMType.BM1,
-                //        Role = GetRoles(data.permitted_roles),
-                //        Limit = BMLimit.BM350,
-                //        Verified = data.verification_status == "not_verified" ? "VERIFIED" : "NOT VERIFIED",
-                //        Created = Convert.ToDateTime(data.created_time),
-                //        IDBM = data.id,
-                //        NumberAdmin = 0,
-                //        NumberAccount = 0,
-                //        HiddenAdmin = 0,
-                //        NumberPixel = 0,
-                //        Quantity = "Good"
-                //    };
+                foreach (var data in BMResponse.data)
+                {
+                    var account = new BusinessDTO
+                    {
+                        Status = data.sharing_eligibility_status == "enabled" ? BMStatus.Live : BMStatus.Die,
+                        Name = data.name,
+                        Type = "BM1",
+                        Role = data.permitted_roles[0],
+                        Limit = data.sharing_eligibility_status == "enabled" ? "BM350" : "BM50",
+                        Verified = data.verification_status == "not_verified" ? "VERIFIED" : "NOT VERIFIED",
+                        Created = Convert.ToDateTime(data.created_time),
+                        IDBM = data.id,
+                        NumberAdmin = 0,
+                        NumberAccount = 0,
+                        HiddenAdmin = 0,
+                        NumberPixel = 0,
+                        Quantity = "Good"
+                    };
 
-                //    if (data.business_users != null)
-                //    {
-                //        account.NumberAdmin = data.business_users.data.Count();
-                //        account.Admins = data.business_users.data.Select(e => new UserDTO
-                //        {
-                //            UserId = e.id,
-                //            Name = e.name,
-                //            Role = e.role == "ADMIN" ? Role.Admin : Role.Employee
-                //        }).ToList();
-                //        account.HiddenAdmin = account.NumberAdmin;
-                //    }
+                    if (data.business_users != null)
+                    {
+                        account.NumberAdmin = data.business_users.data.Count();
+                        account.Admins = data.business_users.data.Select(e => new UserDTO
+                        {
+                            UserId = e.id,
+                            Name = e.name,
+                            Role = e.role == "ADMIN" ? Role.Admin : Role.Employee
+                        }).ToList();
+                        account.HiddenAdmin = account.NumberAdmin;
+                    }
 
-                //    if (data.client_ad_accounts != null)
-                //    {
-                //        account.NumberAccount = data.client_ad_accounts.data.Count();
-                //        account.Accounts = data.client_ad_accounts.data.Select(e => new UserDTO
-                //        {
-                //            UserId = e.id,
-                //            Name = e.id,
-                //            Role = Role.Client
-                //        }).ToList();
-                //    }
+                    if (data.client_ad_accounts != null)
+                    {
+                        account.NumberAccount = data.client_ad_accounts.data.Count();
+                        account.Accounts = data.client_ad_accounts.data.Select(e => new UserDTO
+                        {
+                            UserId = e.id,
+                            Name = e.id,
+                            Role = Role.Client
+                        }).ToList();
+                    }
 
-                //    if (data.owned_ad_accounts != null)
-                //    {
-                //        account.NumberAccount += data.client_ad_accounts.data.Count();
-                //        account.Accounts.AddRange(data.client_ad_accounts.data.Select(e => new UserDTO
-                //        {
-                //            UserId = e.id,
-                //            Name = e.id,
-                //            Role = Role.Owned
-                //        }).ToList()
-                //        );
-                //    }
-                //    GetAllBusiness.Add(account);
-                //}
-                var result = new List<AdsAccountDTO>();
-                return result;
+                    if (data.owned_ad_accounts != null)
+                    {
+                        account.NumberAccount += data.client_ad_accounts.data.Count();
+                        account.Accounts.AddRange(data.client_ad_accounts.data.Select(e => new UserDTO
+                        {
+                            UserId = e.id,
+                            Name = e.id,
+                            Role = Role.Owned
+                        }).ToList()
+                        );
+                    }
+                    GetAllBusiness.Add(account);
+                }
+                return GetAllBusiness;
             }
             catch (Exception ex)
             {
-                return new List<AdsAccountDTO>();
+                return new List<BusinessDTO>();
             }
 
         }

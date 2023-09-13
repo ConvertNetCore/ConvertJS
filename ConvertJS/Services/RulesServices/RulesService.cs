@@ -135,37 +135,37 @@ namespace ConvertJS.Services.RulesServices
                 request.AddHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36");
                 RestResponse response = await client.ExecuteAsync(request);
                 //Convert here
-                var bmAccountResponse = JsonConvert.DeserializeObject<CampaignsResponseDTO>(response.Content.ToString());
-                List<CampaignsDTO> AllUserDTOs = new List<CampaignsDTO>();
-                if (bmAccountResponse.data != null)
+                var camAccountResponse = JsonConvert.DeserializeObject<CampaignsResponseDTO>(response.Content.ToString());
+                List<CampaignsDTO> AllcamDTOs = new List<CampaignsDTO>();
+                if (camAccountResponse.data != null)
                 {
-                    foreach (var userDTO in bmAccountResponse.data)
+                    foreach (var camDTO in camAccountResponse.data)
                     {
 
                         var bmUser = new CampaignsDTO
                         {
-                            Id = userDTO.id,
-                            Name = userDTO.name,
-                            Status = userDTO.effective_status == "ACTIVE" ? CampaignType.Active : CampaignType.Disable,
-                            Delivery = userDTO.effective_status,
-                            BidStrategy = userDTO.bid_strategy,
-                            Budget = userDTO.daily_budget,
+                            Id = camDTO.id,
+                            Name = camDTO.name,
+                            Status = camDTO.effective_status == "ACTIVE" ? CampaignType.Active : CampaignType.Disable,
+                            Delivery = camDTO.effective_status,
+                            BidStrategy = camDTO.bid_strategy,
+                            Budget = camDTO.daily_budget,
                             LastSignificantEdut = DateTime.Now,
-                            Result = userDTO.insights.data[0].objective,
-                            Reach = userDTO.insights.data[0].reach,
-                            Frequency = userDTO.insights.data[0].frequency,
-                            Impressions = userDTO.insights.data[0].impressions,
-                            AmountSpent = userDTO.insights.data[0].spend,
-                            Currency = userDTO.insights.data[0].account_currency,
-                            Clicks = userDTO.insights.data[0].clicks,
-                            Value = userDTO.insights.data[0].cpc
+                            Result = camDTO.insights != null ? camDTO.insights.data[0].objective : "-",
+                            Reach = camDTO.insights != null ? camDTO.insights.data[0].reach : "-",
+                            Frequency = camDTO.insights != null ? camDTO.insights.data[0].frequency : "-",
+                            Impressions = camDTO.insights != null ? camDTO.insights.data[0].impressions : "-",
+                            AmountSpent = camDTO.insights != null ? camDTO.insights.data[0].spend : "-",
+                            Currency = camDTO.insights != null ? camDTO.insights.data[0].account_currency : "-",
+                            Clicks = camDTO.insights != null ? camDTO.insights.data[0].clicks : "-",
+                            Value = camDTO.insights != null ? camDTO.insights.data[0].cpc : "-"
 
                         };
 
-                        AllUserDTOs.Add(bmUser);
+                        AllcamDTOs.Add(bmUser);
 
                     }
-                    return AllUserDTOs;
+                    return AllcamDTOs;
                 }
                 else
                 {
@@ -212,36 +212,36 @@ namespace ConvertJS.Services.RulesServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert here
-                var bmAccountResponse = JsonConvert.DeserializeObject<AdsResponseDTO>(response.Content.ToString());
-                List<AdSetDTO> AllUserDTOs = new List<AdSetDTO>();
-                if (bmAccountResponse.data != null)
+                var adsetAccountResponse = JsonConvert.DeserializeObject<AdsResponseDTO>(response.Content.ToString());
+                List<AdSetDTO> AlladsetDTOs = new List<AdSetDTO>();
+                if (adsetAccountResponse.data != null)
                 {
-                    foreach (var userDTO in bmAccountResponse.data)
+                    foreach (var adsetDTO in adsetAccountResponse.data)
                 {
 
-                    var bmUser = new AdSetDTO
+                    var adsetUser = new AdSetDTO
                     {
-                        Id = userDTO.id,
-                        Name = userDTO.name,
-                        Status = userDTO.effective_status == "ACTIVE" ? AdSetStatus.Active : AdSetStatus.Disable,
-                        Delivery = userDTO.effective_status,
+                        Id = adsetDTO.id,
+                        Name = adsetDTO.name,
+                        Status = adsetDTO.effective_status == "ACTIVE" ? AdSetStatus.Active : AdSetStatus.Disable,
+                        Delivery = adsetDTO.effective_status,
                         BidStrategy = "Using campaign bid strategy",
                         Budget = "Using campaign bid strategy",
                         LastSignificantEdut = DateTime.Now,
-                        Result = userDTO.insights.data[0].objective,
-                        Reach = userDTO.insights.data[0].reach,
-                        Frequency = userDTO.insights.data[0].frequency,
-                        Impressions = userDTO.insights.data[0].impressions,
-                        AmountSpent = userDTO.insights.data[0].spend,
-                        Currency = userDTO.insights.data[0].account_currency,
-                        Clicks = userDTO.insights.data[0].clicks,
-                        Value = userDTO.insights.data[0].cpc
+                        Result = adsetDTO.insights != null ? adsetDTO.insights.data[0].objective : "-",
+                        Reach = adsetDTO.insights != null ? adsetDTO.insights.data[0].reach : "-",
+                        Frequency = adsetDTO.insights != null ? adsetDTO.insights.data[0].frequency : "-",
+                        Impressions = adsetDTO.insights != null ? adsetDTO.insights.data[0].impressions : "-",
+                        AmountSpent = adsetDTO.insights != null ? adsetDTO.insights.data[0].spend : "-",
+                        Currency = adsetDTO.insights != null ? adsetDTO.insights.data[0].account_currency : "-",
+                        Clicks = adsetDTO.insights != null ? adsetDTO.insights.data[0].clicks : "-",
+                        Value = adsetDTO.insights != null ? adsetDTO.insights.data[0].cpc : "-"
                     };
 
-                    AllUserDTOs.Add(bmUser);
+                        AlladsetDTOs.Add(adsetUser);
 
                 }
-                    return AllUserDTOs;
+                    return AlladsetDTOs;
                 }
                 else
                 {
@@ -289,36 +289,36 @@ namespace ConvertJS.Services.RulesServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert here
-                var bmAccountResponse = JsonConvert.DeserializeObject<AdsResponseDTO>(response.Content.ToString());
-                List<AdsDTO> AllUserDTOs = new List<AdsDTO>();
-                if (bmAccountResponse.data != null)
+                var adsAccountResponse = JsonConvert.DeserializeObject<AdsResponseDTO>(response.Content.ToString());
+                List<AdsDTO> AlladsDTOs = new List<AdsDTO>();
+                if (adsAccountResponse.data != null)
                 {
-                    foreach (var userDTO in bmAccountResponse.data)
+                    foreach (var adsDTO in adsAccountResponse.data)
                 {
 
-                    var bmUser = new AdsDTO
+                    var adsUser = new AdsDTO
                     {
-                        Id = userDTO.id,
-                        Name = userDTO.name,
-                        Status = userDTO.effective_status == "ACTIVE" ? AdsStatus.Active : AdsStatus.Disable,
-                        Delivery = userDTO.effective_status,
+                        Id = adsDTO.id,
+                        Name = adsDTO.name,
+                        Status = adsDTO.effective_status == "ACTIVE" ? AdsStatus.Active : AdsStatus.Disable,
+                        Delivery = adsDTO.effective_status,
                         BidStrategy = "Using campaign bid strategy",
                         Budget = "Using campaign bid strategy",
                         LastSignificantEdut = DateTime.Now,
-                        Result = userDTO.insights.data[0].objective,
-                        Reach = userDTO.insights.data[0].reach,
-                        Frequency = userDTO.insights.data[0].frequency,
-                        Impressions = userDTO.insights.data[0].impressions,
-                        AmountSpent = userDTO.insights.data[0].spend,
-                        Currency = userDTO.insights.data[0].account_currency,
-                        Clicks = userDTO.insights.data[0].clicks,
-                        Value = userDTO.insights.data[0].cpc
+                        Result = adsDTO.insights != null ? adsDTO.insights.data[0].objective : "-",
+                        Reach = adsDTO.insights != null ? adsDTO.insights.data[0].reach : "-",
+                        Frequency = adsDTO.insights != null ? adsDTO.insights.data[0].frequency : "-",
+                        Impressions = adsDTO.insights != null ? adsDTO.insights.data[0].impressions : "-",
+                        AmountSpent = adsDTO.insights != null ? adsDTO.insights.data[0].spend : "-",
+                        Currency = adsDTO.insights != null ? adsDTO.insights.data[0].account_currency : "-",
+                        Clicks = adsDTO.insights != null ? adsDTO.insights.data[0].clicks : "-",
+                        Value = adsDTO.insights != null ? adsDTO.insights.data[0].cpc : "-"
                     };
 
-                    AllUserDTOs.Add(bmUser);
+                        AlladsDTOs.Add(adsUser);
 
                 }
-                return AllUserDTOs;
+                return AlladsDTOs;
             }
                 else
             {

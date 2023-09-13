@@ -183,63 +183,69 @@ namespace ConvertJS.Services.AccountServices
                 var BMResponse = JsonConvert.DeserializeObject<BusinessResponseDTO>(response.Content.ToString());
 
                 List<BusinessDTO> GetAllBusiness = new List<BusinessDTO>();
-
-                foreach (var data in BMResponse.data)
+                if (BMResponse.data != null)
                 {
-                    var account = new BusinessDTO
+                    foreach (var data in BMResponse.data)
                     {
-                        Status = data.sharing_eligibility_status == "enabled" ? BMStatus.Live : BMStatus.Die,
-                        Name = data.name,
-                        Type = "BM1",
-                        Role = data.permitted_roles[(data.permitted_roles).Length - 1],
-                        Limit = data.sharing_eligibility_status == "enabled" ? "BM350" : "BM50",
-                        Verified = data.verification_status == "not_verified" ? "VERIFIED" : "NOT VERIFIED",
-                        Created = Convert.ToDateTime(data.created_time),
-                        IDBM = data.id,
-                        NumberAdmin = 0,
-                        NumberAccount = 0,
-                        HiddenAdmin = 0,
-                        NumberPixel = 0,
-                        Quantity = "Good"
-                    };
-
-                    if (data.business_users != null)
-                    {
-                        account.NumberAdmin = data.business_users.data.Count();
-                        account.Admins = data.business_users.data.Select(e => new UserDTO
+                        var account = new BusinessDTO
                         {
-                            UserId = e.id,
-                            Name = e.name,
-                            Role = e.role == "ADMIN" ? Role.Admin : Role.Employee
-                        }).ToList();
-                        account.HiddenAdmin = account.NumberAdmin;
-                    }
+                            Status = data.sharing_eligibility_status == "enabled" ? BMStatus.Live : BMStatus.Die,
+                            Name = data.name,
+                            Type = "BM1",
+                            Role = data.permitted_roles[(data.permitted_roles).Length - 1],
+                            Limit = data.sharing_eligibility_status == "enabled" ? "BM350" : "BM50",
+                            Verified = data.verification_status == "not_verified" ? "VERIFIED" : "NOT VERIFIED",
+                            Created = Convert.ToDateTime(data.created_time),
+                            IDBM = data.id,
+                            NumberAdmin = 0,
+                            NumberAccount = 0,
+                            HiddenAdmin = 0,
+                            NumberPixel = 0,
+                            Quantity = "Good"
+                        };
 
-                    if (data.client_ad_accounts != null)
-                    {
-                        account.NumberAccount = data.client_ad_accounts.data.Count();
-                        account.Accounts = data.client_ad_accounts.data.Select(e => new UserDTO
+                        if (data.business_users != null)
                         {
-                            UserId = e.id,
-                            Name = e.id,
-                            Role = Role.Client
-                        }).ToList();
-                    }
+                            account.NumberAdmin = data.business_users.data.Count();
+                            account.Admins = data.business_users.data.Select(e => new UserDTO
+                            {
+                                UserId = e.id,
+                                Name = e.name,
+                                Role = e.role == "ADMIN" ? Role.Admin : Role.Employee
+                            }).ToList();
+                            account.HiddenAdmin = account.NumberAdmin;
+                        }
 
-                    if (data.owned_ad_accounts != null)
-                    {
-                        account.NumberAccount += data.client_ad_accounts.data.Count();
-                        account.Accounts.AddRange(data.client_ad_accounts.data.Select(e => new UserDTO
+                        if (data.client_ad_accounts != null)
                         {
-                            UserId = e.id,
-                            Name = e.id,
-                            Role = Role.Owned
-                        }).ToList()
-                        );
+                            account.NumberAccount = data.client_ad_accounts.data.Count();
+                            account.Accounts = data.client_ad_accounts.data.Select(e => new UserDTO
+                            {
+                                UserId = e.id,
+                                Name = e.id,
+                                Role = Role.Client
+                            }).ToList();
+                        }
+
+                        if (data.owned_ad_accounts != null)
+                        {
+                            account.NumberAccount += data.client_ad_accounts.data.Count();
+                            account.Accounts.AddRange(data.client_ad_accounts.data.Select(e => new UserDTO
+                            {
+                                UserId = e.id,
+                                Name = e.id,
+                                Role = Role.Owned
+                            }).ToList()
+                            );
+                        }
+                        GetAllBusiness.Add(account);
                     }
-                    GetAllBusiness.Add(account);
+                    return GetAllBusiness;
                 }
-                return GetAllBusiness;
+                else
+                {
+                    return new List<BusinessDTO>();
+                }
             }
             catch (Exception ex)
             {

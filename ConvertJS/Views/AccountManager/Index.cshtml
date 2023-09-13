@@ -7,6 +7,7 @@
     Layout = "_Layout";
     var AdAccounts = (List<AdsAccountDTO>)ViewData[KeyTranfer.AD_ACCOUNT_KEY];
     var x = AdAccounts;
+    var deleteUserMessage = (string)TempData[KeyTranfer.DELETE_USER_ADACCOUNT];
 }
 @section CustomCss{
     <link href="~/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -330,21 +331,21 @@
                                         @switch (AdAccount.Status)
                                         {
                                             case AccountStatus.Active: 
-                                                <span class="badge badge-light-success fs-4" data-order="active"> Active </span>
+                                                <span class="badge badge-light-success fs-6" data-order="active"> Active </span>
                                                 break;
                                             case AccountStatus.Disable:
-                                                <span class="badge badge-light-primary fs-4" data-order="disable"> Disable </span>
+                                                <span class="badge badge-light-primary fs-6" data-order="disable"> Disable </span>
                                                 break;
                                             case AccountStatus.NeedPay:
-                                                <span class="badge badge-light-info fs-4" data-order="needpay"> Need Pay </span>
+                                                <span class="badge badge-light-info fs-6" data-order="needpay"> Need Pay </span>
                                                 break;
                                         }
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @AdAccount.AccountName </span>
+                                        <span class="fw-bold text-primary"> @AdAccount.AccountName </span>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @AdAccount.Id </span>
+                                        <span class="fw-bold text-danger"> @AdAccount.Id </span>
                                     </td>
                                     <td class="text-warning">@AdAccount.Balance</td>
                                     @*ToDo Phải xử lý cái này*@
@@ -405,3 +406,14 @@
     @Html.Partial("../Shared/_showListUserPartial",AdAccount);
  }
     @Html.Partial("../Shared/_inviteUserModalPartial");
+@if (deleteUserMessage != null)
+{
+    <script>
+        Swal.fire({
+            icon: "info",
+            title: "<strong>Delete User</strong>",
+            text: "@deleteUserMessage",
+            confirmButtonText: "Ok, got it!"
+        });
+    </script>
+}

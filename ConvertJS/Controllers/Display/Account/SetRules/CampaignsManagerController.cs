@@ -14,9 +14,12 @@ namespace ConvertJS.Controllers.Display.Account.SetRules
             _rulesService = rulesService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] string idTkqc)
         {
-            var campaigns = await _rulesService.get_all_camp_from_id_tkqc("", "", "");
+            string cookie = Request.Cookies["cookie"];
+            string accessToken = Request.Cookies["accessToken"];
+            if (idTkqc != null) Response.Cookies.Append("idTkqc", idTkqc);
+            var campaigns = await _rulesService.get_all_camp_from_id_tkqc(accessToken, idTkqc,cookie);
             ViewData[KeyTranfer.GET_ALL_CAMPAIGN] = campaigns;
             return View();
         }

@@ -2,7 +2,7 @@
 @using ConvertJS.Infras.Constants
 @using ConvertJS.Infras.Enums
 @{
-    ViewData["Title"] = "Account Manager";
+    ViewData["Title"] = "Campaigns Manager";
     Layout = "_Layout";
     var Campaigns = (List<CampaignsDTO>)ViewData[KeyTranfer.GET_ALL_CAMPAIGN];
 }
@@ -317,7 +317,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="fw-bold"> @campaign.Name</span>
+                                        <a href="/AdSetManager?idCamp=@(campaign.Id)" class="fw-bold text-info fs-7"> @campaign.Name</a>
                                     </td>
                                     <td>
                                         @switch (campaign.Status)
@@ -331,7 +331,7 @@
                                         }
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-danger"> @campaign.Currency </span>
+                                        <span class="badge badge-light-warning"> @campaign.Currency </span>
                                     </td>
                                     <td>
                                         <span class="fw-bold"> @campaign.BidStrategy </span>
@@ -349,7 +349,7 @@
                                         <span class="badge badge-light-success"> @campaign.Reach</span>
                                     </td>
                                     <td>
-                                        <span class="badge badge-light-success"> campaign.Frequency</span>
+                                        <span class="badge badge-light-success"> @campaign.Frequency</span>
                                     </td>
                                     <td>
                                         <span class="fw-bold"> @campaign.Impressions</span>

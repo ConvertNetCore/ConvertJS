@@ -305,8 +305,9 @@ namespace ConvertJS.Services.AccountServices
                     MaxTimeout = -1,
                     UserAgent = " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
                 };
+                if (!id_tkqc.Contains("act_")) id_tkqc = "act_" + id_tkqc;
                 var client = new RestClient(options);
-                var request = new RestRequest("https://graph.facebook.com/v14.0/act_" +
+                var request = new RestRequest("https://graph.facebook.com/v14.0/" +
                 id_tkqc +
                 "/users/" +
                 id_user +

@@ -183,7 +183,7 @@ namespace ConvertJS.Services.AppealCheckServices
                     
                         var bmUser = new AppealCheckPageDTO
                         {
-                           // Status = 1,
+                            Status = PageStatus.Live,
                             PageName = userDTO.name,
                             Id = userDTO.id
                         };

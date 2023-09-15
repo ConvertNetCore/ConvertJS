@@ -29,9 +29,8 @@ namespace ConvertJS.Controllers.Display.Account.AccountManager
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
-            bool isSuccess = true;
-            //bool isSuccess = await _accountService.Delete_user_ad(accessToken, idTKQC, userId, cookie);
-            if(isSuccess) TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserSuccess;
+            bool isSuccess = await _accountService.Delete_user_ad(accessToken, idTKQC, userId, cookie);
+            if (isSuccess) TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserSuccess;
             else TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserUnsuccess;
             return RedirectToAction("");
         }

@@ -205,15 +205,15 @@
                                 no++;
                                 <tr class="odd">
                                     <td class="text-center">
-                                        <span class="fw-bold text-danger"> @(no)</span>
+                                        <span class="fw-bold"> @(no)</span>
                                     </td>
                                     <td>
                                         @switch(BMAccount.Status){
                                             case BMStatus.Live:
-                                                <span class="badge badge-light-success" data-order="live"> Live </span>
+                                                <span class="badge badge-light-success fs-4" data-order="live"> Live </span>
                                                 break;
                                             case BMStatus.Die:
-                                                <span class="badge badge-light-danger" data-order="reject"> Reject </span>
+                                                <span class="badge badge-light-danger fs-4" data-order="reject"> Reject </span>
                                                 break;
                                         }
                                     </td>
@@ -221,7 +221,7 @@
                                         <span class="fw-bold"> @BMAccount.BMName </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-success fs-6">Report</button>
+                                        <button fakeReport class="btn btn-success fs-6">Report</button>
                                     </td>
                                 </tr>
                             }
@@ -235,3 +235,19 @@
     </div>
     <!--end::Card-->
 </div>
+
+<script>
+    var elements = document.querySelectorAll("[fakeReport]");
+    elements.forEach(e => {
+        e.addEventListener("click", e => {
+            setTimeout(e => {
+                Swal.fire({
+                    icon: "success",
+                    title: "<strong>Report</strong>",
+                    text: "Report BM thành công!",
+                    confirmButtonText: "Ok, got it!"
+                });
+            }, 1000)
+        })
+    })
+</script>

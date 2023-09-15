@@ -13,9 +13,12 @@ namespace ConvertJS.Controllers.Display.Appeal
             _logger = logger;
             _appealCheckService = appealCheckService;
         }
-        public async Task<IActionResult> Index(string cookie , string token)
+        public async Task<IActionResult> Index()
         {
-            var BMAccounts = await _appealCheckService.GetBMDie(cookie, token);
+
+            string cookie = Request.Cookies["cookie"];
+            string accessToken = Request.Cookies["accessToken"];
+            var BMAccounts = await _appealCheckService.GetBMDie(accessToken, cookie);
             ViewData[KeyTranfer.APPEAL_CHECK_BM] = BMAccounts;
             return View();
         }

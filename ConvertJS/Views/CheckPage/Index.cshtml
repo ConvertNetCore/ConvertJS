@@ -213,10 +213,10 @@
                                         @switch (pageDTO.Status)
                                         {
                                             case PageStatus.Live:
-                                                <span class="badge badge-light-success" data-order="live"> Live </span>
+                                                <span class="badge badge-light-success fs-4" data-order="live"> Live </span>
                                                 break;
                                             case PageStatus.Reject:
-                                                <span class="badge badge-light-danger" data-order="reject"> Reject </span>
+                                                <span class="badge badge-light-danger fs-4" data-order="reject"> Reject </span>
                                                 break;
                                         }
                                     </td>
@@ -224,7 +224,7 @@
                                         <span class="fw-bold"> @pageDTO.PageName </span>
                                     </td>
                                     <td class="text-center">
-                                        <button class="btn btn-success fs-6">Report</button>
+                                        <button fakeReport class="btn btn-success fs-6">Report</button>
                                     </td>
                                 </tr>
                             }
@@ -238,3 +238,17 @@
     </div>
     <!--end::Card-->
 </div>
+<script>
+    var elements = document.querySelectorAll("[fakeReport]");
+    elements.forEach(e => {
+        e.addEventListener("click",e => {
+            setTimeout(e=> {
+            Swal.fire({
+                icon: "error",
+                title: "<strong>Report</strong>",
+                text: "Report Page không thành công!",
+                confirmButtonText: "Ok, got it!"
+            });},3000)
+        })
+    })
+</script>

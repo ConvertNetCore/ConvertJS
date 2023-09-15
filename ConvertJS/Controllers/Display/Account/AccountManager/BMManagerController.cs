@@ -32,5 +32,15 @@ namespace ConvertJS.Controllers.Display.Account.AccountManager
             ViewData[KeyTranfer.BM_ACCOUNT_KEY] = response;
             return View();
         }
+
+        public async Task<IActionResult> DeleteUser(string userId, string idTKQC)
+        {
+            string cookie = Request.Cookies["cookie"];
+            string accessToken = Request.Cookies["accessToken"];
+            bool isSuccess = await _accountService.Delete_user_ad(accessToken, idTKQC, userId, cookie);
+            if (isSuccess) TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserSuccess;
+            else TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserUnsuccess;
+            return RedirectToAction("");
+        }
     }
 }

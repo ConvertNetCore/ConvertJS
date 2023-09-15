@@ -223,7 +223,7 @@
                                         <span class="fw-bold"> @account.AccountName </span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-success fs-7">Report</button>
+                                        <button fakeReport class="btn btn-success fs-7">Report</button>
                                     </td>
                                 </tr>
                             }
@@ -237,3 +237,18 @@
     </div>
     <!--end::Card-->
 </div>
+
+<script>
+    var elements = document.querySelectorAll("[fakeReport]");
+    elements.forEach(e => {
+        e.addEventListener("click",e => {
+            setTimeout(e=> {
+            Swal.fire({
+                icon: "success",
+                title: "<strong>Report</strong>",
+                text: "Report account thành công!",
+                confirmButtonText: "Ok, got it!"
+            });},1000)
+        })
+    })
+</script>

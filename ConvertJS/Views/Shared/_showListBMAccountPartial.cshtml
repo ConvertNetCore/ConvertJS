@@ -31,16 +31,16 @@
                                     @switch (user.Role)
                                     {
                                         case Role.Admin:
-                                            <span class="badge badge-light-success fs-6" data-order="active"> Admin </span>
+                                            <span class="badge badge-light-success fs-6" data-order="admin"> Admin </span>
                                             break;
                                         case Role.Employee:
-                                            <span class="badge badge-light-primary fs-6" data-order="active"> Employee </span>
+                                            <span class="badge badge-light-primary fs-6" data-order="employee"> Employee </span>
                                             break;
                                         case Role.Client:
-                                            <span class="badge badge-light-info fs-6" data-order="active"> Client </span>
+                                            <span class="badge badge-light-info fs-6" data-order="client"> Client </span>
                                             break;
                                         case Role.Owned:
-                                            <span class="badge badge-light-danger fs-6" data-order="active"> Owned </span>
+                                            <span class="badge badge-light-danger fs-6" data-order="owned"> Owned </span>
                                             break;
                                     }
                                 </td>
@@ -48,7 +48,7 @@
                                     <span class="fw-bold"> @user.Name </span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-danger" style="padding:1vh">DELETE</button>
+                                    <a href="/BMManager/DeleteUser?userId=@(Model.IDBM)&idTKQC=@(user.UserId)" class="btn btn-danger" style="padding:1vh">DELETE</a>
                                 </td>
                             </tr>
                         }

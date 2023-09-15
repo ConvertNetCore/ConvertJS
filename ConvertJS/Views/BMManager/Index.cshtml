@@ -9,6 +9,7 @@
     ViewData["CurrentSection"] = "Account Manager";
     var BMAccounts = (List<BusinessDTO>)ViewData[KeyTranfer.BM_ACCOUNT_KEY];
     var x = BMAccounts;
+    var deleteUserMessage = (string)TempData[KeyTranfer.DELETE_USER_ADACCOUNT];
 }
 @section CustomCss{
     <link href="assets/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -397,7 +398,7 @@
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3" data-kt-users-table-filter="delete_row"> Report </a>
+                                                <div fakeReport class="menu-link px-3" data-kt-users-table-filter="delete_row"> Report </div>
                                             </div>
                                             <!--end::Menu item-->
                                         </div>
@@ -423,3 +424,30 @@
     @Html.Partial("../Shared/_showListBMAccountPartial",BMAccount)
 }
 @Html.Partial("../Shared/_inviteUserModalPartial")
+
+<script>
+    var elements = document.querySelectorAll("[fakeReport]");
+    elements.forEach(e => {
+        e.addEventListener("click", e => {
+            setTimeout(e => {
+                Swal.fire({
+                    icon: "success",
+                    title: "<strong>Report</strong>",
+                    text: "Report BM thành công!",
+                    confirmButtonText: "Ok, got it!"
+                });
+            }, 1000)
+        })
+    })
+</script>
+@if (deleteUserMessage != null)
+{
+    <script>
+        Swal.fire({
+            icon: "info",
+            title: "<strong>Delete User</strong>",
+            text: "@deleteUserMessage",
+            confirmButtonText: "Ok, got it!"
+        });
+    </script>
+}

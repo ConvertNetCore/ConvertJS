@@ -2,7 +2,7 @@
 {
     public enum PageStatus
     {
-        Live = 1,
-        Reject = 2
+        Live = 0,
+        Reject = 1
     }
 }

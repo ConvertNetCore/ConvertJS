@@ -54,9 +54,9 @@ namespace ConvertJS.Controllers.API
         }
         //Todo
         [HttpGet("get-page")]
-        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie)
+        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie, string id, string fb_dtsg, string jazoest)
         {
-            var result = await _appealCheckService.GetPage( accessTokenInfo,  cookie);
+            var result = await _appealCheckService.GetPage( accessTokenInfo,  cookie,  id,  fb_dtsg,  jazoest);
             return result;
         }
     }

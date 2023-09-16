@@ -68,19 +68,35 @@ namespace ConvertJS.Controllers.API
             }
         }
         [HttpGet("delete_user_ad")]
-        public async Task<object> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
+        public async Task<DeleteDTO> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
         {
             //id_user = "100000980779782";
             //id_tkqc = "1334960267106066";
             //accessTokenInfo = "EAABsbCS1iHgBOwjzX4NUE2yAQOoI9ZAFRjbo5Nr5oCQhNS2BrByRNl3zmHqJH2J8RZBz9UcjZBXxzEpH1CeZA0jTK0KtifcFRSs11tz0W7DNjo1I60hNlGjmV2VNZCvW0NKytY6Kf1PstZCcD8iL8i8Oku7VHUyCa0kbfXwMslZAvMTOlORN97uX9855vIhi4BzmGpfQz2MWQZDZD";
-            if (accessTokenInfo != null)
-            {
+            
                 return await _accountService.Delete_user_ad(accessTokenInfo,id_tkqc,id_user, cookie);
-            }
-            else
-            {
-                return new { Error = "Token is not null" };
-            }
+            
+        }
+        [HttpPost("Delete_admin_bm")]
+        public async Task<DeleteDTO> Delete_admin_bm(string id_bm, string id_tkqc, string id, string cookie, string fb_dtsg, string jazoest)
+        {
+            
+                return await _accountService.Delete_admin_bm( id_bm, id_tkqc, id, cookie, fb_dtsg, jazoest);
+            
+        }
+        [HttpPost("Delete_account_bm")]
+        public async Task<DeleteDTO> Delete_account_bm(string accessTokenInfo, string id_bm, string cookie)
+        {
+            
+                return await _accountService.Delete_account_bm( accessTokenInfo,  id_bm,  cookie);
+           
+        }
+        [HttpGet("Invite_user")]
+        public async Task<DeleteDTO> Invite_user(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
+        {
+           
+                return await _accountService.Invite_user(accessTokenInfo, id_tkqc, id_user, cookie);
+           
         }
     }
 }

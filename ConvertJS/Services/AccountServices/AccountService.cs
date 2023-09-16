@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using RestSharp;
 using System.Collections.Generic;
 using System.Net;
+using System.Reflection.PortableExecutable;
+using System.Text.Encodings.Web;
 
 namespace ConvertJS.Services.AccountServices
 {
@@ -19,7 +21,10 @@ namespace ConvertJS.Services.AccountServices
 
         //Thằng này k cần thiết vì nó đã nằm trong api Businesses
         public Task<object> Businesses_user(string accessTokenInfo, string idbm, string cookie);
-        public Task<bool> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie);
+        public Task<DeleteDTO> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie);
+        Task<DeleteDTO> Invite_user(string accessTokenInfo, string id_tkqc, string id_user, string cookie);
+        Task<DeleteDTO> Delete_admin_bm(string id_bm, string id_tkqc, string id, string cookie, string fb_dtsg, string jazoest);
+        Task<DeleteDTO> Delete_account_bm(string accessTokenInfo, string id_bm, string cookie);
 
     }
     public class AccountService : IAccountService
@@ -294,7 +299,7 @@ namespace ConvertJS.Services.AccountServices
 
         }
 
-        public async Task<bool> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
+        public async Task<DeleteDTO> Delete_user_ad(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
         {
 
             try
@@ -330,14 +335,242 @@ namespace ConvertJS.Services.AccountServices
                 var body = @"";
                 request.AddParameter("text/plain", body, ParameterType.RequestBody);
                 RestResponse response = await client.ExecuteAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK) // 200 OK
+                {
 
-                //return response.Content;
-                //Cần lọc xem thằng nào xóa thành công thằng nào không
-                return true;
+                    return new DeleteDTO {
+                        status = true,
+                        message = "success"
+                    };
+                }
+                else
+                {
+                    var deleteResponse = JsonConvert.DeserializeObject<DeleteErrorResponseDTO>(response.Content.ToString());
+                    return new DeleteDTO {
+                        status = false,
+                        message = deleteResponse.error.message
+                    };
+                }
             }
             catch (Exception ex)
             {
-                return false;
+                return new DeleteDTO
+                {
+                    status = false,
+                    message = ex.Message
+                };
+            }
+
+        }
+        //post
+        public async Task<DeleteDTO> Delete_admin_bm(string id_bm, string id_tkqc, string id, string cookie,string fb_dtsg,string jazoest)
+        {
+
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://cms.atteam.me/delete_ad.php", Method.Post);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", "*/*");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("content-type", "application/x-www-form-urlencoded");
+                request.AddHeader("origin", "https://business.facebook.com");
+                request.AddHeader("referer", "https://business.facebook.com/settings/ad-accounts/492417531211830?business_id=559745021604384");
+                request.AddHeader("sec-ch-prefers-color-scheme", "light");
+                request.AddHeader("sec-ch-ua", " \"Google Chrome\";v=\"108\", \"Chromium\";v=\"108\", \"Not=A?Brand\";v=\"8\"");
+                request.AddHeader("sec-ch-ua-mobile", "?0");
+                request.AddHeader("sec-ch-ua-platform",  " \"Windows\"");
+                request.AddHeader("sec-fetch-dest", "empty");
+                request.AddHeader("sec-fetch-mode", "cors");
+                request.AddHeader("sec-fetch-site", "same-origin");
+                request.AddHeader(
+                  "user-agent",
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+                );
+                request.AddHeader("viewport-width", "1500");
+                request.AddHeader("x-fb-lsd", "jOIq8-IBo45RGGzh5F-Yor");
+                request.AddHeader("Cookie", cookie);
+                request.AddParameter("__a", "1");
+                request.AddParameter("fb_dtsg", fb_dtsg);
+                request.AddParameter("jazoest", jazoest);
+                request.AddParameter("user", id);
+                request.AddParameter("bm_id", id_bm);
+                request.AddParameter("ad_id", id_tkqc);
+                request.AddParameter("cookie", cookie);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //return response.Content;
+                //Cần lọc xem thằng nào xóa thành công thằng nào không
+                if (response.StatusCode == HttpStatusCode.OK) // 200 OK
+                {
+
+                    return new DeleteDTO
+                    {
+                        status = true,
+                        message = "success"
+                    };
+                }
+                else
+                {
+                    var deleteResponse = JsonConvert.DeserializeObject<DeleteErrorResponseDTO>(response.Content.ToString());
+                    return new DeleteDTO
+                    {
+                        status = false,
+                        message = deleteResponse.error.message
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new DeleteDTO
+                {
+                    status = false,
+                    message = ex.Message
+                };
+            }
+
+        }
+        //post
+        public async Task<DeleteDTO> Delete_account_bm(string accessTokenInfo, string id_bm, string cookie)
+        {
+
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/" +
+                id_bm +
+                "?access_token=" +
+                accessTokenInfo +
+                "&__cppo=1", Method.Post);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", "*/*");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("content-type", "application/x-www-form-urlencoded");
+                request.AddHeader("origin", "https://business.facebook.com");
+                request.AddHeader("referer", "https://business.facebook.com/");
+                request.AddHeader("sec-ch-ua", " \"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", " ?0");
+                request.AddHeader("sec-ch-ua-platform", " \"macOS\"");
+                request.AddHeader("sec-fetch-dest", " empty");
+                request.AddHeader("sec-fetch-mode", " cors");
+                request.AddHeader("sec-fetch-site", " same-site");
+                request.AddHeader("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36");
+                request.AddHeader("Cookie", cookie);
+                var body = @"";
+                request.AddParameter("method", "delete");
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //return response.Content;
+                //Cần lọc xem thằng nào xóa thành công thằng nào không
+                if (response.StatusCode == HttpStatusCode.OK) // 200 OK
+                {
+
+                    return new DeleteDTO
+                    {
+                        status = true,
+                        message = "success"
+                    };
+                }
+                else
+                {
+                    var deleteResponse = JsonConvert.DeserializeObject<DeleteErrorResponseDTO>(response.Content.ToString());
+                    return new DeleteDTO
+                    {
+                        status = false,
+                        message = deleteResponse.error.message
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new DeleteDTO
+                {
+                    status = false,
+                    message = ex.Message
+                };
+            }
+
+        }
+        //get
+        public async Task<DeleteDTO> Invite_user(string accessTokenInfo, string id_tkqc, string id_user, string cookie)
+        {
+
+            try
+            {
+                var baseUrl = "https://graph.facebook.com/v14.0";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                if (!id_tkqc.Contains("act_")) id_tkqc = "act_" + id_tkqc;
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/act_" +
+                id_tkqc +
+                "/users?method=POST&access_token=" +
+                accessTokenInfo +
+                "&locale=en_US&uid=" +
+                id_user +
+                "&role=1001", Method.Get);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("cache-control", " max-age=0");
+                request.AddHeader("sec-ch-ua", " \"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", " ?0");
+                request.AddHeader("sec-ch-ua-platform", " \"macOS\"");
+                request.AddHeader("sec-fetch-dest", " document");
+                request.AddHeader("sec-fetch-mode", " navigate");
+                request.AddHeader("sec-fetch-site", " none");
+                request.AddHeader("sec-fetch-user", " ?1");
+                request.AddHeader("upgrade-insecure-requests", " 1");
+                request.AddHeader("Cookie", cookie);
+                request.AddHeader("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36");
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //return response.Content;
+                //Cần lọc xem thằng nào xóa thành công thằng nào không
+                if (response.StatusCode == HttpStatusCode.OK) // 200 OK
+                {
+
+                    return new DeleteDTO
+                    {
+                        status = true,
+                        message = "success"
+                    };
+                }
+                else
+                {
+                    var deleteResponse = JsonConvert.DeserializeObject<DeleteErrorResponseDTO>(response.Content.ToString());
+                    return new DeleteDTO
+                    {
+                        status = false,
+                        message = deleteResponse.error.message
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new DeleteDTO
+                {
+                    status = false,
+                    message = ex.Message
+                };
             }
 
         }

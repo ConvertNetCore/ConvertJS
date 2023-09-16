@@ -21,7 +21,8 @@ namespace ConvertJS.Services.AppealCheckServices
         //Todo
         Task<List<AppealCheckBMDTO>> GetBMDie(string accessTokenInfo, string cookie);
         //Todo
-        Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie);
+        Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie, string id, string fb_dtsg, string jazoest);
+        //Task<QualityResponse> check_quality_all(string id, string fb_dtsg, string jazoest, string uid, string cookie);
 
     }
     public class AppealCheckService : IAppealCheckService
@@ -144,7 +145,7 @@ namespace ConvertJS.Services.AppealCheckServices
 
         }
 
-        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie)
+        public async Task<List<AppealCheckPageDTO>> GetPage(string accessTokenInfo, string cookie, string id, string fb_dtsg, string jazoest)
         {
             try
             {
@@ -176,14 +177,16 @@ namespace ConvertJS.Services.AppealCheckServices
                 RestResponse response = await client.ExecuteAsync(request);
 
                 //Convert here
+                
                 var bmAccountResponse = JsonConvert.DeserializeObject<AdAccountResponseDTO>(response.Content.ToString());
                 List<AppealCheckPageDTO> AllUserDTOs = new List<AppealCheckPageDTO>();
                 foreach (var userDTO in bmAccountResponse.data)
                 {
-                    
-                        var bmUser = new AppealCheckPageDTO
+                    QualityResponse dataQ = await check_quality_all(id, fb_dtsg, jazoest, userDTO.id, cookie);
+                    PageStatus stt = dataQ.data.node.advertising_restriction_info.is_restricted ? PageStatus.Reject : PageStatus.Live;
+                    var bmUser = new AppealCheckPageDTO
                         {
-                            Status = PageStatus.Live,
+                            Status = stt,
                             PageName = userDTO.name,
                             Id = userDTO.id
                         };
@@ -199,6 +202,71 @@ namespace ConvertJS.Services.AppealCheckServices
                 _logger.LogError(ex, ex.Message);
                 return new List<AppealCheckPageDTO>();
             }
+        }
+        public async Task<QualityResponse> check_quality_all(string id, string fb_dtsg, string jazoest, string uid, string cookie)
+        {
+
+            try
+            {
+                var client = new RestClient("https://www.facebook.com");
+                var request = new RestRequest("api/graphql", Method.Post);
+
+                // Set up request headers
+                request.AddHeader("authority", "www.facebook.com");
+                request.AddHeader("accept", "*/*");
+                request.AddHeader("accept-language", "en-US,en;q=0.9");
+                request.AddHeader("content-type", "application/x-www-form-urlencoded");
+                request.AddHeader("origin", "https://www.facebook.com");   
+                request.AddHeader("sec-ch-prefers-color-scheme", "light");
+                request.AddHeader("sec-ch-ua", "\"Not_A Brand\";v=\"99\", \"Google Chrome\";v=\"109\", \"Chromium\";v=\"109\"");
+                request.AddHeader("sec-ch-ua-mobile", "?0");
+                request.AddHeader("sec-ch-ua-platform", "\"Windows\"");
+                request.AddHeader("sec-fetch-dest", "empty");
+                request.AddHeader("sec-fetch-mode", "cors");
+                request.AddHeader("sec-fetch-site", "same-origin");
+                request.AddHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36");
+                request.AddHeader("viewport-width", "1349");
+                request.AddHeader("x-fb-friendly-name", "AccountQualityUserPageWrapper_UserPageQuery");
+                request.AddHeader("x-fb-lsd", "iVb4tcqWYh0Lr-l6WxQtab");
+                request.AddHeader("Cookie", cookie);
+
+                // Set up request parameters
+                request.AddParameter("av", id);
+                request.AddParameter("session_id", "4c19b2acf8bed07a");
+                request.AddParameter("__user", id);
+                request.AddParameter("__a", "1");
+                request.AddParameter("__csr", "");
+                request.AddParameter("__req", "8");
+                request.AddParameter("__hs", "19391.BP:DEFAULT.2.0.0.0.0");
+                request.AddParameter("dpr", "1");
+                request.AddParameter("__ccg", "EXCELLENT");
+                request.AddParameter("__rev", "1006907533");
+                request.AddParameter("__s", "zxfkhx:jq3gvo:mr9z0p");
+                request.AddParameter("__hsi", "7195855447466244657");
+                request.AddParameter("__comet_req", "0");
+                request.AddParameter("fb_dtsg", fb_dtsg);
+                request.AddParameter("jazoest", jazoest);
+                request.AddParameter("lsd", "iVb4tcqWYh0Lr-l6WxQtab");
+                request.AddParameter("__aaid", "5887772874637720");
+                request.AddParameter("__spin_r", "1006907533");
+                request.AddParameter("__spin_b", "trunk");
+                request.AddParameter("__spin_t", "1675415654");
+                request.AddParameter("fb_api_caller_class", "RelayModern");
+                request.AddParameter("fb_api_req_friendly_name", "AccountQualityUserPageWrapper_UserPageQuery");
+                request.AddParameter("variables", "{\"id\":\"" + uid + "\",\"startTime\":null}");
+                request.AddParameter("server_timestamps", "true");
+                request.AddParameter("doc_id", "5473935232689253");
+
+                // Send the request
+                RestResponse response = client.Execute(request);
+                var bmAccountResponse = JsonConvert.DeserializeObject<QualityResponse>(response.Content.ToString());
+                return bmAccountResponse;
+            }
+            catch (Exception ex)
+            {
+                return new QualityResponse();
+            }
+
         }
 
         public async Task<object> Khang_buoc_1(string id, string ids_issue_ent_id, string fb_dtsg, string jazoest, string uid, string cookie)

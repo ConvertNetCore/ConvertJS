@@ -1,4 +1,5 @@
-﻿using ConvertJS.Infras.Constants;
+﻿using ConvertJS.DTOs;
+using ConvertJS.Infras.Constants;
 using ConvertJS.Services.AppealCheckServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +18,10 @@ namespace ConvertJS.Controllers.Display.Appeal
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
-            var Pages = await _appealCheckService.GetPage(accessToken, cookie);
+            string id = Request.Cookies["id"];
+            string fb_dtsg = Request.Cookies["fb_dtsg"];
+            string jazoest = Request.Cookies["jazoest"];
+            var Pages = await _appealCheckService.GetPage(accessToken,  cookie,  id,  fb_dtsg,  jazoest);
             ViewData[KeyTranfer.APPEAL_CHECK_PAGE] = Pages;
             return View();
         }

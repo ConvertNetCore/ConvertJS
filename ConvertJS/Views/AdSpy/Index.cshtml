@@ -1,10 +1,18 @@
 ﻿@using ConvertJS.DTOs.ResponseDTO
 @using ConvertJS.Infras.Constants
+@using Newtonsoft.Json
+@model List<AdSpyPostDTO>
 @{
     ViewData["Title"] = "Account Manager";
     Layout = "_Layout";
-    var AdsList = (List<AdSpyPostDTO>)ViewData[KeyTranfer.ADS_SPY];
-    var numberPostOnRow = 3;
+    var AdsList = new List<AdSpyPostDTO>();
+    var value = "";
+    if (Model != null)
+    {
+        AdsList = Model;
+        if (AdsList.Count != 0) value = AdsList.FirstOrDefault().keyword;
+    }
+    var numberPostOnRow = 1;
 }
 @section CustomCss{
     <link href="~/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
@@ -16,7 +24,7 @@
     <!--begin::Vendors Javascript(used for this page only)-->
     <script src="~/plugins/custom/datatables/datatables.bundle.js"></script>
     <!--end::Vendors Javascript-->
-    <script src="~/js/custom/RuleManagerCustom.js"></script>
+    <script src="~/js/custom/AdSpyListCustom.js"></script>
 
 }
     @section CustomHeader{
@@ -156,7 +164,22 @@
                     <!--begin::Search-->
                     <div class="d-flex align-items-center position-relative my-1">
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"><span class="path1"></span><span class="path2"></span></i>
-                        <input type="text" data-kt-rule-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Content">
+                        <input value="@(value)" type="text" id="keywordSearch" data-kt-rule-table-filter="search" class="form-control form-control-solid w-250px ps-13" placeholder="Search Content">
+                        <button id="searchButton" class="btn btn-primary">
+                            <span class="indicator-label">Submit</span>
+                            <span class="indicator-progress">
+                                Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                        <script>
+                            document.getElementById("searchButton").addEventListener("click", e => {
+                                console.log(e.currentTarget);
+                                e.currentTarget.setAttribute('data-kt-indicator', 'on');
+                                e.currentTarget.disabled = true;
+                                window.location.href = `/AdSpy/Search?keyword=` + document.getElementById("keywordSearch").value;
+                            })
+                        </script>
                     </div>
                     <!--end::Search-->
                 </div>
@@ -166,39 +189,48 @@
             <!--begin::Card body-->
             <div class="card-body">
                 <div class="container container-fluid row no-gutters">
-                    <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="table_post">
-                        @{
-                        var numberRow = Math.Ceiling(((double)AdsList.Count) / numberPostOnRow);
-                    }
-                    @for (int i = 0; i < numberRow; i++)
-                    {
-                        <tr class="odd">
-                            @for (int j = 0; j < @Math.Min(3, AdsList.Count - i * numberPostOnRow - j); j++)
-                            {
-                                var post = AdsList[i * numberPostOnRow + j];
-                                <td>
-                                    <div class="card card-flush col mx-4">
-                                        <img src="@post.ImageURL" class="card-img-top" alt="User Image">
-                                        <div class="card-body">
-                                            <h5 class="card-title">@post.Name</h5>
-                                            <p class="card-text fs-8">@post.CreateAt</p>
-                                            @post.Content
-                                            <span class="text-center fw-bold">
-                                            </span>
-                                            <p class="card-text">
-                                                <i class="fas fa-thumbs-up emoji"></i> @post.NumberLike
-                                                <i class="fas fa-share emoji"></i>  @post.NumberShare
-                                                <i class="fas fa-comment emoji"></i> @post.NumberComment
-                                            </p>
-                                            <br />
-                                            <a href="@post.Url" class="btn btn-primary">See Post</a>
-                                            <a href="#" class="btn btn-success">Save List</a>
+                    <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="table_adspy_post">
+                        <thead>
+                            <tr class="text-center">
+                                <th><span class="fs-2 badge badge-danger">List Post Result</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                            var numberRow = Math.Ceiling(((double)AdsList.Count) / numberPostOnRow);
+                        }
+                        @for (int i = 0; i < numberRow; i++)
+                        {
+                            <tr class="odd">
+                                @for (int j = 0; j < @Math.Min(numberPostOnRow, AdsList.Count - i * numberPostOnRow - j); j++)
+                                {
+                                    var post = AdsList[i * numberPostOnRow + j];
+                                    <td>
+                                        <div class="card card-flush col mx-4">
+                                            <img src="@post.ImageURL" class="card-img-top" alt="User Image">
+                                            <div class="card-body">
+                                                <h5 class="card-title">@post.Name</h5>
+                                                <p class="card-text fs-8">@post.CreateAt</p>
+                                                @post.Content
+                                                <span class="text-center fw-bold">
+                                                </span>
+                                                <p class="card-text">
+                                                    <span class="text-primary">
+                                                        <i class="fas fa-thumbs-up emoji fs-3 text-primary"></i> @post.NumberLike
+                                                    </span>
+                                                    <i class="fas fa-share emoji"></i>  @post.NumberShare
+                                                    <i class="fas fa-comment emoji"></i> @post.NumberComment
+                                                </p>
+                                                <br />
+                                                <button redirectUrl="@(post.Url)" class="btn btn-primary openPageBtn">See Post</button>
+                                                <button postId="@post.Id" class="btn btn-success savePostBtn">Save List</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            }
-                        </tr>
-                    }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -206,3 +238,31 @@
     </div>
     <!--end::Card-->
 </div>
+<script>
+    var btnRedirect = document.querySelectorAll(".openPageBtn");
+    btnRedirect.forEach(btn => {
+        let url = btn.getAttribute("redirectUrl");
+        btn.addEventListener("click", e => window.open(url));
+    })
+</script>
+
+<script>
+    var savePostBtn = document.querySelectorAll(".savePostBtn");
+    savePostBtn.forEach(btn => {
+        btn.addEventListener("click", e => {
+            let pageId = btn.getAttribute("postId");
+            setTimeout(e => {
+                Swal.fire({
+                    icon: "success",
+                    title: "<strong>Save Post</strong>",
+                    text: "Save Post thành công!",
+                    confirmButtonText: "Ok, got it!"
+                }).then(function (result) {
+                    if (result.isConfirmed) {
+                        window.location.href = `/AdSpy/AddPost?postId=` + pageId;
+                    }
+                });
+            }, 1000)
+        });
+    })
+</script>

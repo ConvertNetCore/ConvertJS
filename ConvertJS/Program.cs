@@ -11,7 +11,7 @@ namespace ConvertJS
             builder.ConfigureServices();
 
             var app = builder.Build().ConfigurePipeline();
-            Log.Logger.Error("Start API");
+            //Log.Logger.Error("Start API");
 
             app.Run();
         }

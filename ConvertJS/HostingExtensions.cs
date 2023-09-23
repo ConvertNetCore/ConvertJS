@@ -21,7 +21,7 @@ namespace ConvertJS
             });
             builder.Services.AddControllersWithViews();
 
-
+            builder.Services.AddMemoryCache();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddHttpClient();
             builder.Services.AddControllers();

@@ -18,6 +18,14 @@ namespace ConvertJS.Controllers.Display.Account.SetRules
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
+            if(idCamp != null)
+            {
+                Response.Cookies.Append("idCamp", idCamp);
+            }
+            else
+            {
+                idCamp = Request.Cookies["idCamp"];
+            }
             var adSets = await _rulesService.get_all_adset_from_camp(accessToken,idCamp,cookie);
             ViewData[KeyTranfer.GET_AD_SET] = adSets;
             return View();

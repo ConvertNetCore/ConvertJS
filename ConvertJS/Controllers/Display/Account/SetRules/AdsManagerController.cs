@@ -17,6 +17,14 @@ namespace ConvertJS.Controllers.Display.Account.SetRules
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
+            if(idAdset != null)
+            {
+                Response.Cookies.Append("idAdset", idAdset);
+            }
+            else
+            {
+                idAdset = Request.Cookies["idAdset"];
+            }
             var Ads = await _rulesService.get_all_ads_from_adset(accessToken, idAdset, cookie);
             ViewData[KeyTranfer.GET_ADS] = Ads;
             return View();

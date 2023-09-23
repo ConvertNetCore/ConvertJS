@@ -183,7 +183,11 @@ namespace ConvertJS.Services.AppealCheckServices
                 foreach (var userDTO in bmAccountResponse.data)
                 {
                     QualityResponse dataQ = await check_quality_all(id, fb_dtsg, jazoest, userDTO.id, cookie);
-                    PageStatus stt = dataQ.data.node.advertising_restriction_info.is_restricted ? PageStatus.Reject : PageStatus.Live;
+                    PageStatus stt = PageStatus.Live;
+                    if (dataQ == null || dataQ.data == null || dataQ.data.node == null || dataQ.data.node.ads_conversion_experiences_info == null)
+                    {
+                    }
+                    else  stt = dataQ.data.node.advertising_restriction_info.is_restricted ? PageStatus.Reject : PageStatus.Live;
                     var bmUser = new AppealCheckPageDTO
                         {
                             Status = stt,

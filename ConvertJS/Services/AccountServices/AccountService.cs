@@ -25,7 +25,7 @@ namespace ConvertJS.Services.AccountServices
         Task<DeleteDTO> Invite_user(string accessTokenInfo, string id_tkqc, string id_user, string cookie);
         Task<DeleteDTO> Delete_admin_bm(string id_bm, string id_tkqc, string id, string cookie, string fb_dtsg, string jazoest);
         Task<DeleteDTO> Delete_account_bm(string accessTokenInfo, string id_bm, string cookie);
-
+        Task<DeleteDTO> Invite_user_bm(string accessTokenInfo, string id_tkqc, string gmail,string role, string cookie);
     }
     public class AccountService : IAccountService
     {
@@ -518,7 +518,7 @@ namespace ConvertJS.Services.AccountServices
                 };
                 if (!id_tkqc.Contains("act_")) id_tkqc = "act_" + id_tkqc;
                 var client = new RestClient(options);
-                var request = new RestRequest("https://graph.facebook.com/v14.0/act_" +
+                var request = new RestRequest("https://graph.facebook.com/v14.0/" +
                 id_tkqc +
                 "/users?method=POST&access_token=" +
                 accessTokenInfo +
@@ -573,6 +573,74 @@ namespace ConvertJS.Services.AccountServices
                 };
             }
 
+        }
+
+        public async Task<DeleteDTO> Invite_user_bm(string accessTokenInfo, string id_tkqc, string gmail, string role, string cookie)
+        {
+            try
+            {
+                id_tkqc.Replace("act_", "");
+                var baseUrl = "https://graph.facebook.com/v14.0/";
+                var options = new RestClientOptions(baseUrl)
+                {
+                    MaxTimeout = -1,
+                    UserAgent = " Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+                };
+                var client = new RestClient(options);
+                var request = new RestRequest("https://graph.facebook.com/v14.0/" +
+                id_tkqc +
+                "/business_users?access_token=" +
+                accessTokenInfo +
+                "&_cppo=1", Method.Post);
+                request.AddHeader("authority", " graph.facebook.com");
+                request.AddHeader("accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
+                request.AddHeader("accept-language", " en-US,en;q=0.9");
+                request.AddHeader("cache-control", " max-age=0");
+                request.AddHeader("sec-ch-ua", " \"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"");
+                request.AddHeader("sec-ch-ua-mobile", " ?0");
+                request.AddHeader("sec-ch-ua-platform", " \"macOS\"");
+                request.AddHeader("sec-fetch-dest", " document");
+                request.AddHeader("sec-fetch-mode", " navigate");
+                request.AddHeader("sec-fetch-site", " none");
+                request.AddHeader("sec-fetch-user", " ?1");
+                request.AddHeader("upgrade-insecure-requests", " 1");
+                request.AddHeader("Cookie", cookie);
+                request.AddHeader("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36");
+                request.AddParameter("email", gmail);
+                request.AddParameter("roles",role);
+                var body = @"";
+                request.AddParameter("text/plain", body, ParameterType.RequestBody);
+                RestResponse response = await client.ExecuteAsync(request);
+
+                //return response.Content;
+                //Cần lọc xem thằng nào xóa thành công thằng nào không
+                if (response.StatusCode == HttpStatusCode.OK) // 200 OK
+                {
+
+                    return new DeleteDTO
+                    {
+                        status = true,
+                        message = "success"
+                    };
+                }
+                else
+                {
+                    var deleteResponse = JsonConvert.DeserializeObject<DeleteErrorResponseDTO>(response.Content.ToString());
+                    return new DeleteDTO
+                    {
+                        status = false,
+                        message = deleteResponse.error.message
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new DeleteDTO
+                {
+                    status = false,
+                    message = ex.Message
+                };
+            }
         }
     }
 }

@@ -16,5 +16,7 @@ namespace ConvertJS.Infras.Constants
         public const string DELETE_USER_ADACCOUNT = "DELETE_USER_MESSAGE";
         public const string RULE_GET_ALL_ACCOUNT = "RULE_GET_ALL_ACCOUNT";
         public const string GET_ALL_RULE = "GET_ALL_RULE";
+        public const string INVITE_USER_KEY = "INVITE_USER_KEY";
+        public const string DELETE_BM = "DELETE_BM";
     }
 }

@@ -27,7 +27,6 @@
 		<Folder Include="Controllers\Display\ChatPage\" />
 		<Folder Include="Controllers\Display\Campaign\" />
 		<Folder Include="Infras\Helps\" />
-		<Folder Include="wwwroot\media\" />
 	</ItemGroup>
 
 	<ItemGroup>

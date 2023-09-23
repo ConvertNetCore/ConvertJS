@@ -1,6 +1,6 @@
 ﻿@using ConvertJS.DTOs.ResponseDTO
-@model AdsAccountDTO
-<div class="modal fade" tabindex="-1" id="kt_invite_user_modal_@(Model.IDBM)">
+@model BusinessDTO
+<div class="modal fade" tabindex="-1" id="kt_invite_bm_modal_@(Model.IDBM)">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -19,14 +19,15 @@
                     <div class="d-flex flex-column mb-8 fv-row">
                         <label class="required fs-6 fw-semibold mb-2">Role</label>
                         <select id="role_invite" class="form-select form-select-solid" data-control="select2" data-hide-search="true" data-placeholder="Select Role" name="roleInvite">
-                            <option value="admin">ADMin</option>
+                            <option value="ADMIN">ADMIN</option>
+                            <option value="EMPLOYEE">EMPLOYEE</option>
                         </select>
                     </div>
                     <!--end::Input group-->
                     <!--begin::Input group-->
                     <div class="d-flex flex-column mb-8 fv-row">
-                        <label class="required fs-6 fw-semibold mb-2">UID</label>
-                        <input id="inputUid_@(Model.IDBM)" type="text" class="form-control form-control-solid" name="uid" placeholder="Enter UID">
+                        <label class="required fs-6 fw-semibold mb-2">Email</label>
+                        <input id="inputEmail_@(Model.IDBM)" type="text" class="form-control form-control-solid" name="uid" placeholder="Enter Email">
                     </div>
                     <!--end::Input group-->
                 </form>
@@ -47,12 +48,12 @@
                     var btnInvite = document.querySelector(id);
                     btnInvite.addEventListener("click", e => {
                         e.currentTarget.setAttribute('data-kt-indicator', 'on');
-                        var idTKqc = e.currentTarget.getAttribute("idTKqc");
-                        var idBtn = `inputUid_${idTKqc}`;
-                        console.log(idBtn);
-                        var uid = document.getElementById(`inputUid_${idTKqc}`).value;
-                        console.log(uid);
-                        window.location.href = `/AccountManager/InviteUser?idTkqc=${idTKqc}&idUser=${uid}`;
+                        let idTKqc = e.currentTarget.getAttribute("idTKqc");
+                        console.log(idTKqc);
+                        let role = document.getElementById("role_invite").value;
+                        console.log(role);
+                        let gmail = document.getElementById(`inputEmail_${@Model.IDBM}`).value;
+                        window.location.href = `/BmManager/InviteUserBm?idTkqc=${idTKqc}&gmail=${gmail}&role=${role}`;
                     })
                 </script>
             </div>

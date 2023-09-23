@@ -17,12 +17,13 @@ namespace ConvertJS.Controllers.Display.Account.AccountManager
             _accountService = accountService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task< IActionResult> Index(DeleteDTO model)
         {
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
             List<AdsAccountDTO> getAllUserDTO = await _accountService.AdAccount(accessToken, cookie);
             ViewData[KeyTranfer.AD_ACCOUNT_KEY] = getAllUserDTO;
+            ViewData[KeyTranfer.INVITE_USER_KEY] = model;
             return View();
         }
         public async Task<IActionResult> DeleteUser(string userId, string idTKQC)
@@ -33,6 +34,13 @@ namespace ConvertJS.Controllers.Display.Account.AccountManager
             if (isSuccess) TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserSuccess;
             else TempData[KeyTranfer.DELETE_USER_ADACCOUNT] = MessageResponse.DeleteUserUnsuccess;
             return RedirectToAction("");
+        }
+        public async Task<IActionResult> InviteUser(string idTkqc, string idUser)
+        {
+            string cookie = Request.Cookies["cookie"];
+            string accessToken = Request.Cookies["accessToken"];
+            var response = await _accountService.Invite_user(accessToken,idTkqc,idUser,cookie);
+            return RedirectToAction("Index", response);
         }
     }
 }

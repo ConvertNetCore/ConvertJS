@@ -18,6 +18,16 @@ namespace ConvertJS.Controllers.Display.Account.SetRules
             string cookie = Request.Cookies["cookie"];
             string accessToken = Request.Cookies["accessToken"];
             string idTkqc = Request.Cookies["idTkqc"];
+
+            if (idTkqc == null)
+            {
+                var allAccount = await _rulesService.GetAllAccount(accessToken, cookie);
+                if (allAccount.Count != 0)
+                {
+                    idTkqc = allAccount.FirstOrDefault().IDBM;
+                    Response.Cookies.Append("idTkqc", idTkqc);
+                }
+            }
             var rules = await _rulesService.GetRule(accessToken, cookie, idTkqc);
             ViewData[KeyTranfer.GET_ALL_RULE] = rules;
             return View();

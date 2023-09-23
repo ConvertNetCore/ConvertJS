@@ -1,8 +1,11 @@
 ﻿@{
     ViewData["Title"] = "Home";
     Layout = "_Layout";
-    ViewData["MenuLink"] = new List<string> { "Dashboard" };
-    ViewData["CurrentSection"] = "Dashboard";
+
+    var numberPage = (int)ViewData["numberPage"];
+    var numberAccounts = (int) ViewData["numberAccount"];
+    var numberBm = ViewData["numberBm"];
+
 }
 @section CustomHeader{
     <!--begin::Header-->
@@ -77,22 +80,6 @@
                     <!--end::Page title-->
                 </div>
                 <!--end::Toolbar container-->
-                <!--begin::Actions-->
-                <div class="d-flex align-self-center flex-center flex-shrink-0">
-                    <a href="#" class="btn btn-sm btn-secondary d-flex flex-center ms-3 px-4 py-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
-                        <i class="ki-duotone ki-plus-square fs-2 text-gray-400">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                            <span class="path3"></span>
-                        </i>
-                        <span>Invite</span>
-                    </a>
-                    <a href="#" class="btn btn-sm btn-success ms-3 px-4 py-3" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target">
-                        Create
-                        <span class="d-none d-sm-inline">App</span>
-                    </a>
-                </div>
-                <!--end::Actions-->
             </div>
             <!--end::Toolbar container-->
         </div>
@@ -110,7 +97,7 @@
                 <!--begin::Row-->
                 <div class="row g-5 g-xl-10 mb-xl-10">
                     <!--begin::Col-->
-                    <div class="col-xl-4 mb-md-5 mb-xl-10">
+                    <a href="/AccountManager" class="col-xl-4 mb-md-5 mb-xl-10">
                         <!--begin::Card widget 5-->
                         <div class="card card-flush mb-xl-10">
                             <!--begin::Header-->
@@ -119,7 +106,7 @@
                                 <div class="card-title">
                                     <!--begin::Info-->
                                     <div class="fs-3 fw-bold text-gray-800 lh-1">
-                                        <span>Active Account</span>
+                                        <span>Number Account</span>
                                     </div>
                                     <!--end::Info-->
                                 </div>
@@ -131,7 +118,7 @@
                                 <!--begin::Progress-->
                                 <div class="d-flex align-items-center flex-column mt-3 mb-5 w-100">
                                     <div class="text-center fs-3 fw-bold text-gray-800 lh-1">
-                                        <span class="text-success">123</span>
+                                        <span class="text-success">@numberAccounts</span>
                                     </div>
                                 </div>
                                 <!--end::Progress-->
@@ -141,10 +128,10 @@
                         <!--end::Card widget 5-->
                         <!--begin::Card widget 8-->
                         <!--end::Card widget 8-->
-                    </div>
+                    </a>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-xl-4 mb-md-5 mb-xl-10">
+                    <a href="/BMManager" class="col-xl-4 mb-md-5 mb-xl-10">
                         <!--begin::Card widget 5-->
                         <div class="card card-flush mb-xl-10">
                             <!--begin::Header-->
@@ -153,7 +140,7 @@
                                 <div class="card-title">
                                     <!--begin::Info-->
                                     <div class="fs-3 fw-bold text-gray-800 lh-1">
-                                        <span>Active BM</span>
+                                        <span>Numbber BM</span>
                                     </div>
                                     <!--end::Info-->
                                 </div>
@@ -165,7 +152,7 @@
                                 <!--begin::Progress-->
                                 <div class="d-flex align-items-center flex-column mt-3 mb-5 w-100">
                                     <div class="text-center fs-3 fw-bold text-gray-800 lh-1">
-                                        <span class="text-success">123</span>
+                                        <span class="text-success">@numberBm</span>
                                     </div>
                                 </div>
                                 <!--end::Progress-->
@@ -175,10 +162,10 @@
                         <!--end::Card widget 5-->
                         <!--begin::Card widget 8-->
                         <!--end::Card widget 8-->
-                    </div>
+                    </a>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-xl-4 mb-md-5 mb-xl-10">
+                    <a href="/CheckPage" class="col-xl-4 mb-md-5 mb-xl-10">
                         <!--begin::Card widget 5-->
                         <div class="card card-flush mb-xl-10">
                             <!--begin::Header-->
@@ -187,7 +174,7 @@
                                 <div class="card-title">
                                     <!--begin::Info-->
                                     <div class="fs-3 fw-bold text-gray-800 lh-1">
-                                        <span>Active Fanpage</span>
+                                        <span>Number Fanpage</span>
                                     </div>
                                     <!--end::Info-->
                                 </div>
@@ -199,7 +186,7 @@
                                 <!--begin::Progress-->
                                 <div class="d-flex align-items-center flex-column mt-3 mb-5 w-100">
                                     <div class="text-center fs-3 fw-bold text-gray-800 lh-1">
-                                        <span class="text-success">123</span>
+                                        <span class="text-success">@numberPage</span>
                                     </div>
                                 </div>
                                 <!--end::Progress-->
@@ -209,7 +196,7 @@
                         <!--end::Card widget 5-->
                         <!--begin::Card widget 8-->
                         <!--end::Card widget 8-->
-                    </div>
+                    </a>
                     <!--end::Col-->
                 </div>
                 <!--end::Row-->

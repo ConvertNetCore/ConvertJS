@@ -108,7 +108,7 @@
                                 <!--end:Menu item-->
                                 <div class="menu-item">
                                     <!--begin:Menu link-->
-                                    <a class="menu-link" href="/AdsManger">
+                                    <a class="menu-link" href="/AdsManager">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
@@ -405,6 +405,26 @@
                                 <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
+                        <script>
+                            var btnSubmit = document.querySelector("#set-rule-form-submit");
+                            btnSubmit.addEventListener("click",e => {
+                                e.preventDefault();
+                                e.currentTarget.setAttribute('data-kt-indicator', 'on');
+                                e.currentTarget.disabled = true;
+                                setTimeout(e => {
+                                    Swal.fire({
+                                        icon: "success",
+                                        title: "<strong>Set Rule</strong>",
+                                        text: "Set Rule thành công!",
+                                        confirmButtonText: "Ok, got it!"
+                                    }).then(function (result) {
+                                        if (result.isConfirmed) {
+                                            window.location.href = "/SetRule";
+                                        }
+                                    });
+                                }, 1000)
+                            })
+                        </script>
                     </div>
                     <!--end::Actions-->
                 </form>

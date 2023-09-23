@@ -1,7 +1,7 @@
 ﻿
 public class AdSpyResponseDTO
 {
-    public int __ar { get; set; }
+    public int? __ar { get; set; }
     public Payload payload { get; set; }
     public Jsmods jsmods { get; set; }
     public Hsrp hsrp { get; set; }
@@ -11,12 +11,12 @@ public class AdSpyResponseDTO
 
 public class Payload
 {
-    public bool isResultComplete { get; set; }
+    public object isResultComplete { get; set; }
     public Result[][] results { get; set; }
     public object[] pageResults { get; set; }
     public string forwardCursor { get; set; }
     public string backwardCursor { get; set; }
-    public int totalCount { get; set; }
+    public int? totalCount { get; set; }
     public string collationToken { get; set; }
 }
 
@@ -25,31 +25,31 @@ public class Result
     public string adid { get; set; }
     public string adArchiveID { get; set; }
     public object[] archiveTypes { get; set; }
-    public int[] categories { get; set; }
+    public int?[] categories { get; set; }
     public int? collationCount { get; set; }
-    public long collationID { get; set; }
+    public long? collationID { get; set; }
     public string currency { get; set; }
-    public int endDate { get; set; }
+    public int? endDate { get; set; }
     public string entityType { get; set; }
     public object fevInfo { get; set; }
     public string gatedType { get; set; }
-    public bool hasUserReported { get; set; }
-    public bool hiddenSafetyData { get; set; }
+    public object hasUserReported { get; set; }
+    public object hiddenSafetyData { get; set; }
     public string hideDataStatus { get; set; }
     public Impressionswithindex impressionsWithIndex { get; set; }
-    public bool isAAAEligible { get; set; }
-    public bool isActive { get; set; }
-    public bool isProfilePage { get; set; }
+    public object isAAAEligible { get; set; }
+    public object isActive { get; set; }
+    public object isProfilePage { get; set; }
     public string pageID { get; set; }
     public object pageInfo { get; set; }
-    public bool pageIsDeleted { get; set; }
+    public object pageIsDeleted { get; set; }
     public string pageName { get; set; }
     public object[] politicalCountries { get; set; }
     public object reachEstimate { get; set; }
     public object reportCount { get; set; }
     public Snapshot snapshot { get; set; }
     public object spend { get; set; }
-    public int startDate { get; set; }
+    public int? startDate { get; set; }
     public object stateMediaRunLabel { get; set; }
     public string[] publisherPlatform { get; set; }
     public object[] menuItems { get; set; }
@@ -58,7 +58,7 @@ public class Result
 public class Impressionswithindex
 {
     public object impressionsText { get; set; }
-    public int impressionsIndex { get; set; }
+    public int? impressionsIndex { get; set; }
 }
 
 public class Snapshot
@@ -86,27 +86,27 @@ public class Snapshot
     public string page_welcome_message { get; set; }
     public Image[] images { get; set; }
     public Video[] videos { get; set; }
-    public int creation_time { get; set; }
-    public long page_id { get; set; }
+    public int? creation_time { get; set; }
+    public long? page_id { get; set; }
     public string page_name { get; set; }
     public string page_profile_picture_url { get; set; }
     public Page_Categories page_categories { get; set; }
     public string page_entity_type { get; set; }
-    public bool page_is_profile_page { get; set; }
+    public object page_is_profile_page { get; set; }
     public string instagram_actor_name { get; set; }
     public string instagram_profile_pic_url { get; set; }
     public string instagram_url { get; set; }
     public string instagram_handle { get; set; }
-    public bool is_reshared { get; set; }
-    public int version { get; set; }
+    public object is_reshared { get; set; }
+    public int? version { get; set; }
     public Body body { get; set; }
     public object brazil_tax_id { get; set; }
     public object branded_content { get; set; }
     public string current_page_name { get; set; }
     public object disclaimer_label { get; set; }
-    public int page_like_count { get; set; }
+    public int? page_like_count { get; set; }
     public string page_profile_uri { get; set; }
-    public bool page_is_deleted { get; set; }
+    public object page_is_deleted { get; set; }
     public object root_reshared_post { get; set; }
     public string cta_type { get; set; }
     public object additional_info { get; set; }
@@ -189,14 +189,14 @@ public class Clpdata
 
 public class _1838142
 {
-    public int r { get; set; }
-    public int s { get; set; }
+    public int? r { get; set; }
+    public int? s { get; set; }
 }
 
 public class _1848815
 {
-    public int r { get; set; }
-    public int s { get; set; }
+    public int? r { get; set; }
+    public int? s { get; set; }
 }
 
 public class Gkxdata
@@ -211,37 +211,37 @@ public class Gkxdata
 
 public class _708253
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
 public class _1073500
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
 public class _1167394
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
 public class _1224637
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
 public class _1263340
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
 public class _1857581
 {
-    public bool result { get; set; }
+    public object result { get; set; }
     public string hash { get; set; }
 }
 
@@ -254,7 +254,7 @@ public class Hblp
 
 public class Consistency
 {
-    public int rev { get; set; }
+    public int? rev { get; set; }
 }
 
 public class Rsrcmap
@@ -618,7 +618,7 @@ public class Compmap
     public Quicksandsolver QuickSandSolver { get; set; }
     public Confirmationdialog ConfirmationDialog { get; set; }
     public Mwadeveloperreauthbarrier MWADeveloperReauthBarrier { get; set; }
-    public Webspeedinteractionstypedlogger WebSpeedInteractionsTypedLogger { get; set; }
+    public Webspeedinteractionstypedlogger WebSpeedinteractionsTypedLogger { get; set; }
     public Perfxsharedfields PerfXSharedFields { get; set; }
 }
 
@@ -626,7 +626,7 @@ public class Dialog
 {
     public string[] r { get; set; }
     public Rds rds { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Rds
@@ -638,7 +638,7 @@ public class Exceptiondialog
 {
     public string[] r { get; set; }
     public Rds1 rds { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Rds1
@@ -650,7 +650,7 @@ public class Quicksandsolver
 {
     public string[] r { get; set; }
     public Rds2 rds { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Rds2
@@ -661,23 +661,23 @@ public class Rds2
 public class Confirmationdialog
 {
     public string[] r { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Mwadeveloperreauthbarrier
 {
     public string[] r { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Webspeedinteractionstypedlogger
 {
     public string[] r { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }
 
 public class Perfxsharedfields
 {
     public string[] r { get; set; }
-    public int be { get; set; }
+    public int? be { get; set; }
 }

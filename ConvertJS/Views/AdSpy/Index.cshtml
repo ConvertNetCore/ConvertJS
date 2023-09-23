@@ -192,7 +192,7 @@
                     <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="table_adspy_post">
                         <thead>
                             <tr class="text-center">
-                                <th><span class="fs-2 badge badge-danger">List Post Result</span></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -211,7 +211,7 @@
                                             <div class="card-body">
                                                 <h5 class="card-title">@post.Name</h5>
                                                 <p class="card-text fs-8">@post.CreateAt</p>
-                                                @post.Content
+                                                @Html.Raw(post.Content)
                                                 <span class="text-center fw-bold">
                                                 </span>
                                                 <p class="card-text">

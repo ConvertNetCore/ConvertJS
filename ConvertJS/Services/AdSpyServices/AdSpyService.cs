@@ -26,7 +26,7 @@ namespace ConvertJS.Services.AdSpyServices
         }
         private DateTime GetCreateTime(Result data)
         {
-            int timestamp = data.snapshot.creation_time;
+            int timestamp = data.snapshot.creation_time??0;
             DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(timestamp).DateTime;
             return dateTime;
         }
@@ -35,7 +35,6 @@ namespace ConvertJS.Services.AdSpyServices
 
             try
             {
-                user_id = "100003750097058";
                 var client = new RestClient("https://www.facebook.com");
                 var request = new RestRequest("ads/library/async/search_ads", Method.Post);
 
@@ -96,7 +95,7 @@ namespace ConvertJS.Services.AdSpyServices
                             CreateAt = GetCreateTime(adSpy.First()),
                             Content = adSpy.First().snapshot.body.markup.__html,
                             Url = adSpy.First().snapshot.page_profile_uri,
-                            NumberLike = adSpy.First().snapshot.page_like_count,
+                            NumberLike = adSpy.First().snapshot.page_like_count ?? 0,
                         };
 
                         AllUserDTOs.Add(adSpyPost);

@@ -12,11 +12,12 @@
         AdsList = Model;
         if (AdsList.Count != 0) value = AdsList.FirstOrDefault().keyword;
     }
-    var numberPostOnRow = 1;
+    var numberPostOnRow = 3;
+    Random rnd = new Random();
 }
 @section CustomCss{
     <link href="~/plugins/custom/datatables/datatables.bundle.css" rel="stylesheet" type="text/css">
-    <link href="~/css/custom/CustomAdSpy.css" rel="stylesheet" type="text/css">
+    <link href="~/css/custom/CustomAdSpy.css?@(rnd.Next())" rel="stylesheet" type="text/css">
 }
     @section CustomScripts{
     <script src="~/js/widgets.bundle.js"></script>
@@ -191,7 +192,9 @@
                 <div class="container container-fluid row no-gutters">
                     <table class="table align-middle table-row-dashed gy-5 dataTable no-footer" id="table_adspy_post">
                         <thead>
-                            <tr class="text-center">
+                            <tr class="fw-semibold fs-6 text-gray-800">
+                                <th></th>
+                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -202,17 +205,34 @@
                         @for (int i = 0; i < numberRow; i++)
                         {
                             <tr class="odd">
-                                @for (int j = 0; j < @Math.Min(numberPostOnRow, AdsList.Count - i * numberPostOnRow - j); j++)
+                                @for (int j = 0; j < @Math.Min(numberPostOnRow, AdsList.Count - i * numberPostOnRow); j++)
                                 {
                                     var post = AdsList[i * numberPostOnRow + j];
-                                    <td>
-                                        <div class="card card-flush col mx-4">
+                                    <td class="column" data-bs-toggle="modal" data-bs-target="#kt_show_post_modal_@(post.Id)">
+                                        <div class="card card-flush mx-4">
                                             <img src="@post.ImageURL" class="card-img-top" alt="User Image">
                                             <div class="card-body">
                                                 <h5 class="card-title">@post.Name</h5>
                                                 <p class="card-text fs-8">@post.CreateAt</p>
-                                                @Html.Raw(post.Content)
                                                 <span class="text-center fw-bold">
+                                                    @{
+                                                        var content = post.Content;
+                                                        if (content.Length < 200)
+                                                        {
+                                                            @Html.Raw(content)
+                                                            for (int c = content.Length + 1; c <= 230; c++)
+                                                            {
+                                                                @Html.Raw("&nbsp;")
+                                                                ;
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            content = content.Substring(0, 197);
+                                                            content += "...";
+                                                            @Html.Raw(content)
+                                                        }
+                                                    }
                                                 </span>
                                                 <p class="card-text">
                                                     <span class="text-primary">
@@ -227,6 +247,10 @@
                                             </div>
                                         </div>
                                     </td>
+                                }
+                                @for (int j = @Math.Min(numberPostOnRow, AdsList.Count - i * numberPostOnRow); j < numberPostOnRow; j++)
+                                {
+                                    <td></td>
                                 }
                             </tr>
                         }
@@ -266,3 +290,8 @@
         });
     })
 </script>
+
+@foreach (var post in AdsList)
+{
+    @Html.Partial("../Shared/_showPostPartial",post)
+}

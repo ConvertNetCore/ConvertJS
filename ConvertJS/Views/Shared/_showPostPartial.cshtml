@@ -1,0 +1,49 @@
+﻿@using ConvertJS.DTOs.ResponseDTO
+@model AdSpyPostDTO
+@{
+    var post = Model;
+}
+<div class="modal fade" tabindex="-1" id="kt_show_post_modal_@(Model.Id)" >
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Post Detail</h3>
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+
+            <div class="modal-body">
+                <div class="card-modal card-flush mx-4">
+                    <img src="@post.ImageURL" class="card-img-top-modal" alt="User Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Name</h5>
+                        <p class="card-text fs-8">@post.CreateAt</p>
+                        <span class="text-center fw-bold">
+                            @Html.Raw(post.Content);
+                        </span>
+                        <p class="card-text">
+                            <span class="text-primary">
+                                <i class="fas fa-thumbs-up emoji fs-3 text-primary"></i> @post.NumberLike
+                            </span>
+                            <i class="fas fa-share emoji"></i>  @post.NumberShare
+                            <i class="fas fa-comment emoji"></i> @post.NumberComment
+                        </p>
+                        <br />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button redirectUrl="@(post.Url)" class="btn btn-primary openPageBtn">See Post</button>
+                <button postId="@post.Id" class="btn btn-danger deletePageBtn">Delete</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

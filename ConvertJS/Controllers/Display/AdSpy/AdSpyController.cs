@@ -58,7 +58,7 @@ namespace ConvertJS.Controllers.Display.AdSpy
             {
                 var saveItems = _memoryCache.Get("AdsSpySavePosts") as List<AdSpyPostDTO>;
                 if(saveItems == null) { saveItems = new List<AdSpyPostDTO>(); }
-                saveItems.Add(saveItem);
+                if(!saveItems.Contains(saveItem)) saveItems.Add(saveItem);
                 _memoryCache.Set("AdsSpySavePosts", saveItems);
             }
             return RedirectToAction("Index");

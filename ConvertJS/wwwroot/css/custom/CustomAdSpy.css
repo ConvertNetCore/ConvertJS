@@ -1,15 +1,11 @@
-﻿body {
-    padding: 20px;
-}
-
-.card {
-    width: 700px;
+﻿.card {
+    width: 280px;
     margin-bottom: 20px;
 }
 
 .card-img-top {
     object-fit: cover;
-    height: 400px;
+    height: 150px;
 }
 
 .card-body {
@@ -34,4 +30,17 @@
 
 .emoji {
     margin-right: 5px;
+}
+.card-modal {
+    width: 700px;
+    margin-bottom: 20px;
+}
+
+.card-img-top-modal {
+    object-fit: cover;
+    height: 400px;
+}
+.modal-dialog {
+    max-width: 90%;
+    width: auto;
 }

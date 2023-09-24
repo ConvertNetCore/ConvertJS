@@ -1,7 +1,11 @@
 ﻿.card {
-    width: 280px;
+    width: 300px;
     margin-bottom: 20px;
 }
+
+    .card :hover {
+        cursor: pointer;
+    }
 
 .card-img-top {
     object-fit: cover;
@@ -31,6 +35,7 @@
 .emoji {
     margin-right: 5px;
 }
+
 .card-modal {
     width: 700px;
     margin-bottom: 20px;
@@ -40,6 +45,7 @@
     object-fit: cover;
     height: 400px;
 }
+
 .modal-dialog {
     max-width: 90%;
     width: auto;

@@ -89,7 +89,7 @@ namespace ConvertJS.Services.AdSpyServices
                         var adSpyPost = new AdSpyPostDTO
                         {
                             keyword = keyword,
-                            Id = adSpy.First().pageID,
+                            Id = adSpy.First().adArchiveID,
                             ImageURL = getImgUrl(adSpy.First()),
                             Name = adSpy.First().snapshot.page_name,
                             CreateAt = GetCreateTime(adSpy.First()),
